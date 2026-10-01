@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fentom Forex AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b1020;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 20px 30px;
+      background: #11182d;
+      border-bottom: 1px solid #26304d;
+    }
+
+    header h1 {
+      font-size: 26px;
+    }
+
+    header p {
+      color: #8f9bb8;
+      margin-top: 5px;
+    }
+
+    .container {
+      padding: 25px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    select,
+    button {
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1px solid #303b5c;
+      background: #151e36;
+      color: white;
+      cursor: pointer;
+    }
+
+    button {
+      background: #2563eb;
+      border: none;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: #11182d;
+      border: 1px solid #26304d;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .chart {
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7180a3;
+      border: 1px dashed #34405f;
+      border-radius: 8px;
+    }
+
+    .signal {
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .signal-value {
+      font-size: 38px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .wait {
+      color: #facc15;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: #151e36;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .stat span {
+      display: block;
+      color: #8f9bb8;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      font-size: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Fentom Forex AI</h1>
+  <p>The power of Knowledge</p>
+</header>
+
+<div class="container">
+
+  <div class="controls">
+
+    <select id="pair">
+      <option>EUR/USD</option>
+      <option>GBP/USD</option>
+      <option>USD/JPY</option>
+      <option>USD/CHF</option>
+      <option>AUD/USD</option>
+    </select>
+
+    <select id="timeframe">
+      <option>4H</option>
+      <option>1H</option>
+      <option>30M</option>
+      <option>15M</option>
+      <option>1D</option>
+    </select>
+
+    <select id="mode">
+      <option>Backtest</option>
+      <option>Paper Trading</option>
+      <option>Live Analysis</option>
+    </select>
+
+    <button onclick="runAnalysis()">Run AI Analysis</button>
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Market Chart</h2>
+
+      <div class="chart">
+        Chart engine coming next...
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <span>Pair</span>
+          <strong id="pairDisplay">EUR/USD</strong>
+        </div>
+
+        <div class="stat">
+          <span>Timeframe</span>
+          <strong id="timeDisplay">4H</strong>
+        </div>
+
+        <div class="stat">
+          <span>Mode</span>
+          <strong id="modeDisplay">Backtest</strong>
+        </div>
+
+        <div class="stat">
+          <span>Strategy</span>
+          <strong>AI Strategy</strong>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+
+      <h2>AI Trading Signal</h2>
+
+      <div class="signal">
+
+        <div>Current Signal</div>
+
+        <div class="signal-value wait" id="signal">
+          WAIT
+        </div>
+
+        <p id="reason">
+          Waiting for market data...
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+function runAnalysis() {
+
+  const pair = document.getElementById("pair").value;
+  const timeframe = document.getElementById("timeframe").value;
+  const mode = document.getElementById("mode").value;
+
+  document.getElementById("pairDisplay").textContent = pair;
+  document.getElementById("timeDisplay").textContent = timeframe;
+  document.getElementById("modeDisplay").textContent = mode;
+
+  document.getElementById("signal").textContent = "WAIT";
+
+  document.getElementById("reason").textContent =
+    "Market analysis engine is not connected yet.";
+
+}
+
+</script>
+
+</body>
+</html>
