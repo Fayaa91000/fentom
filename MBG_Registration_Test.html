@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Registration Test</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f3f8fb;margin:0;color:#18324a}
+.box{max-width:620px;margin:35px auto;background:#fff;padding:25px;border-radius:20px;box-shadow:0 10px 30px #062b5515}
+h1{color:#062b55}label{display:block;font-weight:700;margin:14px 0 6px}
+input{width:100%;box-sizing:border-box;padding:13px;border:1px solid #cbdce5;border-radius:10px}
+button{margin-top:18px;padding:12px 18px;border:0;border-radius:999px;background:#0874a6;color:#fff;font-weight:700}
+#status{margin-top:18px;padding:14px;border-radius:12px;background:#eef6f8;white-space:pre-wrap;word-break:break-word}
+.ok{background:#e5f8ed!important;color:#176b38}.err{background:#ffe9e9!important;color:#8a2020}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>MBG Seller Registration Test</h1>
+<p>This page tests the Supabase connection and shows the exact result.</p>
+<label>Name</label><input id="name" placeholder="Test Seller">
+<label>Email</label><input id="email" type="email" placeholder="you@example.com">
+<label>Password</label><input id="password" type="password" minlength="6" placeholder="At least 6 characters">
+<button id="register">Register Test Account</button>
+<div id="status">Loading Supabase library...</div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ehavxdqegpoggrkoxypm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const statusBox = document.getElementById('status');
+
+function show(message,type=''){
+  statusBox.textContent=message;
+  statusBox.className=type;
+}
+
+window.addEventListener('error', e => show('JavaScript error: '+e.message,'err'));
+window.addEventListener('unhandledrejection', e => show('Promise error: '+(e.reason?.message||e.reason),'err'));
+
+async function loadSupabase(){
+  try{
+    const mod = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    const client = mod.createClient(SUPABASE_URL,SUPABASE_KEY);
+    show('✓ Supabase library loaded.\n✓ Ready to test registration.','ok');
+    return client;
+  }catch(e){
+    show('Could not load Supabase library:\n'+e.message,'err');
+    return null;
+  }
+}
+
+const clientPromise=loadSupabase();
+
+document.getElementById('register').addEventListener('click',async()=>{
+  const name=document.getElementById('name').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  if(!name||!email||!password){show('Please fill Name, Email and Password.','err');return}
+  if(password.length<6){show('Password must contain at least 6 characters.','err');return}
+  show('Connecting to MBG database...');
+  try{
+    const supabase=await clientPromise;
+    if(!supabase){show('Supabase library did not load. See the error above.','err');return}
+    const {data,error}=await supabase.auth.signUp({
+      email,password,
+      options:{
+        data:{name},
+        emailRedirectTo:'https://fayaa91000.github.io/fentom/sellerportal.html'
+      }
+    });
+    if(error){show('SUPABASE ERROR:\n'+error.message+'\n\nStatus: '+(error.status||'unknown'),'err');return}
+    if(data.session){
+      show('SUCCESS ✓\nAccount created and signed in.\nUser ID: '+data.user.id,'ok');
+    }else{
+      show('SUCCESS ✓\nAccount created.\nCheck '+email+' for the Supabase confirmation email, then confirm the account.','ok');
+    }
+  }catch(e){
+    show('CONNECTION/JAVASCRIPT ERROR:\n'+e.message,'err');
+  }
+});
+</script>
+</body>
+</html>
