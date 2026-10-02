@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Seller Portal</title>
+<style>
+:root{--n:#062b55;--b:#0874a6;--c:#12b8c8;--bg:#f3f8fb;--w:#fff;--t:#18324a;--m:#6d7e8c;--r:18px}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--t)}
+button,input,textarea,select{font:inherit}.wrap{width:min(1100px,92%);margin:auto}
+header{background:#fff;border-bottom:1px solid #e4edf2;position:sticky;top:0;z-index:5}
+nav{height:70px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:900;color:var(--n)}.brand span{color:var(--c)}
+.btn{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--b),var(--c));color:#fff}
+.btn.alt{background:#e8f5f7;color:var(--n)}main{padding:35px 0 70px}
+.hero{background:linear-gradient(135deg,var(--n),var(--b),var(--c));color:#fff;border-radius:28px;padding:36px;margin-bottom:25px}
+.hero h1{margin:0 0 8px;font-size:clamp(30px,5vw,48px)}.hero p{margin:0;color:#dcfaff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.panel{background:#fff;border-radius:var(--r);padding:24px;box-shadow:0 8px 25px #062b5510}
+h2,h3{color:var(--n)}label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
+input,textarea,select{width:100%;padding:12px 13px;border:1px solid #cfdee6;border-radius:12px;background:#fff}textarea{min-height:95px;resize:vertical}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.hidden{display:none!important}
+.notice{padding:12px;border-radius:12px;background:#eaf8f8;color:#08717d;margin:12px 0;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}.stat{background:#fff;padding:18px;border-radius:16px}.stat b{display:block;font-size:25px;color:var(--n)}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.product{border:1px solid #e1ebef;border-radius:15px;padding:14px}.product .pic{height:110px;background:linear-gradient(135deg,#e4f6f8,#eef5fb);border-radius:12px;display:grid;place-items:center;font-size:35px}.price{font-weight:900;color:var(--b)}
+.store{background:#fff;border-radius:25px;overflow:hidden;box-shadow:0 15px 40px #062b5515}.cover{padding:35px;background:linear-gradient(135deg,var(--n),var(--c));color:#fff}.cover h2{color:#fff;margin:0}.storebody{padding:24px}.tag{display:inline-block;background:#e6f7f8;color:#087b88;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.small{font-size:12px;color:var(--m)}.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.tab{padding:9px 14px;border-radius:999px;border:0;background:#e9f0f4;color:var(--n);font-weight:700;cursor:pointer}.tab.active{background:var(--n);color:#fff}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.products{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.hero{padding:27px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav><div class="brand">MBG <span>Seller Portal</span></div><button class="btn alt" onclick="showStore()">Preview Store</button></nav></div></header>
+<main><div class="wrap">
+<section class="hero"><h1>Build your business page on MBG</h1><p>Create your profile, add products and prepare your digital storefront.</p></section>
+
+<div id="authView" class="grid">
+ <section class="panel">
+  <h2>Create Seller Account</h2><p class="small">Prototype account — stored only on this device.</p>
+  <label>Full Name</label><input id="regName" placeholder="Your name">
+  <label>Email / Mobile</label><input id="regUser" placeholder="name@example.com">
+  <label>Password</label><input id="regPass" type="password" placeholder="Create password">
+  <div class="actions"><button class="btn" onclick="register()">Create Account</button></div>
+ </section>
+ <section class="panel">
+  <h2>Seller Login</h2>
+  <label>Email / Mobile</label><input id="loginUser" placeholder="Your account">
+  <label>Password</label><input id="loginPass" type="password" placeholder="Password">
+  <div class="actions"><button class="btn" onclick="login()">Login</button></div>
+  <div id="authMsg"></div>
+ </section>
+</div>
+
+<div id="dashboard" class="hidden">
+ <div class="tabs"><button class="tab active" onclick="tab('business',this)">Business Profile</button><button class="tab" onclick="tab('product',this)">Add Product</button><button class="tab" onclick="showStore()">Public Page</button><button class="tab" onclick="logout()">Logout</button></div>
+ <div class="stats"><div class="stat"><span>Products</span><b id="productCount">0</b></div><div class="stat"><span>Page Status</span><b style="font-size:17px">Draft</b></div><div class="stat"><span>Plan</span><b style="font-size:17px">Starter</b></div></div>
+
+ <section id="businessTab" class="panel">
+  <h2>Create Business Profile</h2>
+  <div class="grid">
+   <div><label>Business Name</label><input id="bizName" placeholder="Example: Island Tech"></div>
+   <div><label>Category</label><select id="bizCat"><option>Retail</option><option>Food & Beverage</option><option>Technology</option><option>Tourism</option><option>Professional Services</option><option>Home Business</option><option>Other</option></select></div>
+   <div><label>Island / Location</label><input id="bizLoc" placeholder="Malé, Addu, Maafushi..."></div>
+   <div><label>Phone / Viber / WhatsApp</label><input id="bizPhone" placeholder="+960 ..."></div>
+  </div>
+  <label>Business Description</label><textarea id="bizDesc" placeholder="Tell customers about your business..."></textarea>
+  <label>Order / Website / Payment Link</label><input id="bizLink" placeholder="https://...">
+  <div class="actions"><button class="btn" onclick="saveBusiness()">Save Business Profile</button></div>
+  <div id="bizMsg"></div>
+ </section>
+
+ <section id="productTab" class="panel hidden">
+  <h2>Add Product or Service</h2>
+  <div class="grid">
+   <div><label>Title</label><input id="pTitle" placeholder="Product name"></div>
+   <div><label>Price (MVR)</label><input id="pPrice" type="number" placeholder="0.00"></div>
+  </div>
+  <label>Description</label><textarea id="pDesc" placeholder="Product details..."></textarea>
+  <label>Product Image URL (optional)</label><input id="pImage" placeholder="https://...">
+  <div class="actions"><button class="btn" onclick="addProduct()">Add Product</button></div>
+  <h3>Your Products</h3><div id="sellerProducts" class="products"></div>
+ </section>
+</div>
+
+<section id="storeView" class="hidden">
+ <div class="actions" style="margin-bottom:15px"><button class="btn alt" onclick="backDashboard()">← Back to Dashboard</button></div>
+ <div class="store">
+  <div class="cover"><span class="tag">MBG VERIFIED-STYLE PREVIEW</span><h2 id="storeName">Your Business</h2><div id="storeMeta">Maldives Business Gateway</div></div>
+  <div class="storebody"><p id="storeDesc">Your business description will appear here.</p><p><b>Contact:</b> <span id="storePhone">Not added</span></p><div id="storeLink"></div><h3>Products & Services</h3><div id="storeProducts" class="products"></div></div>
+ </div>
+</section>
+</div></main>
+
+<script>
+const $=id=>document.getElementById(id);
+let currentUser=localStorage.getItem('mbg_current')||'';
+function dataKey(type){return 'mbg_'+type+'_'+currentUser}
+function msg(id,text){$(id).innerHTML='<div class="notice">'+text+'</div>'}
+function register(){
+ const name=$('regName').value.trim(), user=$('regUser').value.trim(), pass=$('regPass').value;
+ if(!name||!user||!pass)return msg('authMsg','Please complete all registration fields.');
+ localStorage.setItem('mbg_account_'+user,JSON.stringify({name,user,pass}));
+ currentUser=user;localStorage.setItem('mbg_current',user);openDashboard();
+}
+function login(){
+ const user=$('loginUser').value.trim(),pass=$('loginPass').value;
+ const acc=JSON.parse(localStorage.getItem('mbg_account_'+user)||'null');
+ if(!acc||acc.pass!==pass)return msg('authMsg','Account or password is incorrect.');
+ currentUser=user;localStorage.setItem('mbg_current',user);openDashboard();
+}
+function logout(){localStorage.removeItem('mbg_current');currentUser='';$('dashboard').classList.add('hidden');$('storeView').classList.add('hidden');$('authView').classList.remove('hidden')}
+function openDashboard(){
+ $('authView').classList.add('hidden');$('storeView').classList.add('hidden');$('dashboard').classList.remove('hidden');loadBusiness();renderProducts();
+}
+function saveBusiness(){
+ const b={name:$('bizName').value,cat:$('bizCat').value,loc:$('bizLoc').value,phone:$('bizPhone').value,desc:$('bizDesc').value,link:$('bizLink').value};
+ localStorage.setItem(dataKey('business'),JSON.stringify(b));msg('bizMsg','Business profile saved successfully.');
+}
+function loadBusiness(){
+ const b=JSON.parse(localStorage.getItem(dataKey('business'))||'{}');
+ $('bizName').value=b.name||'';$('bizCat').value=b.cat||'Retail';$('bizLoc').value=b.loc||'';$('bizPhone').value=b.phone||'';$('bizDesc').value=b.desc||'';$('bizLink').value=b.link||'';
+}
+function addProduct(){
+ const title=$('pTitle').value.trim();if(!title)return alert('Add a product title.');
+ const products=JSON.parse(localStorage.getItem(dataKey('products'))||'[]');
+ products.push({id:Date.now(),title,price:$('pPrice').value,desc:$('pDesc').value,image:$('pImage').value});
+ localStorage.setItem(dataKey('products'),JSON.stringify(products));
+ $('pTitle').value='';$('pPrice').value='';$('pDesc').value='';$('pImage').value='';renderProducts();
+}
+function removeProduct(id){
+ let p=JSON.parse(localStorage.getItem(dataKey('products'))||'[]').filter(x=>x.id!==id);
+ localStorage.setItem(dataKey('products'),JSON.stringify(p));renderProducts();
+}
+function card(p,owner=false){
+ const visual=p.image?`<div class="pic" style="background:url('${p.image}') center/cover"></div>`:`<div class="pic">🛍️</div>`;
+ return `<div class="product">${visual}<h3>${esc(p.title)}</h3><div class="price">${p.price?'MVR '+esc(p.price):'Contact for price'}</div><p class="small">${esc(p.desc||'')}</p>${owner?`<button class="btn alt" onclick="removeProduct(${p.id})">Remove</button>`:''}</div>`;
+}
+function renderProducts(){
+ const p=JSON.parse(localStorage.getItem(dataKey('products'))||'[]');$('productCount').textContent=p.length;$('sellerProducts').innerHTML=p.length?p.map(x=>card(x,true)).join(''):'<p class="small">No products added yet.</p>';
+}
+function showStore(){
+ if(!currentUser){alert('Create or login to a seller account first.');return}
+ saveBusiness();const b=JSON.parse(localStorage.getItem(dataKey('business'))||'{}'),p=JSON.parse(localStorage.getItem(dataKey('products'))||'[]');
+ $('dashboard').classList.add('hidden');$('storeView').classList.remove('hidden');
+ $('storeName').textContent=b.name||'Your Business';$('storeMeta').textContent=[b.cat,b.loc].filter(Boolean).join(' • ')||'Maldives Business Gateway';
+ $('storeDesc').textContent=b.desc||'Your business description will appear here.';$('storePhone').textContent=b.phone||'Not added';
+ $('storeLink').innerHTML=b.link?`<p><a class="btn" target="_blank" rel="noopener" href="${safeUrl(b.link)}">Visit / Order</a></p>`:'';
+ $('storeProducts').innerHTML=p.length?p.map(x=>card(x)).join(''):'<p class="small">No products published yet.</p>';
+}
+function backDashboard(){$('storeView').classList.add('hidden');$('dashboard').classList.remove('hidden')}
+function tab(name,el){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');$('businessTab').classList.toggle('hidden',name!=='business');$('productTab').classList.toggle('hidden',name!=='product')}
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function safeUrl(u){try{let x=new URL(u);return ['http:','https:'].includes(x.protocol)?x.href:'#'}catch{return '#'}}
+if(currentUser)openDashboard();
+</script>
+</body></html>
