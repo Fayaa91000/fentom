@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG - Resend Confirmation</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f3f8fb;margin:0;color:#18324a}
+.box{max-width:560px;margin:45px auto;background:white;padding:28px;border-radius:20px;box-shadow:0 10px 30px #062b5515}
+h1{color:#062b55}label{display:block;font-weight:bold;margin:18px 0 7px}
+input{width:100%;box-sizing:border-box;padding:13px;border:1px solid #ccdce5;border-radius:11px}
+button{margin-top:18px;border:0;border-radius:999px;padding:12px 18px;background:#0874a6;color:white;font-weight:bold}
+#msg{margin-top:18px;padding:13px;border-radius:11px;background:#edf6f8;white-space:pre-wrap}
+.ok{background:#e7f8ed!important;color:#176b38}.err{background:#ffe9e9!important;color:#8a2020}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>MBG Email Confirmation</h1>
+<p>Enter the email used for your MBG seller account.</p>
+<label>Email address</label>
+<input id="email" type="email" placeholder="you@example.com">
+<button id="send">Resend Confirmation Email</button>
+<div id="msg">Ready.</div>
+</div>
+
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const msg=document.getElementById('msg');
+function show(t,c=''){msg.textContent=t;msg.className=c}
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ const supabase=createClient(URL,KEY);
+ document.getElementById('send').onclick=async()=>{
+   const email=document.getElementById('email').value.trim();
+   if(!email)return show('Please enter your email address.','err');
+   show('Sending...');
+   const {error}=await supabase.auth.resend({
+     type:'signup',
+     email,
+     options:{emailRedirectTo:'https://fayaa91000.github.io/fentom/sellerportal.html'}
+   });
+   if(error)return show('Error:\n'+error.message,'err');
+   show('Success ✓\nA new confirmation email has been requested. Check your inbox and spam folder.','ok');
+ };
+ show('Ready to resend your MBG confirmation email.','ok');
+}catch(e){show('Connection error:\n'+e.message,'err')}
+</script>
+</body></html>
