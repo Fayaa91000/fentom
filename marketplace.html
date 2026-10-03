@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Marketplace</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--teal:#13a3a0;--bg:#f4f8fb;--line:#dbe7ed;--text:#17324a;--muted:#667b8c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy),var(--blue),var(--teal));color:#fff;padding:22px 0}.wrap{max-width:1120px;margin:auto;padding:0 15px}
+.brand{font-size:24px;font-weight:800}.hero{padding:28px 0 18px}.hero h1{font-size:36px;margin:0 0 8px;color:var(--navy)}.muted{color:var(--muted)}
+.controls{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin:18px 0}input,select{width:100%;padding:13px;border:1px solid #cbdbe5;border-radius:12px;background:#fff;font:inherit}
+.sectionTitle{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:25px 0 12px}.sectionTitle h2{margin:0;color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:0 7px 22px #062b550b}
+.cover{height:150px;background:linear-gradient(135deg,#e8f3f8,#d9efef);display:flex;align-items:center;justify-content:center}.cover img{width:100%;height:100%;object-fit:cover}.logo{width:88px!important;height:88px!important;object-fit:cover!important;border-radius:50%;border:4px solid #fff;box-shadow:0 4px 15px #0002}
+.body{padding:15px}.body h3{margin:0 0 6px;color:var(--navy)}.pill{display:inline-block;padding:5px 9px;background:#eaf5f7;border-radius:999px;font-size:12px;margin:3px 4px 3px 0}
+button,.btn{display:inline-block;border:0;border-radius:999px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:bold;text-decoration:none;cursor:pointer}.secondary{background:#eaf3f7;color:var(--navy)}
+.productImg{width:100%;height:180px;object-fit:cover;background:#edf4f7}.price{font-size:18px;font-weight:800;color:var(--navy);margin:8px 0}
+.msg{background:#fff;border:1px solid var(--line);padding:16px;border-radius:14px;margin:12px 0}.error{color:#8a2020;background:#fff0f0}
+.shopHead{display:flex;gap:15px;align-items:center;flex-wrap:wrap}.shopHead img{width:82px;height:82px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+footer{margin-top:40px;background:var(--navy);color:#fff;padding:24px 0}
+@media(max-width:780px){.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:30px}}@media(max-width:520px){.grid,.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand">Maldives Business Gateway</div><div>Discover local businesses and products</div></div></header>
+<main class="wrap">
+<section class="hero"><h1>MBG Marketplace</h1><p class="muted">Browse approved businesses and active products from across the Maldives.</p></section>
+
+<section id="marketView">
+<div class="controls"><input id="search" placeholder="Search businesses, products or locations…"><select id="category"><option value="">All categories</option></select></div>
+<div id="status" class="msg">Loading marketplace…</div>
+<div class="sectionTitle"><h2>Businesses</h2><span id="businessCount" class="muted"></span></div><div id="businesses" class="grid"></div>
+<div class="sectionTitle"><h2>Products</h2><span id="productCount" class="muted"></span></div><div id="products" class="grid"></div>
+</section>
+
+<section id="shopView" style="display:none">
+<button id="back" class="secondary">← Back to Marketplace</button>
+<div id="shopInfo" class="msg" style="margin-top:16px"></div>
+<div class="sectionTitle"><h2>Products</h2><span id="shopCount" class="muted"></span></div>
+<div id="shopProducts" class="grid"></div>
+</section>
+</main>
+<footer><div class="wrap"><b>Maldives Business Gateway</b><div style="opacity:.8;margin-top:5px">Connect • Empower • Prosper</div></div></footer>
+
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co', KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+const sb=createClient(URL,KEY),$=x=>document.getElementById(x);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let businesses=[],products=[];
+async function load(){
+ const [br,pr]=await Promise.all([
+  sb.from('businesses').select('id,name,slug,category,location,phone,description,order_link,logo_url,status').eq('status','approved').order('created_at',{ascending:false}),
+  sb.from('products').select('id,business_id,title,description,price,image_url,active').eq('active',true).order('created_at',{ascending:false})
+ ]);
+ if(br.error||pr.error){$('status').className='msg error';$('status').textContent='Marketplace could not load: '+(br.error?.message||pr.error?.message);return}
+ businesses=br.data||[];products=pr.data||[];
+ const cats=[...new Set(businesses.map(b=>b.category).filter(Boolean))].sort();
+ $('category').innerHTML='<option value="">All categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
+ $('status').style.display='none';render()
+}
+function filtered(){
+ const q=$('search').value.trim().toLowerCase(),cat=$('category').value;
+ const bs=businesses.filter(b=>(!cat||b.category===cat)&&(!q||[b.name,b.category,b.location,b.description].some(v=>String(v||'').toLowerCase().includes(q))));
+ const allowed=new Set((cat?businesses.filter(b=>b.category===cat):businesses).map(b=>b.id));
+ const ps=products.filter(p=>allowed.has(p.business_id)&&(!q||[p.title,p.description,businesses.find(b=>b.id===p.business_id)?.name].some(v=>String(v||'').toLowerCase().includes(q))));
+ return {bs,ps}
+}
+function render(){
+ const {bs,ps}=filtered();$('businessCount').textContent=bs.length+' found';$('productCount').textContent=ps.length+' found';
+ $('businesses').innerHTML=bs.map(b=>`<article class="card"><div class="cover">${b.logo_url?`<img class="logo" src="${esc(b.logo_url)}" alt="">`:'🏪'}</div><div class="body"><h3>${esc(b.name)}</h3><span class="pill">${esc(b.category||'Business')}</span>${b.location?`<span class="pill">${esc(b.location)}</span>`:''}<p class="muted">${esc(b.description||'')}</p><button data-shop="${b.id}">View Shop</button></div></article>`).join('')||'<div class="msg">No businesses found.</div>';
+ $('products').innerHTML=ps.map(productCard).join('')||'<div class="msg">No products found.</div>';
+ document.querySelectorAll('[data-shop]').forEach(x=>x.onclick=()=>openShop(x.dataset.shop))
+}
+function productCard(p){
+ const b=businesses.find(x=>x.id===p.business_id);
+ return `<article class="card">${p.image_url?`<img class="productImg" src="${esc(p.image_url)}" alt="">`:`<div class="productImg"></div>`}<div class="body"><h3>${esc(p.title)}</h3><div class="price">${p.price!=null?'MVR '+Number(p.price).toFixed(2):'Contact seller'}</div><p class="muted">${esc(p.description||'')}</p>${b?`<div class="muted" style="margin-bottom:10px">Sold by ${esc(b.name)}</div><button data-shop="${b.id}">View Shop</button>`:''}</div></article>`
+}
+function openShop(id){
+ const b=businesses.find(x=>x.id===id);if(!b)return;
+ $('marketView').style.display='none';$('shopView').style.display='block';
+ $('shopInfo').innerHTML=`<div class="shopHead">${b.logo_url?`<img src="${esc(b.logo_url)}" alt="">`:''}<div><h2 style="margin:0;color:var(--navy)">${esc(b.name)}</h2><div>${esc(b.category||'')} ${b.location?'• '+esc(b.location):''}</div></div></div><p>${esc(b.description||'')}</p><div>${b.phone?`<span class="pill">📞 ${esc(b.phone)}</span>`:''}</div>${b.order_link?`<p><a class="btn" href="${esc(b.order_link)}" target="_blank" rel="noopener noreferrer">Order / Contact Seller</a></p>`:''}`;
+ const ps=products.filter(p=>p.business_id===id);$('shopCount').textContent=ps.length+' product(s)';$('shopProducts').innerHTML=ps.map(productCard).join('')||'<div class="msg">No active products available.</div>';
+ document.querySelectorAll('#shopProducts [data-shop]').forEach(x=>x.style.display='none');
+ history.replaceState(null,'','#shop='+encodeURIComponent(b.slug||b.id));window.scrollTo({top:0,behavior:'smooth'})
+}
+$('back').onclick=()=>{$('shopView').style.display='none';$('marketView').style.display='block';history.replaceState(null,'',location.pathname);window.scrollTo({top:0,behavior:'smooth'})};
+$('search').oninput=render;$('category').onchange=render;
+await load();
+const slugParam=decodeURIComponent((location.hash.match(/^#shop=(.*)$/)||[])[1]||'');
+if(slugParam){const b=businesses.find(x=>x.slug===slugParam||x.id===slugParam);if(b)openShop(b.id)}
+</script>
+</body></html>
