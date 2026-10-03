@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Track My Order | MBG</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--teal:#13a3a0;--bg:#f4f8fb;--line:#dbe7ed;--text:#17324a;--muted:#667b8c;--green:#137a3d}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy),var(--blue),var(--teal));color:#fff;padding:23px 0}.wrap{max-width:850px;margin:auto;padding:0 15px}
+.brand{font-size:24px;font-weight:800}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:20px 0;box-shadow:0 8px 25px #062b550d}
+h1,h2,h3{color:var(--navy)}label{font-weight:bold;display:block;margin-top:12px}input{width:100%;padding:13px;border:1px solid #cbdbe5;border-radius:11px;margin-top:6px;font:inherit}
+button{border:0;border-radius:999px;padding:12px 17px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer;margin-top:14px}.msg{padding:13px;border-radius:11px;background:#edf6f8;margin:13px 0}.err{background:#ffeaea;color:#8a2020}.ok{background:#e8f8ed;color:#176b38}
+.status{display:inline-block;padding:7px 11px;border-radius:999px;background:#eaf3f7;font-size:12px;font-weight:bold}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.box{background:#f7fafc;border-radius:12px;padding:12px}.box b{display:block;margin-top:4px}
+.timeline{border-left:3px solid #d8e6ec;padding-left:18px;margin:18px 0}.step{margin:0 0 18px;position:relative}.step:before{content:"";position:absolute;width:11px;height:11px;border-radius:50%;background:#9bb7c5;left:-25px;top:3px}.step.done:before{background:var(--green)}.muted{color:var(--muted);font-size:13px}
+@media(max-width:550px){.grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><div class="wrap"><div class="brand">Maldives Business Gateway</div><div>Secure Guest Order Tracking</div></div></header>
+<main class="wrap">
+<section class="card">
+<h1>🔎 Track My Order</h1>
+<p>Enter the Order Reference and Private Access Code you received when placing your order.</p>
+<label>Order Reference</label><input id="orderId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+<label>Private Access Code</label><input id="accessCode" placeholder="MBG-XXXX-XXXX-XXXX" autocomplete="off">
+<button id="track">Track Order</button>
+<div id="msg" class="msg">Your private access code is used only to verify access to this order.</div>
+</section>
+<section id="result" class="card" style="display:none">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><h2 id="product" style="margin:0"></h2><div id="seller" class="muted"></div></div><span id="status" class="status"></span></div>
+<div class="grid" style="margin-top:18px">
+<div class="box">Quantity<b id="qty"></b></div><div class="box">Total<b id="total"></b></div>
+<div class="box">Payment Method<b id="payment"></b></div><div class="box">Order Date<b id="created"></b></div>
+</div>
+<h3>Order Progress</h3><div id="timeline" class="timeline"></div>
+<div id="buyerActions"></div>
+<div class="msg"><b>Keep your Private Access Code secret.</b> It is required to confirm delivery or open a dispute.</div>
+</section>
+<section id="disputeBox" class="card" style="display:none">
+<h2>⚠️ Open a Dispute</h2>
+<p>Opening a dispute does not automatically mean a refund is approved. MBG will review the case.</p>
+<label>Reason</label>
+<select id="disputeReason" style="width:100%;padding:13px;border:1px solid #cbdbe5;border-radius:11px;margin-top:6px">
+<option value="">Choose a reason</option>
+<option>Item not received</option><option>Wrong item received</option><option>Item significantly different from listing</option><option>Refund not received</option><option>Other problem</option>
+</select>
+<label>Explain the problem</label><textarea id="disputeStatement" rows="5" style="width:100%;padding:13px;border:1px solid #cbdbe5;border-radius:11px;margin-top:6px" placeholder="Explain what happened (at least 10 characters)"></textarea>
+<button id="submitDispute">Submit Dispute</button>
+<button id="closeDispute" style="background:#667b8c">Cancel</button>
+<div id="disputeMsg" class="msg">MBG will preserve the dispute with this order for review.</div>
+</section>
+</main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+const sb=createClient(URL,KEY),$=x=>document.getElementById(x);let currentOrder=null,currentCode='';
+const labels={payment_pending:'PAYMENT PENDING',payment_verified:'PAYMENT VERIFIED',order_accepted:'ORDER ACCEPTED',shipped:'SHIPPED',delivered:'DELIVERED',completed:'COMPLETED',cancelled:'CANCELLED',disputed:'DISPUTED',under_review:'UNDER REVIEW',refund_required:'REFUND REQUIRED',refund_submitted:'REFUND SUBMITTED',refunded:'REFUNDED',resolved:'RESOLVED',refund_overdue:'REFUND OVERDUE',seller_suspended:'SELLER SUSPENDED'};
+function fmt(v){return v?new Date(v).toLocaleString():'—'}
+function timeline(o){
+ const steps=[
+  ['Order placed',o.created_at],
+  ['Payment verified by seller',o.payment_verified_at],
+  ['Shipped',o.shipped_at],
+  ['Marked delivered',o.delivered_at],
+  ['Buyer confirmed received',o.buyer_confirmed_delivery_at]
+ ];
+ return steps.map(([name,date])=>`<div class="step ${date?'done':''}"><b>${name}</b><div class="muted">${date?fmt(date):'Waiting'}</div></div>`).join('')
+}
+async function track(){
+ const id=$('orderId').value.trim(),code=$('accessCode').value.trim().toUpperCase();
+ $('result').style.display='none';
+ if(!id||!code){$('msg').className='msg err';$('msg').textContent='Enter both the Order Reference and Private Access Code.';return}
+ $('track').disabled=true;$('track').textContent='Checking…';$('msg').className='msg';$('msg').textContent='Securely checking your order…';
+ const {data,error}=await sb.rpc('mbg_track_guest_order',{target_order:id,access_code:code});
+ $('track').disabled=false;$('track').textContent='Track Order';
+ if(error){$('msg').className='msg err';$('msg').textContent='Could not track order: '+error.message;return}
+ const o=Array.isArray(data)?data[0]:data;
+ if(!o){$('msg').className='msg err';$('msg').textContent='Order Reference or Private Access Code is incorrect.';return}
+ $('msg').className='msg ok';$('msg').textContent='Order found securely.';
+ $('product').textContent=o.product_title;$('seller').textContent='Seller: '+o.business_name;$('status').textContent=labels[o.order_status]||String(o.order_status).toUpperCase();
+ currentOrder=o;currentCode=code;
+ $('qty').textContent=o.quantity;$('total').textContent='MVR '+Number(o.total_price||0).toFixed(2);$('payment').textContent=String(o.payment_method||'').replaceAll('_',' ');$('created').textContent=fmt(o.created_at);$('timeline').innerHTML=timeline(o);renderBuyerActions(o);$('result').style.display='block';
+ $('result').scrollIntoView({behavior:'smooth'})
+}
+function renderBuyerActions(o){
+ let h='';
+ if(o.order_status==='under_review'){
+   h+=`<div class="msg" style="background:#fff3cd;border-color:#efd37b"><b>⚠️ 15-Day Resolution Period Active</b><br>MBG is reviewing this dispute. If your item arrives during this period, confirm receipt below. If it has not arrived, leave the dispute active for MBG review.</div>`;
+   h+=`<button id="confirmDisputeReceived" style="background:#137a3d">✅ I Have Received My Item</button>`;
+ } else if(o.order_status==='delivered'){
+   h+=`<button id="confirmReceived" style="background:#137a3d">✅ Confirm Item Received</button> `;
+ }
+ if(!['cancelled','resolved','refunded','seller_suspended','disputed','under_review','refund_required','refund_submitted','refund_overdue'].includes(o.order_status))
+   h+=`<button id="openDispute" style="background:#a64222">⚠️ Open Dispute</button>`;
+ $('buyerActions').innerHTML=h;
+ if($('confirmReceived'))$('confirmReceived').onclick=confirmReceived;
+ if($('confirmDisputeReceived'))$('confirmDisputeReceived').onclick=confirmDisputeReceived;
+ if($('openDispute'))$('openDispute').onclick=()=>{$('disputeBox').style.display='block';$('disputeBox').scrollIntoView({behavior:'smooth'})};
+}
+async function confirmReceived(){
+ if(!currentOrder||!confirm('Have you received this item successfully?\n\nChoose OK only if the item has actually been delivered to you.'))return;
+ const {error}=await sb.rpc('mbg_guest_confirm_received',{target_order:currentOrder.order_id,access_code:currentCode});
+ if(error){$('msg').className='msg err';$('msg').textContent='Could not confirm delivery: '+error.message;return}
+ $('msg').className='msg ok';$('msg').textContent='Delivery confirmed successfully. Thank you.';
+ await track();
+}
+async function confirmDisputeReceived(){
+ if(!currentOrder||!confirm('Have you actually received this item?\n\nPress OK only if the item has arrived and you want MBG to close the dispute.'))return;
+ const {error}=await sb.rpc('mbg_guest_confirm_dispute_received',{target_order:currentOrder.order_id,access_code:currentCode});
+ if(error){$('msg').className='msg err';$('msg').textContent='Could not confirm receipt: '+error.message;return}
+ $('msg').className='msg ok';$('msg').textContent='Item received confirmed. The dispute has been resolved and the order completed.';
+ await track();
+}
+async function submitDispute(){
+ if(!currentOrder)return;
+ const reason=$('disputeReason').value.trim(),statement=$('disputeStatement').value.trim();
+ if(!reason||statement.length<10){$('disputeMsg').className='msg err';$('disputeMsg').textContent='Choose a reason and explain the problem in at least 10 characters.';return}
+ if(!confirm('Submit this dispute to MBG for investigation?'))return;
+ const {data,error}=await sb.rpc('mbg_guest_open_dispute',{target_order:currentOrder.order_id,access_code:currentCode,dispute_reason:reason,dispute_statement:statement});
+ if(error){$('disputeMsg').className='msg err';$('disputeMsg').textContent='Could not open dispute: '+error.message;return}
+ $('disputeMsg').className='msg ok';$('disputeMsg').textContent='Dispute opened successfully. MBG can now review this case. Dispute Reference: '+data;
+ $('submitDispute').disabled=true;await track();
+}
+$('submitDispute').onclick=submitDispute;$('closeDispute').onclick=()=>{$('disputeBox').style.display='none'};
+$('track').onclick=track;
+$('accessCode').addEventListener('keydown',e=>{if(e.key==='Enter')track()});
+</script></body></html>
