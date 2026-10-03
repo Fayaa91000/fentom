@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Seller Portal</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--green:#137a3d;--red:#b42318;--bg:#f4f8fb;--line:#d9e5ec;--muted:#667b8c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17324a}
+header{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:20px}.wrap{max-width:980px;margin:20px auto;padding:0 14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:14px;box-shadow:0 7px 22px #062b550b}
+h2,h3{color:var(--navy)}input,textarea,select{width:100%;padding:12px;border:1px solid #cbdbe5;border-radius:10px;margin:6px 0 12px;font:inherit}
+textarea{min-height:90px}button{border:0;border-radius:999px;padding:11px 16px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer}
+.secondary{background:#eaf3f7;color:var(--navy)}.danger{background:var(--red)}.hidden{display:none}
+.msg{padding:12px;border-radius:10px;background:#edf6f8;margin:12px 0;white-space:pre-wrap}.ok{background:#e8f8ed;color:#176b38}.err{background:#ffe9e9;color:#8a2020}.warn{background:#fff5dc;color:#765300}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.pill{padding:6px 10px;border-radius:999px;background:#eef4f7;font-size:12px;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#f7fafc;padding:12px;border-radius:11px}.stat b{display:block;margin-top:4px}
+.bar{height:10px;background:#e4edf2;border-radius:99px;overflow:hidden}.bar>div{height:100%;background:var(--blue)}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.product{border:1px solid var(--line);border-radius:12px;padding:10px}.product img{width:100%;height:120px;object-fit:cover;border-radius:9px}
+.bank{background:#f7fbfd;border:1px solid var(--line);border-radius:13px;padding:14px;line-height:1.7}.muted{font-size:13px;color:var(--muted)}
+@media(max-width:650px){.stats,.products{grid-template-columns:1fr 1fr}}@media(max-width:430px){.stats,.products{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><div class="wrap" style="margin:0 auto;padding:0"><b style="font-size:22px">Maldives Business Gateway</b><div>Seller Portal</div></div></header>
+<main class="wrap">
+<section id="authBox" class="card"><h2>Seller Login</h2><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button id="login">Login</button><div id="authMsg" class="msg">Ready.</div></section>
+
+<section id="app" class="hidden">
+<div class="card"><div class="top"><div><h2 style="margin:0">Seller Dashboard</h2><div id="who" class="muted"></div></div><button id="logout" class="secondary">Logout</button></div><div id="msg" class="msg">Ready.</div></div>
+
+<div id="businessCard" class="card">
+<h3>Business Profile</h3>
+<input id="name" placeholder="Business name"><input id="category" placeholder="Category"><input id="location" placeholder="Location"><input id="phone" placeholder="Phone">
+<textarea id="description" placeholder="Business description"></textarea><input id="orderLink" placeholder="Order / website link">
+<label>Business logo</label><input id="logo" type="file" accept="image/jpeg,image/png,image/webp">
+<button id="saveBusiness">Save Business</button>
+</div>
+
+<div id="planCard" class="card hidden">
+<div class="top"><h3 style="margin:0">Product Listings</h3><span id="planBadge" class="pill"></span></div>
+<div class="stats"><div class="stat">Usage<b id="usage"></b></div><div class="stat">Product Limit<b id="limit"></b></div><div class="stat">Commission<b>0%</b></div></div>
+<div class="bar" style="margin-top:12px"><div id="progress"></div></div>
+</div>
+
+<div id="upgradeCard" class="card hidden">
+<h3>Upgrade to MBG Business</h3>
+<p><b>$5 / month</b> — up to <b>100 product listings</b> with <b>0% MBG sales commission</b>.</p>
+<div class="bank"><b>Bank Transfer</b><br>Bank: <b>Bank of Maldives</b><br>Account Name: <b>Hassan Fayaz</b><br>Account Number: <b>7710414469101</b></div>
+<p class="muted">Transfer the payment first. Then submit the transaction/reference number below. MBG will activate the plan only after the payment is verified as received.</p>
+<label>Payment Method</label><select id="payMethod"><option value="Bank Transfer - Bank of Maldives">Bank Transfer — Bank of Maldives</option><option value="Online Payment">Online Payment</option></select>
+<label>Transaction / Reference Number</label><input id="payRef" placeholder="Enter payment reference">
+<label>Note (optional)</label><textarea id="payNote" placeholder="Optional message to MBG"></textarea>
+<button id="submitPayment">Submit Payment for Verification</button>
+<div id="payMsg" class="msg">No payment request submitted yet.</div>
+</div>
+
+<div id="customerOrdersCard" class="card hidden">
+<h3>🛒 Customer Orders</h3>
+<p class="muted">Verify money in your actual bank/payment gateway before confirming payment.</p>
+<button id="refreshOrders" class="secondary">Refresh Orders</button>
+<div id="ordersMsg" class="msg">Loading orders…</div>
+<div id="customerOrders"></div>
+</div>
+<div id="customerPaymentsCard" class="card hidden">
+<h3>💳 Customer Payment Settings</h3>
+<p class="muted">Choose how customers can pay you for products. Never enter card numbers, CVV, PIN, OTP, banking passwords or gateway secret keys.</p>
+<label><input id="bankEnabled" type="checkbox" style="width:auto;margin-right:8px"> Enable Bank Transfer</label>
+<div id="bankFields">
+<label>Bank Name</label><input id="sellerBankName" placeholder="e.g. Bank of Maldives">
+<label>Account Holder Name</label><input id="sellerAccountName" placeholder="Account holder name">
+<label>Bank Account Number</label><input id="sellerAccountNumber" placeholder="Account number">
+</div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<label><input id="onlineEnabled" type="checkbox" style="width:auto;margin-right:8px"> Enable Online Payment</label>
+<div id="onlineFields">
+<label>Payment Gateway Name</label><input id="gatewayName" placeholder="e.g. Your payment provider">
+<label>Payment Gateway / Payment Link</label><input id="gatewayUrl" type="url" placeholder="https://...">
+</div>
+<button id="saveCustomerPayments">Save Customer Payment Settings</button>
+<div id="customerPaymentMsg" class="msg">Configure at least one payment method for customer checkout.</div>
+</div>
+
+<div id="activeCard" class="card hidden"><h3>MBG Business Active ✅</h3><p>Your plan supports up to <b>100 product listings</b>.</p><div id="expiry" class="muted"></div></div>
+
+<div id="productCard" class="card hidden"><h3>Add Product</h3><div id="limitWarning" class="msg warn hidden">Your current plan limit has been reached. Delete a product to free a slot or upgrade your plan.</div>
+<div id="productForm"><input id="title" placeholder="Product title"><textarea id="productDescription" placeholder="Product description"></textarea><input id="price" type="number" min="0" step="0.01" placeholder="Price (MVR)"><input id="productImage" type="file" accept="image/jpeg,image/png,image/webp"><button id="addProduct">Add Product</button></div>
+<h3>Your Products</h3><div id="products" class="products"></div></div>
+</section></main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=x=>document.getElementById(x),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let sb,user,business,products=[];
+function msg(id,t,c=''){let e=$(id);e.textContent=t;e.className='msg '+c}
+function slug(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Math.random().toString(36).slice(2,7)}
+async function upload(file,folder){
+ if(!file)return null;if(file.size>5*1024*1024)throw Error('Image must be 5 MB or smaller.');
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('Use JPG, PNG or WebP.');
+ const ext=(file.name.split('.').pop()||'jpg').toLowerCase(),path=`${user.id}/${folder}-${crypto.randomUUID()}.${ext}`;
+ const {error}=await sb.storage.from('mbg-images').upload(path,file);if(error)throw error;
+ return sb.storage.from('mbg-images').getPublicUrl(path).data.publicUrl
+}
+async function load(){
+ const {data:b,error}=await sb.from('businesses').select('*').eq('owner_id',user.id).order('created_at',{ascending:true}).limit(1).maybeSingle();
+ if(error)return msg('msg','Could not load business: '+error.message,'err');business=b;
+ if(!business){['planCard','upgradeCard','activeCard','productCard'].forEach(x=>$(x).classList.add('hidden'));return}
+ $('name').value=business.name||'';$('category').value=business.category||'';$('location').value=business.location||'';$('phone').value=business.phone||'';$('description').value=business.description||'';$('orderLink').value=business.order_link||'';
+ const {data:p,error:pe}=await sb.from('products').select('*').eq('business_id',business.id).order('created_at',{ascending:false});
+ if(pe)return msg('msg','Could not load products: '+pe.message,'err');products=p||[];
+ renderPlan();renderProducts();await loadCustomerOrders();await loadCustomerPaymentSettings();await loadPayment()
+}
+function renderPlan(){
+ $('planCard').classList.remove('hidden');$('productCard').classList.remove('hidden');$('customerPaymentsCard').classList.remove('hidden');$('customerOrdersCard').classList.remove('hidden');
+ const limit=business.product_limit??10,count=products.length,plan=(business.plan||'free').toUpperCase();
+ $('planBadge').textContent=plan+' PLAN';$('usage').textContent=`${count} / ${limit}`;$('limit').textContent=limit;$('progress').style.width=Math.min(100,count/Math.max(1,limit)*100)+'%';
+ const at=count>=limit;$('limitWarning').classList.toggle('hidden',!at);$('productForm').classList.toggle('hidden',at);
+ const paid=business.plan==='business' && business.subscription_status==='active';
+ $('upgradeCard').classList.toggle('hidden',paid);$('activeCard').classList.toggle('hidden',!paid);
+ if(paid)$('expiry').textContent='Subscription expiry: '+(business.subscription_expires_at?new Date(business.subscription_expires_at).toLocaleDateString():'—')
+}
+function renderProducts(){
+ $('products').innerHTML=products.map(p=>`<div class="product">${p.image_url?`<img src="${esc(p.image_url)}">`:''}<b>${esc(p.title)}</b><div>${p.price!=null?'MVR '+Number(p.price).toFixed(2):''}</div><p class="muted">${esc(p.description||'')}</p><button class="danger" data-del="${p.id}">Delete</button></div>`).join('')||'<span class="muted">No products yet.</span>';
+ document.querySelectorAll('[data-del]').forEach(x=>x.onclick=()=>removeProduct(x.dataset.del))
+}
+function orderStatusLabel(s){return ({payment_pending:'PAYMENT PENDING',payment_verified:'PAYMENT VERIFIED',order_accepted:'ORDER ACCEPTED',shipped:'SHIPPED',delivered:'DELIVERED',completed:'COMPLETED',cancelled:'CANCELLED',disputed:'DISPUTED',under_review:'UNDER REVIEW',refund_required:'REFUND REQUIRED',refund_submitted:'REFUND SUBMITTED',refunded:'REFUNDED',resolved:'RESOLVED',refund_overdue:'REFUND OVERDUE',seller_suspended:'SELLER SUSPENDED'})[s]||String(s||'').toUpperCase()}
+function orderActions(o){
+ if(o.status==='payment_pending')return `<button class="green" data-oa="${o.id}|verify_payment">✓ Confirm Payment Received</button><button class="red" data-oa="${o.id}|cancel_unpaid">Cancel Unpaid Order</button>`;
+ if(o.status==='payment_verified')return `<button class="green" data-oa="${o.id}|accept_order">Accept Order</button>`;
+ if(o.status==='order_accepted')return `<button class="green" data-oa="${o.id}|mark_shipped">Mark Shipped</button>`;
+ return `<span class="muted">No seller action available at this stage.</span>`;
+}
+async function loadCustomerOrders(){
+ if(!business)return;
+ msg('ordersMsg','Loading customer orders…');
+ const {data,error}=await sb.from('orders').select('*').eq('business_id',business.id).order('created_at',{ascending:false});
+ if(error)return msg('ordersMsg','Could not load orders: '+error.message,'err');
+ const rows=data||[];
+ $('customerOrders').innerHTML=rows.map(o=>`<div class="item">
+ <div><b>Order Reference:</b> ${esc(o.id)}</div><div class="muted">${new Date(o.created_at).toLocaleString()}</div>
+ <p><b>Status:</b> ${esc(orderStatusLabel(o.status))}<br><b>Total:</b> MVR ${Number(o.total_price||0).toFixed(2)}<br><b>Quantity:</b> ${esc(o.quantity)}</p>
+ <p><b>Customer:</b> ${esc(o.customer_name)}<br><b>Phone:</b> ${esc(o.customer_phone)}<br><b>Island / Location:</b> ${esc(o.customer_island||'—')}<br><b>Delivery Address:</b> ${esc(o.delivery_address||'—')}</p>
+ <p><b>Payment Method:</b> ${esc((o.payment_method||'').replaceAll('_',' '))}<br><b>Payment Reference:</b> ${esc(o.payment_reference||'—')}</p>
+ ${o.customer_note?`<p><b>Customer Note:</b> ${esc(o.customer_note)}</p>`:''}
+ <div class="msg"><b>Important:</b> A reference number is not proof of payment. Check your actual bank/payment gateway first.</div>
+ <div>${orderActions(o)}</div></div>`).join('')||'<div class="msg">No customer orders yet.</div>';
+ document.querySelectorAll('[data-oa]').forEach(x=>x.onclick=()=>{const [id,a]=x.dataset.oa.split('|');sellerOrderAction(id,a)});
+ msg('ordersMsg',`${rows.length} customer order(s) loaded.`,'ok');
+}
+async function sellerOrderAction(id,action){
+ if(action==='verify_payment'&&!confirm('Have you checked your actual bank/payment gateway and confirmed the money was received?'))return;
+ if(action!=='verify_payment'&&!confirm('Confirm this order action?'))return;
+ const note=prompt('Optional note for permanent order history:')??'';
+ const {error}=await sb.rpc('mbg_seller_order_action',{target_order:id,requested_action:action,action_note:note||null});
+ if(error)return msg('ordersMsg','Order action failed: '+error.message,'err');
+ msg('ordersMsg','Order updated and recorded in order history.','ok');await loadCustomerOrders();
+}
+async function loadCustomerPaymentSettings(){
+ if(!business)return;
+ const {data,error}=await sb.from('seller_payment_settings').select('*').eq('business_id',business.id).maybeSingle();
+ if(error)return msg('customerPaymentMsg','Could not load payment settings: '+error.message,'err');
+ const s=data||{};
+ $('bankEnabled').checked=!!s.bank_transfer_enabled;
+ $('sellerBankName').value=s.bank_name||'';
+ $('sellerAccountName').value=s.bank_account_name||'';
+ $('sellerAccountNumber').value=s.bank_account_number||'';
+ $('onlineEnabled').checked=!!s.online_payment_enabled;
+ $('gatewayName').value=s.payment_gateway_name||'';
+ $('gatewayUrl').value=s.payment_gateway_url||'';
+ togglePaymentFields();
+ if(data)msg('customerPaymentMsg','Customer payment settings loaded.','ok')
+}
+function togglePaymentFields(){
+ $('bankFields').style.display=$('bankEnabled').checked?'block':'none';
+ $('onlineFields').style.display=$('onlineEnabled').checked?'block':'none';
+}
+async function saveCustomerPaymentSettings(){
+ if(!business)return msg('customerPaymentMsg','Save your business first.','err');
+ const bank=$('bankEnabled').checked,online=$('onlineEnabled').checked;
+ const bankName=$('sellerBankName').value.trim(),accountName=$('sellerAccountName').value.trim(),accountNumber=$('sellerAccountNumber').value.trim();
+ const gatewayName=$('gatewayName').value.trim(),gatewayUrl=$('gatewayUrl').value.trim();
+ if(bank&&(!bankName||!accountName||!accountNumber))return msg('customerPaymentMsg','Complete the bank name, account holder name and account number.','err');
+ if(online){
+   if(!gatewayName||!gatewayUrl)return msg('customerPaymentMsg','Complete the gateway name and payment link.','err');
+   try{const u=new URL(gatewayUrl);if(u.protocol!=='https:')throw Error()}catch{return msg('customerPaymentMsg','Online payment link must be a valid HTTPS URL.','err')}
+ }
+ if(!bank&&!online)return msg('customerPaymentMsg','Enable at least one customer payment method.','warn');
+ msg('customerPaymentMsg','Saving customer payment settings…');
+ const payload={seller_id:user.id,business_id:business.id,bank_transfer_enabled:bank,bank_name:bank?bankName:null,bank_account_name:bank?accountName:null,bank_account_number:bank?accountNumber:null,online_payment_enabled:online,payment_gateway_name:online?gatewayName:null,payment_gateway_url:online?gatewayUrl:null,updated_at:new Date().toISOString()};
+ const {error}=await sb.from('seller_payment_settings').upsert(payload,{onConflict:'business_id'});
+ if(error)return msg('customerPaymentMsg','Save failed: '+error.message,'err');
+ msg('customerPaymentMsg','Customer payment settings saved successfully.','ok')
+}
+async function loadPayment(){
+ if(!business||business.plan==='business')return;
+ const {data,error}=await sb.from('payment_requests').select('*').eq('seller_id',user.id).eq('business_id',business.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
+ if(error)return msg('payMsg','Could not load payment request: '+error.message,'err');
+ if(data){
+  let t=`Latest request: ${data.status.toUpperCase()} — $${Number(data.amount_usd).toFixed(2)}`;
+  if(data.transaction_reference)t+=`\nReference: ${data.transaction_reference}`;
+  if(data.admin_note)t+=`\nMBG note: ${data.admin_note}`;
+  msg('payMsg',t,data.status==='verified'?'ok':data.status==='rejected'?'err':'warn')
+ }
+}
+async function saveBusiness(){
+ try{
+  msg('msg','Saving business…');let logo=await upload($('logo').files[0],'logo');
+  let payload={name:$('name').value.trim(),category:$('category').value.trim(),location:$('location').value.trim(),phone:$('phone').value.trim(),description:$('description').value.trim(),order_link:$('orderLink').value.trim()};
+  if(logo)payload.logo_url=logo;
+  let error;
+  if(business)({error}=await sb.from('businesses').update(payload).eq('id',business.id));
+  else {payload.owner_id=user.id;payload.slug=slug(payload.name||'business');({error}=await sb.from('businesses').insert(payload))}
+  if(error)throw error;msg('msg','Business profile saved.','ok');await load()
+ }catch(e){msg('msg','Save failed: '+e.message,'err')}
+}
+async function addProduct(){
+ try{
+  if(!business)throw Error('Save your business first.');
+  let image=await upload($('productImage').files[0],'product');
+  const {error}=await sb.from('products').insert({business_id:business.id,owner_id:user.id,title:$('title').value.trim(),description:$('productDescription').value.trim(),price:$('price').value?Number($('price').value):null,image_url:image,active:true});
+  if(error)throw error;$('title').value='';$('productDescription').value='';$('price').value='';$('productImage').value='';msg('msg','Product added.','ok');await load()
+ }catch(e){msg('msg','Could not add product: '+e.message,'err')}
+}
+async function removeProduct(id){if(!confirm('Delete this product?'))return;const {error}=await sb.from('products').delete().eq('id',id);if(error)return msg('msg','Delete failed: '+error.message,'err');await load()}
+async function submitPayment(){
+ if(!business)return;
+ const ref=$('payRef').value.trim();if(!ref)return msg('payMsg','Please enter the transaction/reference number.','err');
+ const {data:existing}=await sb.from('payment_requests').select('id').eq('seller_id',user.id).eq('business_id',business.id).eq('status','pending').limit(1);
+ if(existing?.length)return msg('payMsg','You already have a payment request waiting for MBG verification.','warn');
+ const {error}=await sb.from('payment_requests').insert({seller_id:user.id,business_id:business.id,plan:'business',amount_usd:5,payment_method:$('payMethod').value,transaction_reference:ref,seller_note:$('payNote').value.trim(),status:'pending'});
+ if(error)return msg('payMsg','Submission failed: '+error.message,'err');
+ $('payRef').value='';$('payNote').value='';msg('payMsg','Payment request submitted. MBG will verify receipt before activation.','ok');await loadPayment()
+}
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');sb=createClient(URL,KEY);
+$('login').onclick=async()=>{msg('authMsg','Signing in…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)msg('authMsg','Login failed: '+error.message,'err')};
+$('logout').onclick=()=>sb.auth.signOut();$('saveBusiness').onclick=saveBusiness;$('addProduct').onclick=addProduct;$('submitPayment').onclick=submitPayment;
+$('saveCustomerPayments').onclick=saveCustomerPaymentSettings;$('bankEnabled').onchange=togglePaymentFields;$('onlineEnabled').onchange=togglePaymentFields;$('refreshOrders').onclick=loadCustomerOrders;
+async function enter(s){user=s?.user;if(!user){$('authBox').classList.remove('hidden');$('app').classList.add('hidden');return}$('authBox').classList.add('hidden');$('app').classList.remove('hidden');$('who').textContent=user.email;await load()}
+sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>enter(s),0));const {data:{session}}=await sb.auth.getSession();await enter(session);
+</script></body></html>
