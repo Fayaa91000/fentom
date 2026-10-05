@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Seller Dispute Center</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--green:#137a3d;--red:#b42318;--bg:#f4f8fb;--line:#d9e5ec;--muted:#667b8c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17324a}
+header{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:20px}.wrap{max-width:980px;margin:20px auto;padding:0 14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:14px;box-shadow:0 7px 22px #062b550b}
+h2,h3{color:var(--navy)}input,textarea{width:100%;padding:12px;border:1px solid #cbdbe5;border-radius:10px;margin:6px 0 12px;font:inherit}
+textarea{min-height:100px}button{border:0;border-radius:999px;padding:11px 16px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer}
+.secondary{background:#eaf3f7;color:var(--navy)}.green{background:var(--green)}.hidden{display:none}
+.msg{padding:12px;border-radius:10px;background:#edf6f8;margin:12px 0;white-space:pre-wrap}.ok{background:#e8f8ed;color:#176b38}.err{background:#ffe9e9;color:#8a2020}.warn{background:#fff5dc;color:#765300}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.muted{font-size:13px;color:var(--muted)}
+.item{border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;background:#fff;box-shadow:0 4px 14px #062b5508}
+.badge{padding:6px 10px;border-radius:999px;background:#eef4f7;font-size:12px;font-weight:bold}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.nav a{text-decoration:none;background:#eaf3f7;color:var(--navy);font-weight:bold;padding:10px 14px;border-radius:999px}
+.theme-disputes{border-top:5px solid #b42318}
+</style></head>
+<body>
+<header><div class="wrap" style="margin:0 auto;padding:0"><b style="font-size:22px">Maldives Business Gateway</b><div>Seller Portal — Order Dispute Center</div></div></header>
+<main class="wrap">
+<section id="authBox" class="card"><h2>Seller Login</h2><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button id="login">Login</button><div id="authMsg" class="msg">Ready.</div></section>
+
+<section id="app" class="hidden">
+<div class="card">
+ <div class="top"><div><h2 style="margin:0">🚨 Order Dispute Center</h2><div id="who" class="muted"></div></div><button id="logout" class="secondary">Logout</button></div>
+ <div id="msg" class="msg">Ready.</div>
+</div>
+
+<div class="nav">
+ <a href="seller-portal.html">🏪 Main Seller Portal</a>
+ <a href="seller-products.html">📦 Products</a>
+ <a href="seller-orders.html">🛒 Orders</a>
+</div>
+
+<div id="sellerDisputesCard" class="card theme-disputes hidden">
+ <h3>🚨 Dispute Center</h3>
+ <p class="muted">Buyer disputes involving your orders appear here. Respond clearly so MBG can review both sides.</p>
+ <button id="refreshDisputes" class="secondary">Refresh Disputes</button>
+ <div id="sellerDisputesMsg" class="msg">Loading disputes…</div>
+ <div id="sellerDisputes"></div>
+</div>
+</section>
+</main>
+
+<script type="module">
+const SUPABASE_URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=x=>document.getElementById(x),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let sb,user,business;
+function msg(id,t,c=''){let e=$(id);if(!e)return;e.textContent=t;e.className='msg '+c}
+
+function disputeStatusLabel(s){
+ return ({open:'AWAITING YOUR RESPONSE',seller_responded:'WAITING FOR MBG REVIEW',under_review:'UNDER MBG REVIEW',refund_required:'REFUND REQUIRED',refund_submitted:'REFUND SUBMITTED',resolved:'RESOLVED',rejected:'CLOSED / NOT UPHELD',refund_overdue:'REFUND OVERDUE'})[s]||String(s||'').toUpperCase()
+}
+
+async function loadSellerDisputes(){
+ if(!business)return;
+ msg('sellerDisputesMsg','Loading disputes…');
+ const {data,error}=await sb.from('order_disputes').select('*').eq('business_id',business.id).order('opened_at',{ascending:false});
+ if(error)return msg('sellerDisputesMsg','Could not load disputes: '+error.message,'err');
+ const rows=data||[];
+ $('sellerDisputes').innerHTML=rows.map(d=>`<div class="item" style="${d.status==='open'?'border:2px solid #c43d32':''}">
+ <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>🚨 Dispute ${esc(d.id)}</b><span class="badge">${esc(disputeStatusLabel(d.status))}</span></div>
+ <p><b>Order:</b> ${esc(d.order_id)}<br><b>Opened:</b> ${new Date(d.opened_at).toLocaleString()}<br><b>Reason:</b> ${esc(d.reason)}</p>
+ <div class="msg"><b>Buyer Statement</b><br>${esc(d.buyer_statement)}</div>
+ ${d.seller_response?`<div class="msg"><b>Your Response</b><br>${esc(d.seller_response)}</div>`:''}
+ ${d.admin_note?`<div class="msg"><b>MBG Review Note</b><br>${esc(d.admin_note)}</div>`:''}
+ ${d.status==='under_review'?`<div class="msg" style="background:#fff3cd;border:1px solid #efd37b"><b>⚠️ 15-Day Resolution Period Active</b><br><b>Deadline:</b> ${d.refund_deadline?new Date(d.refund_deadline).toLocaleString():'Pending'}<br>MBG is reviewing this dispute. Work with the buyer to resolve the issue. If the buyer receives the item and confirms receipt, the dispute will automatically close.</div>`:''}
+ ${d.status==='resolved'?`<div class="msg" style="background:#e7f7ed;border:1px solid #a8ddba"><b>✅ Dispute Resolved</b><br>${(d.admin_note||'').includes('Buyer confirmed')?'Buyer confirmed that the item was received. The order and dispute are now closed.':'This dispute has been resolved. See the MBG review note above for details.'}</div>`:''}
+ ${d.refund_required?`<div class="msg"><b>Refund Required:</b> ${d.refund_amount!=null?'MVR '+Number(d.refund_amount).toFixed(2):'Yes'}<br><b>Deadline:</b> ${d.refund_deadline?new Date(d.refund_deadline).toLocaleString():'Pending'}</div>`:''}
+ ${d.status==='open'?`<label>Your Response to Buyer / MBG</label><textarea id="dr-${d.id}" rows="4" placeholder="Explain delivery details, tracking, what happened, etc."></textarea><button class="green" data-dispute-response="${d.id}">Submit Response to MBG</button>`:''}
+ </div>`).join('')||'<div class="msg">No disputes involving your business.</div>';
+
+ document.querySelectorAll('[data-dispute-response]').forEach(x=>x.onclick=()=>submitSellerDisputeResponse(x.dataset.disputeResponse));
+ msg('sellerDisputesMsg',rows.some(d=>d.status==='open')?'🚨 A buyer dispute is waiting for your response.':`${rows.length} dispute(s) loaded.`,rows.some(d=>d.status==='open')?'warn':'ok');
+}
+
+async function submitSellerDisputeResponse(id){
+ const statement=$('dr-'+id)?.value.trim()||'';
+ if(statement.length<10)return msg('sellerDisputesMsg','Please provide a detailed response of at least 10 characters.','err');
+ if(!confirm('Submit this response to MBG? Your response will become part of the dispute record.'))return;
+ const {error}=await sb.rpc('mbg_seller_respond_dispute',{target_dispute:id,seller_statement:statement});
+ if(error)return msg('sellerDisputesMsg','Response failed: '+error.message,'err');
+ msg('sellerDisputesMsg','Response submitted successfully. Waiting for MBG review.','ok');
+ await loadSellerDisputes();
+}
+
+async function load(){
+ const {data:b,error}=await sb.from('businesses').select('*').eq('owner_id',user.id).order('created_at',{ascending:true}).limit(1).maybeSingle();
+ if(error)return msg('msg','Could not load business: '+error.message,'err');
+ business=b;
+ if(!business){
+  $('sellerDisputesCard').classList.add('hidden');
+  return msg('msg','No business profile found. Open the Main Seller Portal and create your business first.','warn');
+ }
+ $('sellerDisputesCard').classList.remove('hidden');
+ msg('msg',`Managing disputes for ${business.name||'your business'}.`,'ok');
+ await loadSellerDisputes();
+}
+
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+sb=createClient(SUPABASE_URL,KEY);
+
+$('login').onclick=async()=>{
+ msg('authMsg','Signing in…');
+ const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+ if(error)msg('authMsg','Login failed: '+error.message,'err');
+};
+$('logout').onclick=()=>sb.auth.signOut();
+$('refreshDisputes').onclick=loadSellerDisputes;
+
+sb.auth.onAuthStateChange(async(_event,session)=>{
+ user=session?.user||null;
+ if(user){
+  $('authBox').classList.add('hidden');
+  $('app').classList.remove('hidden');
+  $('who').textContent=user.email||user.id;
+  await load();
+ }else{
+  $('app').classList.add('hidden');
+  $('authBox').classList.remove('hidden');
+  business=null;
+ }
+});
+
+const {data:{session}}=await sb.auth.getSession();
+if(session?.user){
+ user=session.user;
+ $('authBox').classList.add('hidden');
+ $('app').classList.remove('hidden');
+ $('who').textContent=user.email||user.id;
+ await load();
+}
+</script>
+</body>
+</html>
