@@ -1,0 +1,1864 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Maldives Business Gateway - Connecting people, businesses and opportunities across the Maldives.">
+<title>Maldives Business Gateway | MBG</title>
+
+<style>
+:root{
+  --navy:#041f3d;
+  --deep:#062b55;
+  --blue:#0875bd;
+  --cyan:#12c7d4;
+  --aqua:#70f1f5;
+  --light:#f2fbfd;
+  --white:#fff;
+  --text:#18324a;
+  --muted:#66798a;
+  --line:#dcecf1;
+  --shadow:0 22px 55px rgba(4,31,61,.14);
+  --shadow-soft:0 12px 30px rgba(4,31,61,.08);
+  --radius:26px;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 10%,rgba(18,199,212,.04),transparent 30%),
+    radial-gradient(circle at 90% 35%,rgba(8,117,189,.04),transparent 30%),
+    #fff;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,input{
+  font:inherit;
+}
+
+.container{
+  width:min(1160px,92%);
+  margin:auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(220,236,241,.8);
+  box-shadow:0 5px 25px rgba(4,31,61,.04);
+}
+
+nav{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-mark{
+  width:50px;
+  height:50px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-weight:900;
+  letter-spacing:-1px;
+  background:
+    linear-gradient(145deg,#06366a,#0877bd 50%,#12c7d4);
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,.35),
+    inset 0 -5px 10px rgba(0,0,0,.15),
+    0 10px 25px rgba(8,117,189,.25);
+  transform:perspective(500px) rotateX(4deg);
+}
+
+.brand-text strong{
+  display:block;
+  color:var(--navy);
+  font-size:17px;
+  letter-spacing:.3px;
+}
+
+.brand-text span{
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:1.6px;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:26px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.nav-links a{
+  transition:.25s;
+}
+
+.nav-links a:hover{
+  color:var(--cyan);
+  transform:translateY(-1px);
+}
+
+.nav-btn,
+.primary-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 21px;
+  border-radius:999px;
+  color:#fff !important;
+  background:
+    linear-gradient(135deg,var(--blue),var(--cyan));
+  border:none;
+  cursor:pointer;
+  font-weight:800;
+  box-shadow:
+    0 9px 22px rgba(8,117,189,.22),
+    inset 0 1px 1px rgba(255,255,255,.4);
+  transition:.25s;
+}
+
+.nav-btn:hover,
+.primary-btn:hover{
+  color:#fff !important;
+  transform:translateY(-3px);
+  box-shadow:
+    0 15px 30px rgba(8,117,189,.3),
+    inset 0 1px 1px rgba(255,255,255,.5);
+}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:none;
+  font-size:29px;
+  color:var(--navy);
+  cursor:pointer;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:90px 0 80px;
+  background:
+    radial-gradient(circle at 82% 20%,rgba(18,199,212,.16),transparent 28%),
+    radial-gradient(circle at 12% 80%,rgba(8,117,189,.08),transparent 28%),
+    linear-gradient(180deg,#f5fdff 0%,#fff 100%);
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  right:-250px;
+  top:-220px;
+  background:rgba(18,199,212,.06);
+  filter:blur(2px);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.06fr .94fr;
+  gap:60px;
+  align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(18,199,212,.1);
+  border:1px solid rgba(18,199,212,.18);
+  color:#087d8d;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:20px;
+  box-shadow:0 7px 20px rgba(18,199,212,.08);
+}
+
+h1{
+  font-size:clamp(43px,6vw,74px);
+  line-height:1.01;
+  color:var(--navy);
+  letter-spacing:-3px;
+}
+
+h1 span{
+  background:linear-gradient(90deg,#0875bd,#12c7d4);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  max-width:650px;
+  font-size:18px;
+  color:var(--muted);
+  margin:24px 0 31px;
+}
+
+.hero-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.secondary-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 20px;
+  border:1px solid #bdd6e1;
+  border-radius:999px;
+  color:var(--navy);
+  font-weight:800;
+  background:rgba(255,255,255,.85);
+  box-shadow:0 7px 20px rgba(4,31,61,.06);
+  transition:.25s;
+}
+
+.secondary-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 28px rgba(4,31,61,.1);
+}
+
+/* =========================
+   3D HERO CARD
+========================= */
+
+.hero-visual{
+  perspective:1200px;
+}
+
+.hero-card{
+  min-height:450px;
+  border-radius:38px;
+  padding:35px;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+  transform:
+    perspective(1200px)
+    rotateY(-6deg)
+    rotateX(3deg);
+  background:
+    radial-gradient(circle at 78% 18%,rgba(112,241,245,.25),transparent 25%),
+    linear-gradient(145deg,#031c37,#075f8c 57%,#12c7d4);
+  box-shadow:
+    30px 40px 80px rgba(4,31,61,.27),
+    inset 0 1px 1px rgba(255,255,255,.3),
+    inset 0 -30px 50px rgba(0,0,0,.13);
+  transition:.5s;
+}
+
+.hero-card:hover{
+  transform:
+    perspective(1200px)
+    rotateY(0deg)
+    rotateX(0deg)
+    translateY(-7px);
+}
+
+.hero-card:before,
+.hero-card:after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:50%;
+}
+
+.hero-card:before{
+  width:390px;
+  height:390px;
+  right:-130px;
+  top:-105px;
+}
+
+.hero-card:after{
+  width:270px;
+  height:270px;
+  right:-45px;
+  top:-30px;
+}
+
+.glow-ball{
+  position:absolute;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:rgba(112,241,245,.18);
+  filter:blur(4px);
+  right:85px;
+  top:72px;
+  box-shadow:0 0 70px rgba(112,241,245,.4);
+}
+
+.islands{
+  position:absolute;
+  right:100px;
+  top:68px;
+  transform:rotate(-18deg);
+  z-index:2;
+}
+
+.islands i{
+  display:block;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#fff;
+  margin:9px;
+  opacity:.85;
+  box-shadow:0 3px 8px rgba(0,0,0,.15);
+}
+
+.islands i:nth-child(2){
+  margin-left:25px;
+  width:10px;
+  height:10px;
+}
+
+.islands i:nth-child(3){
+  margin-left:9px;
+  width:20px;
+  height:20px;
+}
+
+.islands i:nth-child(4){
+  margin-left:29px;
+  width:12px;
+  height:12px;
+}
+
+.islands i:nth-child(5){
+  margin-left:15px;
+  width:17px;
+  height:17px;
+}
+
+.hero-card-content{
+  position:absolute;
+  left:35px;
+  right:35px;
+  bottom:35px;
+  z-index:3;
+}
+
+.hero-card small{
+  opacity:.78;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.hero-card h2{
+  font-size:34px;
+  line-height:1.08;
+  margin:9px 0;
+  max-width:430px;
+}
+
+.hero-card p{
+  color:#d9f8fb;
+  font-size:14px;
+  margin:0;
+  max-width:400px;
+}
+
+/* Floating 3D mini cards */
+
+.floating-card{
+  position:absolute;
+  z-index:5;
+  padding:13px 17px;
+  border-radius:17px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+  box-shadow:0 18px 30px rgba(0,0,0,.16);
+  font-weight:800;
+  font-size:13px;
+}
+
+.float-one{
+  top:32px;
+  left:28px;
+}
+
+.float-two{
+  right:27px;
+  bottom:29px;
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-actions{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:27px;
+}
+
+.quick-action{
+  display:block;
+  padding:18px 12px;
+  border-radius:20px;
+  background:rgba(255,255,255,.9);
+  border:1px solid #dcebf0;
+  box-shadow:
+    0 9px 24px rgba(6,43,85,.07),
+    inset 0 1px 1px rgba(255,255,255,.9);
+  text-align:center;
+  font-weight:900;
+  color:var(--navy);
+  transition:.3s;
+}
+
+.quick-action:hover{
+  transform:
+    perspective(500px)
+    translateY(-7px)
+    rotateX(3deg);
+  box-shadow:0 20px 35px rgba(6,43,85,.14);
+  border-color:rgba(18,199,212,.35);
+}
+
+.quick-action span{
+  display:block;
+  font-size:26px;
+  margin-bottom:3px;
+}
+
+.quick-action small{
+  display:block;
+  font-weight:500;
+  color:var(--muted);
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+  padding:85px 0;
+}
+
+.section-head{
+  text-align:center;
+  max-width:720px;
+  margin:0 auto 45px;
+}
+
+.section-head span{
+  color:var(--cyan);
+  font-weight:900;
+  font-size:11px;
+  letter-spacing:1.7px;
+}
+
+.section-head h2{
+  color:var(--navy);
+  font-size:clamp(30px,4vw,45px);
+  line-height:1.1;
+  margin:9px 0 12px;
+  letter-spacing:-1px;
+}
+
+.section-head p{
+  color:var(--muted);
+}
+
+/* =========================
+   3D SERVICE CARDS
+========================= */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:23px;
+  perspective:1200px;
+}
+
+.card{
+  position:relative;
+  padding:29px;
+  min-height:210px;
+  border:1px solid #e2eef2;
+  border-radius:var(--radius);
+  background:
+    linear-gradient(145deg,#fff,#f8fcfd);
+  box-shadow:
+    0 10px 25px rgba(6,43,85,.06),
+    inset 0 1px 1px #fff;
+  transition:.35s;
+  overflow:hidden;
+}
+
+.card:after{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  right:-70px;
+  bottom:-70px;
+  background:rgba(18,199,212,.06);
+}
+
+.card:hover{
+  transform:
+    translateY(-9px)
+    rotateX(3deg)
+    rotateY(-2deg);
+  box-shadow:
+    0 25px 45px rgba(6,43,85,.13);
+  border-color:rgba(18,199,212,.3);
+}
+
+.icon{
+  width:56px;
+  height:56px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  background:
+    linear-gradient(145deg,#e0f8fa,#f1f8ff);
+  border:1px solid #d9eef2;
+  font-size:26px;
+  margin-bottom:18px;
+  box-shadow:
+    0 8px 18px rgba(8,117,189,.08),
+    inset 0 1px 1px #fff;
+}
+
+.card h3{
+  color:var(--navy);
+  margin-bottom:8px;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* =========================
+   MARKETPLACE
+========================= */
+
+.market{
+  position:relative;
+  background:
+    radial-gradient(circle at 10% 30%,rgba(18,199,212,.08),transparent 25%),
+    linear-gradient(180deg,#effbfc,#fff);
+}
+
+.market-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  align-items:center;
+}
+
+.market-copy h2{
+  font-size:44px;
+  line-height:1.08;
+  color:var(--navy);
+  margin-bottom:18px;
+  letter-spacing:-1.5px;
+}
+
+.market-copy p{
+  color:var(--muted);
+  margin-bottom:25px;
+}
+
+.market-box{
+  padding:35px;
+  border-radius:30px;
+  background:
+    linear-gradient(145deg,#fff,#f8fcfd);
+  box-shadow:var(--shadow);
+  border:1px solid #dfedf1;
+  transform:perspective(900px) rotateY(-3deg);
+  transition:.4s;
+}
+
+.market-box:hover{
+  transform:perspective(900px) rotateY(0deg) translateY(-5px);
+}
+
+.market-box h3{
+  font-size:29px;
+  color:var(--navy);
+  margin-bottom:10px;
+}
+
+.market-box p{
+  color:var(--muted);
+  margin-bottom:20px;
+}
+
+.steps{
+  display:grid;
+  gap:13px;
+}
+
+.step{
+  display:flex;
+  gap:13px;
+  align-items:center;
+  padding:14px;
+  background:#f7fcfd;
+  border:1px solid #e1eef1;
+  border-radius:15px;
+  transition:.25s;
+}
+
+.step:hover{
+  transform:translateX(5px);
+  background:#fff;
+  box-shadow:0 8px 18px rgba(4,31,61,.06);
+}
+
+.step b{
+  flex:0 0 35px;
+  height:35px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  box-shadow:0 5px 12px rgba(8,117,189,.2);
+}
+
+/* =========================
+   TRACKING
+========================= */
+
+.tracking-section{
+  background:
+    linear-gradient(180deg,#fff,#f1fbfc);
+}
+
+.tracking-wrap,
+.seller-gateway{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.tracking-intro,
+.tracking-demo,
+.seller-choice{
+  border-radius:30px;
+  padding:34px;
+  box-shadow:var(--shadow);
+}
+
+.tracking-intro{
+  background:
+    radial-gradient(circle at 85% 10%,rgba(18,199,212,.25),transparent 25%),
+    linear-gradient(145deg,var(--navy),#075f8c);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
+.tracking-intro:after{
+  content:"";
+  position:absolute;
+  width:250px;
+  height:250px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50%;
+  right:-100px;
+  bottom:-100px;
+}
+
+.tracking-intro h2{
+  font-size:36px;
+  line-height:1.1;
+  margin:9px 0 14px;
+}
+
+.tracking-intro p,
+.buyer-promise{
+  color:#d8f6fa;
+}
+
+.buyer-promise{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  font-size:13px;
+}
+
+.tracking-demo,
+.seller-choice{
+  background:#fff;
+  border:1px solid #dcebef;
+}
+
+.tracking-demo h3,
+.seller-choice h3{
+  color:var(--navy);
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+.credential{
+  padding:15px 16px;
+  background:#f6fafc;
+  border:1px solid #dce8ed;
+  border-radius:14px;
+  margin:11px 0;
+}
+
+.credential small{
+  display:block;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.credential code{
+  font-size:13px;
+  color:#074c7a;
+  word-break:break-all;
+  font-weight:800;
+}
+
+.security-note{
+  padding:13px 15px;
+  background:#fff8e7;
+  border:1px solid #f2d795;
+  border-radius:13px;
+  color:#705315;
+  font-size:13px;
+  margin:14px 0;
+}
+
+.track-btn{
+  width:100%;
+}
+
+/* =========================
+   SELLER GATEWAY
+========================= */
+
+.seller-choice{
+  transition:.35s;
+  position:relative;
+  overflow:hidden;
+}
+
+.seller-choice:hover{
+  transform:translateY(-7px);
+  box-shadow:0 28px 55px rgba(4,31,61,.13);
+}
+
+.seller-choice.new{
+  border-top:5px solid var(--cyan);
+}
+
+.seller-choice.existing{
+  border-top:5px solid var(--navy);
+}
+
+.seller-choice p{
+  color:var(--muted);
+  margin:10px 0 18px;
+}
+
+/* =========================
+   ABOUT / CTA
+========================= */
+
+.cta{
+  padding:60px 35px;
+  border-radius:36px;
+  color:#fff;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(112,241,245,.16),transparent 25%),
+    radial-gradient(circle at 80% 70%,rgba(112,241,245,.14),transparent 25%),
+    linear-gradient(135deg,var(--navy),var(--blue),var(--cyan));
+  box-shadow:0 30px 70px rgba(4,31,61,.2);
+}
+
+.cta:before,
+.cta:after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:50%;
+}
+
+.cta:before{
+  width:300px;
+  height:300px;
+  left:-130px;
+  top:-130px;
+}
+
+.cta:after{
+  width:250px;
+  height:250px;
+  right:-110px;
+  bottom:-110px;
+}
+
+.cta h2{
+  font-size:39px;
+  margin-bottom:10px;
+  position:relative;
+  z-index:2;
+}
+
+.cta p{
+  max-width:650px;
+  margin:0 auto 25px;
+  color:#dffbff;
+  position:relative;
+  z-index:2;
+}
+
+.cta .secondary-btn{
+  position:relative;
+  z-index:2;
+  border:0;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  background:#031a33;
+  color:#c8d7e4;
+  padding:50px 0 22px;
+  margin-top:80px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:35px;
+}
+
+footer h3,
+footer h4{
+  color:#fff;
+  margin-bottom:12px;
+}
+
+footer p,
+footer a{
+  font-size:14px;
+  color:#9fb4c5;
+}
+
+footer a{
+  display:block;
+  margin:7px 0;
+  transition:.2s;
+}
+
+footer a:hover{
+  color:#6be8ed;
+  transform:translateX(3px);
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.1);
+  margin-top:35px;
+  padding-top:20px;
+  text-align:center;
+  font-size:12px;
+  color:#8097aa;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+  .hero-grid,
+  .market-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding-top:60px;
+  }
+
+  .hero-card{
+    min-height:390px;
+    transform:none;
+  }
+
+  .hero-card:hover{
+    transform:translateY(-5px);
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .tracking-wrap,
+  .seller-gateway{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .menu-btn{
+    display:block;
+  }
+
+  .nav-links{
+    display:none;
+    position:absolute;
+    left:4%;
+    right:4%;
+    top:75px;
+    padding:20px;
+    background:rgba(255,255,255,.97);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .nav-links.open{
+    display:flex;
+  }
+
+  .nav-links a{
+    padding:8px 3px;
+  }
+
+  .hero{
+    padding-top:55px;
+  }
+
+  h1{
+    letter-spacing:-2px;
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .market-copy h2{
+    font-size:36px;
+  }
+
+  .cta{
+    padding:45px 22px;
+  }
+
+  .cta h2{
+    font-size:31px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:550px){
+
+  .hero-card{
+    min-height:350px;
+    padding:25px;
+  }
+
+  .hero-card-content{
+    left:25px;
+    right:25px;
+    bottom:25px;
+  }
+
+  .hero-card h2{
+    font-size:29px;
+  }
+
+  .floating-card{
+    font-size:11px;
+    padding:10px 12px;
+  }
+
+  .float-one{
+    top:22px;
+    left:18px;
+  }
+
+  .float-two{
+    right:18px;
+    bottom:18px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+  section{
+    padding:65px 0;
+  }
+
+  .tracking-intro,
+  .tracking-demo,
+  .seller-choice,
+  .market-box{
+    padding:25px;
+  }
+}
+
+@media(max-width:390px){
+
+  .quick-actions{
+    grid-template-columns:1fr;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .hero-actions a{
+    width:100%;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto !important;
+    transition:none !important;
+    animation:none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+
+      <a class="brand" href="#home">
+        <div class="brand-mark">MBG</div>
+
+        <div class="brand-text">
+          <strong>Maldives Business Gateway</strong>
+          <span>CONNECT • EMPOWER • PROSPER</span>
+        </div>
+      </a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        ☰
+      </button>
+
+      <div class="nav-links" id="navLinks">
+
+        <a href="#home">Home</a>
+
+        <a href="marketplace.html">
+          Shop
+        </a>
+
+        <a href="#track">
+          Track Order
+        </a>
+
+        <!-- SELL ON MBG NOW GOES DIRECTLY TO SELLER PORTAL -->
+        <a href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+          Sell on MBG
+        </a>
+
+        <a href="#about">
+          About
+        </a>
+
+        <!-- SELLER PORTAL -->
+        <a
+          class="nav-btn"
+          href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+          Seller Portal
+        </a>
+
+      </div>
+
+    </nav>
+  </div>
+</header>
+
+
+<main>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+  <div class="container hero-grid">
+
+    <div>
+
+      <span class="eyebrow">
+        ✦ MALDIVES BUSINESS GATEWAY
+      </span>
+
+      <h1>
+        Connecting Maldives to
+        <span>Opportunity.</span>
+      </h1>
+
+      <p>
+        One digital gateway for Maldivian businesses, entrepreneurs,
+        sellers and customers to connect, grow and discover new opportunities.
+      </p>
+
+      <div class="hero-actions">
+
+        <a class="primary-btn" href="marketplace.html">
+          🛍️ Shop Marketplace
+        </a>
+
+        <a class="secondary-btn" href="#track">
+          🔎 Track My Order
+        </a>
+
+      </div>
+
+
+      <div class="quick-actions">
+
+        <a class="quick-action" href="marketplace.html">
+          <span>🛍️</span>
+          Shop
+          <small>Browse marketplace</small>
+        </a>
+
+        <a class="quick-action" href="trackorder.html">
+          <span>🔎</span>
+          Track Order
+          <small>No account required</small>
+        </a>
+
+        <a class="quick-action" href="createbusiness.html">
+          <span>🚀</span>
+          Start Selling
+          <small>Create business account</small>
+        </a>
+
+        <!-- SELLER CENTER → NEW PORTAL -->
+        <a
+          class="quick-action"
+          href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+
+          <span>🏪</span>
+          Seller Portal
+          <small>Manage your store</small>
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- 3D VISUAL -->
+
+    <div class="hero-visual">
+
+      <div class="hero-card">
+
+        <div class="glow-ball"></div>
+
+        <div class="floating-card float-one">
+          🇲🇻 Built for Maldives
+        </div>
+
+        <div class="floating-card float-two">
+          🚀 Grow Your Business
+        </div>
+
+        <div class="islands">
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
+
+        <div class="hero-card-content">
+
+          <small>
+            Maldives • Business • Digital
+          </small>
+
+          <h2>
+            Your gateway to business growth.
+          </h2>
+
+          <p>
+            Build your presence, showcase what you offer
+            and make it easier for customers to discover your business.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= SERVICES ================= -->
+
+<section id="services">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <span>
+        WHAT MBG CAN BECOME
+      </span>
+
+      <h2>
+        Everything businesses need in one gateway
+      </h2>
+
+      <p>
+        We are building MBG step by step, starting simple
+        and expanding into a useful digital platform for businesses
+        across the Maldives.
+      </p>
+
+    </div>
+
+
+    <div class="cards">
+
+      <article class="card">
+
+        <div class="icon">🏪</div>
+
+        <h3>
+          Business Directory
+        </h3>
+
+        <p>
+          Help customers discover Maldivian businesses,
+          services, contact details and what each business offers.
+        </p>
+
+      </article>
+
+
+      <article class="card">
+
+        <div class="icon">🛍️</div>
+
+        <h3>
+          Online Marketplace
+        </h3>
+
+        <p>
+          Businesses can showcase products with images,
+          descriptions and their own ordering or payment links.
+        </p>
+
+      </article>
+
+
+      <article class="card">
+
+        <div class="icon">🤝</div>
+
+        <h3>
+          Business Connections
+        </h3>
+
+        <p>
+          Create new opportunities by connecting entrepreneurs,
+          customers, suppliers and service providers.
+        </p>
+
+      </article>
+
+
+      <article class="card">
+
+        <div class="icon">📣</div>
+
+        <h3>
+          Promote Your Business
+        </h3>
+
+        <p>
+          Give local businesses a professional digital space
+          to introduce their brand and reach more people.
+        </p>
+
+      </article>
+
+
+      <article class="card">
+
+        <div class="icon">💡</div>
+
+        <h3>
+          Digital Services
+        </h3>
+
+        <p>
+          Future MBG services can support websites, branding,
+          digital tools and other practical business needs.
+        </p>
+
+      </article>
+
+
+      <article class="card">
+
+        <div class="icon">🌊</div>
+
+        <h3>
+          Built for Maldives
+        </h3>
+
+        <p>
+          A platform designed around island businesses,
+          local entrepreneurs and opportunities throughout the country.
+        </p>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= MARKETPLACE ================= -->
+
+<section class="market" id="marketplace">
+
+  <div class="container market-grid">
+
+    <div class="market-copy">
+
+      <span class="eyebrow">
+        MBG MARKETPLACE
+      </span>
+
+      <h2>
+        Turn your products into an online storefront.
+      </h2>
+
+      <p>
+        Our marketplace concept keeps things simple:
+        businesses showcase their products on MBG while choosing
+        how they want customers to contact, order or pay them.
+      </p>
+
+      <a class="primary-btn" href="#join">
+        Start Selling
+      </a>
+
+    </div>
+
+
+    <div class="market-box">
+
+      <h3>
+        How it works
+      </h3>
+
+      <p>
+        A simple starting model that can grow as MBG develops.
+      </p>
+
+      <div class="steps">
+
+        <div class="step">
+          <b>1</b>
+          <span>Create your business profile.</span>
+        </div>
+
+        <div class="step">
+          <b>2</b>
+          <span>Add product image, title and description.</span>
+        </div>
+
+        <div class="step">
+          <b>3</b>
+          <span>Add your contact, order or payment link.</span>
+        </div>
+
+        <div class="step">
+          <b>4</b>
+          <span>Customers discover your products through MBG.</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= TRACKING ================= -->
+
+<section class="tracking-section" id="track">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <span>
+        GUEST ORDER TRACKING
+      </span>
+
+      <h2>
+        Ordered without an account?
+        You can still track it.
+      </h2>
+
+      <p>
+        After checkout MBG gives you two private details.
+        Save both — together they let you securely follow your order.
+      </p>
+
+    </div>
+
+
+    <div class="tracking-wrap">
+
+      <div class="tracking-intro">
+
+        <span class="eyebrow">
+          HOW TRACKING WORKS
+        </span>
+
+        <h2>
+          Two details. One secure order journey.
+        </h2>
+
+        <p>
+          Use your Order Reference and Private Access Code
+          to check payment verification, acceptance, shipping
+          information, delivery progress and dispute options.
+        </p>
+
+
+        <div class="buyer-promise">
+          <b>✓</b>
+          <span>
+            No MBG account is required for guest tracking.
+          </span>
+        </div>
+
+        <div class="buyer-promise">
+          <b>✓</b>
+          <span>
+            When shipped, you can see delivery method,
+            courier/boat/person, contact and tracking details
+            provided by the seller.
+          </span>
+        </div>
+
+        <div class="buyer-promise">
+          <b>✓</b>
+          <span>
+            Keep your Private Access Code confidential.
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="tracking-demo">
+
+        <h3>
+          🔎 Save these after ordering
+        </h3>
+
+        <p style="color:var(--muted)">
+          Example:
+        </p>
+
+
+        <div class="credential">
+
+          <small>
+            1️⃣ ORDER REFERENCE
+          </small>
+
+          <code>
+            8effdb40-486b-429d-8a56-6cd1ca26fb84
+          </code>
+
+        </div>
+
+
+        <div class="credential">
+
+          <small>
+            2️⃣ PRIVATE ACCESS CODE
+          </small>
+
+          <code>
+            MBG-YFH7-2D55-73GH
+          </code>
+
+        </div>
+
+
+        <div class="security-note">
+
+          🔐 <b>Important:</b>
+          These are examples only.
+          Save the unique details shown after
+          <b>your own</b> order and never share your
+          Private Access Code publicly.
+
+        </div>
+
+
+        <a class="primary-btn track-btn" href="trackorder.html">
+          🔎 TRACK MY ORDER
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= SELL ON MBG ================= -->
+
+<section id="sell">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <span>
+        SELL ON MBG
+      </span>
+
+      <h2>
+        Your business has a clear place to start.
+      </h2>
+
+      <p>
+        New business owners create their account first.
+        Existing sellers go directly to their Seller Control Center.
+      </p>
+
+    </div>
+
+
+    <div class="seller-gateway">
+
+
+      <!-- NEW BUSINESS -->
+
+      <div class="seller-choice new">
+
+        <div class="icon">
+          🚀
+        </div>
+
+        <h3>
+          New Business Owner
+        </h3>
+
+        <p>
+          Create your MBG business account and set up your store.
+        </p>
+
+        <a class="primary-btn" href="createbusiness.html">
+          Create Business Account
+        </a>
+
+      </div>
+
+
+      <!-- EXISTING SELLER -->
+
+      <div class="seller-choice existing">
+
+        <div class="icon">
+          🏪
+        </div>
+
+        <h3>
+          Already an MBG Seller?
+        </h3>
+
+        <p>
+          Manage products, customer orders, payment evidence,
+          shipping and disputes from your Seller Control Center.
+        </p>
+
+        <!-- NEW SELLER PORTAL LINK -->
+
+        <a
+          class="primary-btn"
+          href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+
+          🏪 Open Seller Portal
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <span>
+        OUR PURPOSE
+      </span>
+
+      <h2>
+        Connect • Empower • Prosper
+      </h2>
+
+      <p>
+        Maldives Business Gateway aims to create a simple
+        digital bridge between people, businesses and opportunities —
+        helping local businesses build a stronger online presence
+        and grow together.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section id="join" style="padding-top:10px">
+
+  <div class="container">
+
+    <div class="cta">
+
+      <h2>
+        Grow with Maldives Business Gateway
+      </h2>
+
+      <p>
+        MBG is being built step by step.
+        Join the journey and prepare your business
+        for a more connected digital future.
+      </p>
+
+      <a class="secondary-btn" href="mailto:info@mbg.mv">
+        Contact MBG
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <h3>
+          Maldives Business Gateway
+        </h3>
+
+        <p>
+          Connecting people, businesses and opportunities
+          across the Maldives.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Explore
+        </h4>
+
+        <a href="marketplace.html">
+          Shop Marketplace
+        </a>
+
+        <a href="trackorder.html">
+          Track My Order
+        </a>
+
+        <a href="#about">
+          About MBG
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Business
+        </h4>
+
+        <a href="createbusiness.html">
+          Create Business Account
+        </a>
+
+        <!-- NEW SELLER PORTAL -->
+
+        <a href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+          Seller Portal
+        </a>
+
+        <a href="admin.html" style="opacity:.55">
+          MBG Administration
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © <span id="year"></span>
+      Maldives Business Gateway.
+      All rights reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+
+menuBtn.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+
+});
+
+document.getElementById('year').textContent =
+  new Date().getFullYear();
+
+</script>
+
+</body>
+</html>
+```
