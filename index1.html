@@ -1,0 +1,2630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="Maldives Business Gateway - Shop products, discover Maldivian businesses and connect with local sellers.">
+
+<title>Maldives Business Gateway | MBG Marketplace</title>
+
+<style>
+:root{
+  --navy:#041f3d;
+  --deep:#062b55;
+  --blue:#0875bd;
+  --cyan:#12c7d4;
+  --aqua:#70f1f5;
+  --light:#f2fbfd;
+  --white:#fff;
+  --text:#18324a;
+  --muted:#66798a;
+  --line:#dcecf1;
+  --green:#0f9d78;
+  --orange:#ff8a00;
+  --shadow:0 22px 55px rgba(4,31,61,.14);
+  --shadow-soft:0 12px 30px rgba(4,31,61,.08);
+  --radius:24px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f9fb;
+  color:var(--text);
+}
+
+a{
+  color:inherit;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.container{
+  width:min(1200px,calc(100% - 32px));
+  margin:auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.siteHeader{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.headerInner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:22px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  text-decoration:none;
+  flex-shrink:0;
+}
+
+.brandLogo{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-weight:900;
+  font-size:19px;
+  background:
+    linear-gradient(135deg,var(--navy),var(--blue) 55%,var(--cyan));
+  box-shadow:0 8px 20px rgba(8,117,189,.24);
+}
+
+.brandText strong{
+  display:block;
+  font-size:19px;
+  color:var(--navy);
+  line-height:1.05;
+}
+
+.brandText span{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:1.3px;
+  font-weight:700;
+  margin-top:4px;
+}
+
+.searchBox{
+  flex:1;
+  max-width:530px;
+  position:relative;
+}
+
+.searchBox input{
+  width:100%;
+  height:46px;
+  border:1px solid #cfe0e8;
+  border-radius:999px;
+  padding:0 52px 0 18px;
+  outline:none;
+  background:#f8fcfd;
+  color:var(--text);
+  transition:.2s;
+}
+
+.searchBox input:focus{
+  border-color:var(--cyan);
+  background:white;
+  box-shadow:0 0 0 4px rgba(18,199,212,.10);
+}
+
+.searchButton{
+  position:absolute;
+  right:5px;
+  top:5px;
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:var(--navy);
+  color:white;
+}
+
+.headerActions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.headerBtn{
+  text-decoration:none;
+  padding:10px 13px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:800;
+  color:var(--navy);
+  transition:.2s;
+}
+
+.headerBtn:hover{
+  background:var(--light);
+}
+
+.headerBtn.primary{
+  background:var(--navy);
+  color:white;
+}
+
+.mobileMenuBtn{
+  display:none;
+  border:0;
+  background:var(--light);
+  color:var(--navy);
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  font-size:21px;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.marketNav{
+  border-top:1px solid rgba(220,236,241,.7);
+  background:white;
+}
+
+.navInner{
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  overflow-x:auto;
+}
+
+.navInner a{
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:800;
+  white-space:nowrap;
+  color:var(--text);
+}
+
+.navInner a:hover,
+.navInner a.active{
+  color:var(--blue);
+  background:#edf8fa;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  padding:34px 0 25px;
+}
+
+.heroBox{
+  min-height:390px;
+  border-radius:32px;
+  overflow:hidden;
+  position:relative;
+  background:
+    radial-gradient(circle at 85% 20%,rgba(112,241,245,.42),transparent 30%),
+    radial-gradient(circle at 70% 90%,rgba(18,199,212,.24),transparent 32%),
+    linear-gradient(125deg,#031b36,#064e82 60%,#079eaa);
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.heroBox:before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  right:-100px;
+  top:-180px;
+  border:70px solid rgba(255,255,255,.06);
+}
+
+.heroBox:after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  right:100px;
+  bottom:-210px;
+  border:55px solid rgba(255,255,255,.05);
+}
+
+.heroContent{
+  position:relative;
+  z-index:2;
+  width:62%;
+  padding:54px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+}
+
+.hero h1{
+  margin:18px 0 12px;
+  font-size:clamp(34px,5vw,58px);
+  line-height:1.02;
+  letter-spacing:-2px;
+}
+
+.hero h1 span{
+  color:var(--aqua);
+}
+
+.heroText{
+  max-width:650px;
+  color:rgba(255,255,255,.82);
+  line-height:1.7;
+  font-size:16px;
+}
+
+.heroButtons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:25px;
+}
+
+.heroBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 19px;
+  border-radius:13px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:14px;
+  transition:.2s;
+}
+
+.heroBtn:hover{
+  transform:translateY(-2px);
+}
+
+.heroBtn.white{
+  background:white;
+  color:var(--navy);
+}
+
+.heroBtn.glass{
+  color:white;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.22);
+}
+
+.heroStats{
+  display:flex;
+  gap:26px;
+  margin-top:32px;
+  flex-wrap:wrap;
+}
+
+.heroStat strong{
+  display:block;
+  font-size:22px;
+}
+
+.heroStat span{
+  display:block;
+  color:rgba(255,255,255,.65);
+  font-size:11px;
+  margin-top:3px;
+}
+
+/* floating marketplace visual */
+
+.heroVisual{
+  position:absolute;
+  right:45px;
+  top:50%;
+  transform:translateY(-50%);
+  width:310px;
+  z-index:3;
+}
+
+.marketCard{
+  background:rgba(255,255,255,.96);
+  border-radius:25px;
+  padding:17px;
+  color:var(--text);
+  box-shadow:0 25px 60px rgba(0,0,0,.22);
+  transform:rotate(2deg);
+}
+
+.marketCardTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:13px;
+}
+
+.marketCardTop strong{
+  color:var(--navy);
+}
+
+.liveBadge{
+  font-size:10px;
+  font-weight:900;
+  color:#087d61;
+  background:#e4f8f1;
+  padding:6px 8px;
+  border-radius:999px;
+}
+
+.visualProduct{
+  height:150px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  font-size:62px;
+  background:
+    linear-gradient(135deg,#e7f7fa,#d7edf5);
+  margin-bottom:13px;
+}
+
+.visualRows{
+  display:grid;
+  gap:9px;
+}
+
+.visualRow{
+  display:flex;
+  justify-content:space-between;
+  padding:9px 10px;
+  border-radius:11px;
+  background:#f5f9fb;
+  font-size:12px;
+  font-weight:700;
+}
+
+.visualRow span{
+  color:var(--muted);
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+  padding:25px 0;
+}
+
+.sectionHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.sectionTitle h2{
+  margin:0;
+  color:var(--navy);
+  font-size:25px;
+}
+
+.sectionTitle p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.viewAll{
+  text-decoration:none;
+  color:var(--blue);
+  font-weight:900;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+.viewAll:hover{
+  text-decoration:underline;
+}
+
+/* =========================================================
+   CATEGORY ROW
+========================================================= */
+
+.categoryRow{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+
+.categoryCard{
+  min-height:110px;
+  padding:16px 10px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:17px;
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  box-shadow:var(--shadow-soft);
+  transition:.2s;
+}
+
+.categoryCard:hover{
+  transform:translateY(-4px);
+  border-color:#b7dfe6;
+  box-shadow:0 18px 32px rgba(4,31,61,.10);
+}
+
+.categoryIcon{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  background:#edf9fa;
+  margin-bottom:8px;
+}
+
+.categoryName{
+  color:var(--navy);
+  font-size:12px;
+  font-weight:900;
+}
+
+/* =========================================================
+   PRODUCT GRID
+========================================================= */
+
+.productGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.productCard{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow-soft);
+  transition:.2s;
+}
+
+.productCard:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 35px rgba(4,31,61,.12);
+}
+
+.productImage{
+  width:100%;
+  height:205px;
+  object-fit:cover;
+  display:block;
+  background:#edf5f8;
+}
+
+.productPlaceholder{
+  width:100%;
+  height:205px;
+  display:grid;
+  place-items:center;
+  font-size:45px;
+  color:#8ca8b6;
+  background:
+    linear-gradient(135deg,#edf7f9,#e0eef3);
+}
+
+.productBody{
+  padding:14px;
+}
+
+.productTitle{
+  margin:0 0 7px;
+  color:var(--navy);
+  font-size:15px;
+  line-height:1.3;
+}
+
+.productSeller{
+  font-size:11px;
+  color:var(--muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.productPrice{
+  margin-top:9px;
+  font-size:18px;
+  font-weight:900;
+  color:var(--navy);
+}
+
+.productBottom{
+  margin-top:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:7px;
+}
+
+.productButton{
+  flex:1;
+  border:0;
+  min-height:37px;
+  border-radius:10px;
+  background:var(--blue);
+  color:white;
+  font-size:12px;
+  font-weight:900;
+}
+
+.shopButton{
+  border:0;
+  min-height:37px;
+  padding:0 11px;
+  border-radius:10px;
+  background:#edf7fa;
+  color:var(--navy);
+  font-size:12px;
+  font-weight:900;
+}
+
+/* =========================================================
+   BUSINESS GRID
+========================================================= */
+
+.businessGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.businessCard{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow-soft);
+  transition:.2s;
+}
+
+.businessCard:hover{
+  transform:translateY(-4px);
+}
+
+.businessCover{
+  height:115px;
+  background:
+    linear-gradient(135deg,#dff4f7,#d9edf6);
+  background-size:cover;
+  background-position:center;
+  position:relative;
+}
+
+.businessLogo{
+  width:67px;
+  height:67px;
+  object-fit:cover;
+  border-radius:18px;
+  position:absolute;
+  left:14px;
+  bottom:-30px;
+  border:4px solid white;
+  box-shadow:0 5px 18px rgba(0,0,0,.16);
+  background:#fff;
+}
+
+.businessBody{
+  padding:40px 14px 14px;
+}
+
+.businessName{
+  color:var(--navy);
+  font-weight:900;
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.businessMeta{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.businessButton{
+  display:block;
+  margin-top:12px;
+  padding:10px;
+  border-radius:10px;
+  text-align:center;
+  background:#edf7fa;
+  color:var(--navy);
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+}
+
+/* =========================================================
+   PROMO / TRUST
+========================================================= */
+
+.promo{
+  margin:30px 0;
+  padding:28px;
+  border-radius:25px;
+  background:
+    linear-gradient(120deg,var(--navy),#075d8b);
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.promo:after{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  right:-100px;
+  top:-130px;
+  border:55px solid rgba(255,255,255,.06);
+}
+
+.promoContent{
+  position:relative;
+  z-index:2;
+  max-width:700px;
+}
+
+.promo h2{
+  margin:0 0 8px;
+  font-size:25px;
+}
+
+.promo p{
+  margin:0;
+  color:rgba(255,255,255,.75);
+  line-height:1.6;
+  font-size:13px;
+}
+
+.promoButtons{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.smallWhiteBtn{
+  display:inline-flex;
+  padding:10px 14px;
+  background:white;
+  color:var(--navy);
+  border-radius:10px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+}
+
+.smallGlassBtn{
+  display:inline-flex;
+  padding:10px 14px;
+  background:rgba(255,255,255,.10);
+  color:white;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:10px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+}
+
+.trustGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.trustCard{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:18px;
+}
+
+.trustIcon{
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.trustCard strong{
+  display:block;
+  color:var(--navy);
+  margin-bottom:5px;
+  font-size:14px;
+}
+
+.trustCard p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.55;
+}
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.loadingBox,
+.emptyBox{
+  padding:35px;
+  text-align:center;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  color:var(--muted);
+}
+
+.loadingBox{
+  grid-column:1/-1;
+}
+
+.errorBox{
+  padding:20px;
+  background:#fff1f1;
+  border:1px solid #f0caca;
+  border-radius:15px;
+  color:#8b2424;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  margin-top:45px;
+  background:var(--navy);
+  color:white;
+}
+
+.footerMain{
+  padding:38px 0;
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:30px;
+}
+
+.footerBrand{
+  font-size:21px;
+  font-weight:900;
+}
+
+.footerText{
+  color:rgba(255,255,255,.62);
+  font-size:12px;
+  line-height:1.7;
+  margin-top:8px;
+  max-width:310px;
+}
+
+.footerCol h4{
+  margin:0 0 12px;
+  font-size:13px;
+}
+
+.footerCol a{
+  display:block;
+  text-decoration:none;
+  color:rgba(255,255,255,.65);
+  font-size:12px;
+  margin:8px 0;
+}
+
+.footerCol a:hover{
+  color:white;
+}
+
+.footerBottom{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:17px 0;
+  color:rgba(255,255,255,.55);
+  font-size:11px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .heroContent{
+    width:68%;
+    padding:42px;
+  }
+
+  .heroVisual{
+    right:25px;
+    width:270px;
+  }
+
+  .categoryRow{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .productGrid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .businessGrid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .trustGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .footerMain{
+    grid-template-columns:2fr 1fr 1fr;
+  }
+}
+
+@media(max-width:780px){
+
+  .headerInner{
+    min-height:68px;
+  }
+
+  .searchBox{
+    order:3;
+    width:100%;
+    max-width:none;
+    display:none;
+  }
+
+  .searchBox.mobileVisible{
+    display:block;
+  }
+
+  .headerInner{
+    flex-wrap:wrap;
+  }
+
+  .mobileMenuBtn{
+    display:block;
+  }
+
+  .headerActions{
+    display:none;
+  }
+
+  .brandText span{
+    display:none;
+  }
+
+  .marketNav{
+    display:none;
+  }
+
+  .marketNav.open{
+    display:block;
+  }
+
+  .navInner{
+    padding:7px 0;
+  }
+
+  .heroBox{
+    min-height:auto;
+  }
+
+  .heroContent{
+    width:100%;
+    padding:38px 25px 32px;
+  }
+
+  .heroVisual{
+    display:none;
+  }
+
+  .hero h1{
+    letter-spacing:-1px;
+  }
+
+  .productGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .businessGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .footerMain{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:520px){
+
+  .container{
+    width:min(100% - 22px,1200px);
+  }
+
+  .hero{
+    padding-top:18px;
+  }
+
+  .heroContent{
+    padding:31px 21px;
+  }
+
+  .hero h1{
+    font-size:36px;
+  }
+
+  .heroText{
+    font-size:14px;
+  }
+
+  .heroStats{
+    gap:18px;
+  }
+
+  .sectionTitle h2{
+    font-size:21px;
+  }
+
+  .categoryRow{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .productGrid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .businessGrid{
+    grid-template-columns:1fr;
+  }
+
+  .productImage,
+  .productPlaceholder{
+    height:155px;
+  }
+
+  .productBody{
+    padding:11px;
+  }
+
+  .productTitle{
+    font-size:13px;
+  }
+
+  .productPrice{
+    font-size:15px;
+  }
+
+  .productBottom{
+    display:block;
+  }
+
+  .productButton,
+  .shopButton{
+    width:100%;
+    margin-top:5px;
+  }
+
+  .trustGrid{
+    grid-template-columns:1fr;
+  }
+
+  .footerMain{
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+
+  .footerMain > div:first-child{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:370px){
+
+  .productGrid{
+    grid-template-columns:1fr;
+  }
+
+  .categoryRow{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="siteHeader">
+
+  <div class="container headerInner">
+
+    <a class="brand" href="index.html">
+
+      <div class="brandLogo">
+        MBG
+      </div>
+
+      <div class="brandText">
+        <strong>Maldives Business Gateway</strong>
+        <span>CONNECT • EMPOWER • PROSPER</span>
+      </div>
+
+    </a>
+
+
+    <div class="searchBox" id="searchBox">
+
+      <input
+        id="mainSearch"
+        type="search"
+        placeholder="Search products, businesses or categories…"
+        autocomplete="off">
+
+      <button
+        class="searchButton"
+        id="searchButton"
+        aria-label="Search">
+        🔍
+      </button>
+
+    </div>
+
+
+    <div class="headerActions">
+
+      <a
+        class="headerBtn"
+        href="stores/businesses.html">
+        🏪 Businesses
+      </a>
+
+      <a
+        class="headerBtn"
+        href="trackorder.html">
+        📦 Track Order
+      </a>
+
+      <a
+        class="headerBtn primary"
+        href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+        Sell on MBG
+      </a>
+
+    </div>
+
+
+    <button
+      class="mobileMenuBtn"
+      id="mobileSearchBtn"
+      aria-label="Search">
+      🔍
+    </button>
+
+    <button
+      class="mobileMenuBtn"
+      id="mobileNavBtn"
+      aria-label="Menu">
+      ☰
+    </button>
+
+  </div>
+
+
+  <nav class="marketNav" id="marketNav">
+
+    <div class="container navInner">
+
+      <a
+        href="index.html"
+        class="active">
+        🏠 Home
+      </a>
+
+      <a href="stores/stores.html">
+        🛍️ All Products
+      </a>
+
+      <a href="stores/businesses.html">
+        🏪 Businesses
+      </a>
+
+      <a href="#categories">
+        📂 Categories
+      </a>
+
+      <a href="trackorder.html">
+        📦 Track Order
+      </a>
+
+      <a href="createbusiness.html">
+        🚀 Start Selling
+      </a>
+
+      <a href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+        👤 Seller Portal
+      </a>
+
+      <a href="#about">
+        ℹ️ About MBG
+      </a>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="heroBox">
+
+      <div class="heroContent">
+
+        <div class="eyebrow">
+          🇲🇻 MALDIVES BUSINESS GATEWAY
+        </div>
+
+
+        <h1>
+          Discover.
+          <span>Shop.</span>
+          Connect.
+        </h1>
+
+
+        <p class="heroText">
+          Discover products from businesses across the Maldives.
+          Shop from local sellers, explore new businesses and
+          connect directly with the people behind the products.
+        </p>
+
+
+        <div class="heroButtons">
+
+          <a
+            class="heroBtn white"
+            href="stores/stores.html">
+            🛍️ Shop Products
+          </a>
+
+          <a
+            class="heroBtn glass"
+            href="stores/businesses.html">
+            🏪 Explore Businesses
+          </a>
+
+        </div>
+
+
+        <div class="heroStats">
+
+          <div class="heroStat">
+            <strong id="heroProductCount">—</strong>
+            <span>Products</span>
+          </div>
+
+          <div class="heroStat">
+            <strong id="heroBusinessCount">—</strong>
+            <span>Businesses</span>
+          </div>
+
+          <div class="heroStat">
+            <strong>🇲🇻</strong>
+            <span>Built for Maldives</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="heroVisual">
+
+        <div class="marketCard">
+
+          <div class="marketCardTop">
+
+            <strong>MBG Marketplace</strong>
+
+            <span class="liveBadge">
+              ● LIVE
+            </span>
+
+          </div>
+
+
+          <div class="visualProduct">
+            🛍️
+          </div>
+
+
+          <div class="visualRows">
+
+            <div class="visualRow">
+              <span>Local Products</span>
+              <b>✓</b>
+            </div>
+
+            <div class="visualRow">
+              <span>Maldivian Sellers</span>
+              <b>✓</b>
+            </div>
+
+            <div class="visualRow">
+              <span>Order Tracking</span>
+              <b>✓</b>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section
+  class="section"
+  id="categories">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          Shop by Category
+        </h2>
+
+        <p>
+          Explore products from different types of Maldivian businesses.
+        </p>
+
+      </div>
+
+      <a
+        class="viewAll"
+        href="stores/stores.html">
+        View All Products →
+      </a>
+
+    </div>
+
+
+    <div
+      class="categoryRow"
+      id="categoryGrid">
+
+      <div class="loadingBox">
+        Loading categories…
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FEATURED PRODUCTS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          ⭐ Featured Products
+        </h2>
+
+        <p>
+          Fresh products currently available from approved sellers.
+        </p>
+
+      </div>
+
+      <a
+        class="viewAll"
+        href="stores/stores.html">
+        View All →
+      </a>
+
+    </div>
+
+
+    <div
+      class="productGrid"
+      id="featuredProducts">
+
+      <div class="loadingBox">
+        Loading products…
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     MARKETPLACE PROMO
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="promo">
+
+      <div class="promoContent">
+
+        <h2>
+          Your business deserves to be discovered.
+        </h2>
+
+        <p>
+          Join MBG and put your products in front of customers
+          looking for businesses and products across the Maldives.
+        </p>
+
+
+        <div class="promoButtons">
+
+          <a
+            class="smallWhiteBtn"
+            href="createbusiness.html">
+            🚀 Create Business
+          </a>
+
+          <a
+            class="smallGlassBtn"
+            href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+            👤 Seller Portal
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     BUSINESSES
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          🏪 Discover Businesses
+        </h2>
+
+        <p>
+          Explore approved businesses and discover what they offer.
+        </p>
+
+      </div>
+
+      <a
+        class="viewAll"
+        href="stores/businesses.html">
+        View All Businesses →
+      </a>
+
+    </div>
+
+
+    <div
+      class="businessGrid"
+      id="featuredBusinesses">
+
+      <div class="loadingBox">
+        Loading businesses…
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     WHY MBG
+========================================================= -->
+
+<section
+  class="section"
+  id="about">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          Why Shop on MBG?
+        </h2>
+
+        <p>
+          Built to make local business and online shopping easier.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="trustGrid">
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          🇲🇻
+        </div>
+
+        <strong>
+          Built for Maldives
+        </strong>
+
+        <p>
+          A marketplace designed around Maldivian businesses,
+          customers and local commerce.
+        </p>
+
+      </div>
+
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          🏪
+        </div>
+
+        <strong>
+          Local Businesses
+        </strong>
+
+        <p>
+          Discover products and services from approved businesses
+          across the Maldives.
+        </p>
+
+      </div>
+
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          💳
+        </div>
+
+        <strong>
+          Direct Seller Payment
+        </strong>
+
+        <p>
+          Marketplace orders can use the seller's configured
+          payment methods.
+        </p>
+
+      </div>
+
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          🔐
+        </div>
+
+        <strong>
+          Order Tracking
+        </strong>
+
+        <p>
+          Keep your order reference and private access code
+          to securely track your order.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     QUICK ACTIONS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          MBG Services
+        </h2>
+
+        <p>
+          Everything you need in one gateway.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="trustGrid">
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          🛍️
+        </div>
+
+        <strong>
+          Online Marketplace
+        </strong>
+
+        <p>
+          Browse products from active approved sellers.
+        </p>
+
+        <a
+          class="viewAll"
+          href="stores/stores.html">
+          Shop Now →
+        </a>
+
+      </div>
+
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          🏢
+        </div>
+
+        <strong>
+          Business Directory
+        </strong>
+
+        <p>
+          Discover businesses and learn more about what they offer.
+        </p>
+
+        <a
+          class="viewAll"
+          href="stores/businesses.html">
+          Explore →
+        </a>
+
+      </div>
+
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          📦
+        </div>
+
+        <strong>
+          Track Your Order
+        </strong>
+
+        <p>
+          Use your order reference and private access code.
+        </p>
+
+        <a
+          class="viewAll"
+          href="trackorder.html">
+          Track Order →
+        </a>
+
+      </div>
+
+
+      <div class="trustCard">
+
+        <div class="trustIcon">
+          🚀
+        </div>
+
+        <strong>
+          Sell on MBG
+        </strong>
+
+        <p>
+          Start your business journey and reach more customers.
+        </p>
+
+        <a
+          class="viewAll"
+          href="createbusiness.html">
+          Start Selling →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+  <div class="container footerMain">
+
+    <div>
+
+      <div class="footerBrand">
+        Maldives Business Gateway
+      </div>
+
+      <div class="footerText">
+        Connecting people, businesses and opportunities
+        across the Maldives.
+        <br><br>
+        Connect • Empower • Prosper
+      </div>
+
+    </div>
+
+
+    <div class="footerCol">
+
+      <h4>
+        Marketplace
+      </h4>
+
+      <a href="stores/stores.html">
+        All Products
+      </a>
+
+      <a href="stores/businesses.html">
+        Businesses
+      </a>
+
+      <a href="#categories">
+        Categories
+      </a>
+
+    </div>
+
+
+    <div class="footerCol">
+
+      <h4>
+        Orders
+      </h4>
+
+      <a href="trackorder.html">
+        Track My Order
+      </a>
+
+      <a href="stores/stores.html">
+        Shop Products
+      </a>
+
+    </div>
+
+
+    <div class="footerCol">
+
+      <h4>
+        Business
+      </h4>
+
+      <a href="createbusiness.html">
+        Create Business Account
+      </a>
+
+      <a href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+        Seller Portal
+      </a>
+
+      <a href="admin.html">
+        Admin
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="footerBottom">
+
+    <div class="container">
+
+      © <span id="year"></span>
+      Maldives Business Gateway (MBG).
+      All rights reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     SUPABASE + MARKETPLACE JAVASCRIPT
+========================================================= -->
+
+<script type="module">
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  'https://ehavxdqegpoggrkoxypm.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+
+
+const {createClient} = await import(
+  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+);
+
+
+const sb = createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+const esc = value =>
+  String(value ?? '').replace(
+    /[&<>"]/g,
+    c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;'
+    }[c])
+  );
+
+
+let businesses = [];
+let products = [];
+
+
+/* =========================================================
+   CATEGORY ICONS
+========================================================= */
+
+function categoryIcon(category){
+
+  const c =
+    String(category || '').toLowerCase();
+
+  if(
+    c.includes('food') ||
+    c.includes('restaurant') ||
+    c.includes('cafe')
+  ){
+    return '🍽️';
+  }
+
+  if(
+    c.includes('fashion') ||
+    c.includes('clothing') ||
+    c.includes('wear')
+  ){
+    return '👕';
+  }
+
+  if(
+    c.includes('beauty') ||
+    c.includes('cosmetic') ||
+    c.includes('salon')
+  ){
+    return '💄';
+  }
+
+  if(
+    c.includes('electronic') ||
+    c.includes('technology') ||
+    c.includes('computer')
+  ){
+    return '💻';
+  }
+
+  if(
+    c.includes('jewel') ||
+    c.includes('gem')
+  ){
+    return '💎';
+  }
+
+  if(
+    c.includes('home') ||
+    c.includes('furniture')
+  ){
+    return '🏠';
+  }
+
+  if(
+    c.includes('health') ||
+    c.includes('medical')
+  ){
+    return '💚';
+  }
+
+  if(
+    c.includes('travel') ||
+    c.includes('tour')
+  ){
+    return '✈️';
+  }
+
+  if(
+    c.includes('service')
+  ){
+    return '🛠️';
+  }
+
+  return '🛍️';
+}
+
+
+/* =========================================================
+   LOAD MARKETPLACE DATA
+========================================================= */
+
+async function loadMarketplace(){
+
+  const [
+    businessResult,
+    productResult
+  ] = await Promise.all([
+
+    sb
+      .from('businesses')
+      .select(
+        'id,owner_id,name,slug,category,location,phone,description,order_link,logo_url,cover_url,primary_color,accent_color,status'
+      )
+      .eq('status','approved')
+      .order(
+        'created_at',
+        {ascending:false}
+      ),
+
+    sb
+      .from('products')
+      .select(
+        'id,business_id,title,description,price,image_url,active'
+      )
+      .eq('active',true)
+      .order(
+        'created_at',
+        {ascending:false}
+      )
+
+  ]);
+
+
+  if(
+    businessResult.error ||
+    productResult.error
+  ){
+
+    console.error(
+      businessResult.error ||
+      productResult.error
+    );
+
+
+    $('featuredProducts').innerHTML = `
+      <div class="errorBox">
+        Marketplace could not load.
+        Please refresh the page and try again.
+      </div>
+    `;
+
+
+    $('featuredBusinesses').innerHTML = `
+      <div class="errorBox">
+        Business directory could not load.
+      </div>
+    `;
+
+
+    return;
+
+  }
+
+
+  businesses =
+    businessResult.data || [];
+
+
+  products =
+    productResult.data || [];
+
+
+  updateCounts();
+
+  renderCategories();
+
+  renderFeaturedProducts();
+
+  renderFeaturedBusinesses();
+
+}
+
+
+/* =========================================================
+   COUNTS
+========================================================= */
+
+function updateCounts(){
+
+  $('heroProductCount').textContent =
+    products.length;
+
+
+  $('heroBusinessCount').textContent =
+    businesses.length;
+
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function renderCategories(){
+
+  const categories = [
+    ...new Set(
+      businesses
+        .map(b => b.category)
+        .filter(Boolean)
+    )
+  ].sort();
+
+
+  if(!categories.length){
+
+    $('categoryGrid').innerHTML = `
+      <div class="emptyBox">
+        Categories will appear here when businesses are added.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  /*
+    Show up to 6 categories on the homepage.
+    The complete category filtering system remains
+    inside stores/stores.html.
+  */
+
+  const visible =
+    categories.slice(0,6);
+
+
+  $('categoryGrid').innerHTML =
+    visible.map(category => `
+
+      <a
+        class="categoryCard"
+        href="stores/stores.html">
+
+        <div class="categoryIcon">
+          ${categoryIcon(category)}
+        </div>
+
+        <div class="categoryName">
+          ${esc(category)}
+        </div>
+
+      </a>
+
+    `).join('');
+
+
+  /*
+    If there are more categories,
+    add an "All Categories" card.
+  */
+
+  if(categories.length > 6){
+
+    $('categoryGrid').insertAdjacentHTML(
+      'beforeend',
+      `
+
+      <a
+        class="categoryCard"
+        href="stores/stores.html">
+
+        <div class="categoryIcon">
+          ➕
+        </div>
+
+        <div class="categoryName">
+          More Categories
+        </div>
+
+      </a>
+
+      `
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   FEATURED PRODUCTS
+========================================================= */
+
+function renderFeaturedProducts(){
+
+  /*
+    Homepage intentionally shows only a small selection.
+    The full catalogue remains in stores/stores.html.
+  */
+
+  const featured =
+    products.slice(0,8);
+
+
+  if(!featured.length){
+
+    $('featuredProducts').innerHTML = `
+      <div class="emptyBox">
+        No active products are available yet.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  $('featuredProducts').innerHTML =
+    featured.map(productCard).join('');
+
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+function productCard(p){
+
+  const seller =
+    businesses.find(
+      b => b.id === p.business_id
+    );
+
+
+  const productUrl =
+    `stores/stores.html#product=${encodeURIComponent(p.id)}`;
+
+
+  const shopUrl =
+    seller
+    ?
+    `stores/stores.html#shop=${encodeURIComponent(seller.slug || seller.id)}`
+    :
+    'stores/stores.html';
+
+
+  return `
+
+    <article class="productCard">
+
+
+      ${
+        p.image_url
+
+        ?
+
+        `
+        <a href="${productUrl}">
+          <img
+            class="productImage"
+            src="${esc(p.image_url)}"
+            alt="${esc(p.title)}"
+            loading="lazy">
+        </a>
+        `
+
+        :
+
+        `
+        <a
+          href="${productUrl}"
+          class="productPlaceholder"
+          style="text-decoration:none">
+          🛍️
+        </a>
+        `
+      }
+
+
+      <div class="productBody">
+
+
+        <a
+          href="${productUrl}"
+          style="text-decoration:none">
+
+          <h3 class="productTitle">
+            ${esc(p.title)}
+          </h3>
+
+        </a>
+
+
+        ${
+          seller
+
+          ?
+
+          `
+          <a
+            href="${shopUrl}"
+            class="productSeller"
+            style="text-decoration:none">
+
+            Sold by ${esc(seller.name)}
+
+          </a>
+          `
+
+          :
+
+          `
+          <div class="productSeller">
+            MBG Seller
+          </div>
+          `
+        }
+
+
+        <div class="productPrice">
+
+          ${
+            p.price != null
+
+            ?
+
+            `MVR ${Number(p.price).toFixed(2)}`
+
+            :
+
+            `Contact Seller`
+          }
+
+        </div>
+
+
+        <div class="productBottom">
+
+          <a
+            href="${productUrl}"
+            style="flex:1;text-decoration:none">
+
+            <button
+              class="productButton"
+              type="button">
+
+              View Product
+
+            </button>
+
+          </a>
+
+
+          ${
+            seller
+
+            ?
+
+            `
+            <a
+              href="${shopUrl}"
+              style="text-decoration:none">
+
+              <button
+                class="shopButton"
+                type="button">
+
+                Shop
+
+              </button>
+
+            </a>
+            `
+
+            :
+
+            ''
+          }
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   FEATURED BUSINESSES
+========================================================= */
+
+function renderFeaturedBusinesses(){
+
+  const featured =
+    businesses.slice(0,8);
+
+
+  if(!featured.length){
+
+    $('featuredBusinesses').innerHTML = `
+      <div class="emptyBox">
+        No approved businesses are available yet.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  $('featuredBusinesses').innerHTML =
+    featured.map(businessCard).join('');
+
+}
+
+
+/* =========================================================
+   BUSINESS CARD
+========================================================= */
+
+function businessCard(b){
+
+  const shopUrl =
+    `stores/stores.html#shop=${encodeURIComponent(b.slug || b.id)}`;
+
+
+  const coverStyle =
+    b.cover_url
+    ?
+    `background-image:url('${esc(b.cover_url)}');`
+    :
+    '';
+
+
+  return `
+
+    <article class="businessCard">
+
+
+      <div
+        class="businessCover"
+        style="${coverStyle}">
+
+        ${
+          b.logo_url
+
+          ?
+
+          `
+          <img
+            class="businessLogo"
+            src="${esc(b.logo_url)}"
+            alt="${esc(b.name)}"
+            loading="lazy">
+          `
+
+          :
+
+          `
+          <div
+            class="businessLogo"
+            style="
+              display:grid;
+              place-items:center;
+              font-weight:900;
+              color:#0875bd;
+              font-size:20px;
+            ">
+            ${esc(
+              String(b.name || 'MBG')
+                .trim()
+                .charAt(0)
+                .toUpperCase()
+            )}
+          </div>
+          `
+        }
+
+      </div>
+
+
+      <div class="businessBody">
+
+        <div class="businessName">
+          ${esc(b.name)}
+        </div>
+
+
+        <div class="businessMeta">
+
+          ${esc(b.category || 'Business')}
+
+          ${
+            b.location
+            ?
+            ` • ${esc(b.location)}`
+            :
+            ''
+          }
+
+        </div>
+
+
+        <a
+          class="businessButton"
+          href="${shopUrl}">
+
+          View Business →
+
+        </a>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   HOMEPAGE SEARCH
+========================================================= */
+
+function performSearch(){
+
+  const q =
+    $('mainSearch')
+      .value
+      .trim();
+
+
+  if(!q){
+
+    window.location.href =
+      'stores/stores.html';
+
+    return;
+
+  }
+
+
+  /*
+    Send the search term to the full marketplace.
+    stores.html will perform the actual filtering.
+  */
+
+  window.location.href =
+    `stores/stores.html?search=${encodeURIComponent(q)}`;
+
+}
+
+
+/* =========================================================
+   SEARCH EVENTS
+========================================================= */
+
+$('searchButton').onclick =
+  performSearch;
+
+
+$('mainSearch').addEventListener(
+  'keydown',
+  event => {
+
+    if(event.key === 'Enter'){
+
+      event.preventDefault();
+
+      performSearch();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE SEARCH
+========================================================= */
+
+$('mobileSearchBtn').onclick = () => {
+
+  $('searchBox')
+    .classList.toggle('mobileVisible');
+
+  if(
+    $('searchBox')
+      .classList
+      .contains('mobileVisible')
+  ){
+
+    $('mainSearch').focus();
+
+  }
+
+};
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+$('mobileNavBtn').onclick = () => {
+
+  $('marketNav')
+    .classList
+    .toggle('open');
+
+};
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+$('year').textContent =
+  new Date().getFullYear();
+
+
+/* =========================================================
+   START
+========================================================= */
+
+await loadMarketplace();
+
+</script>
+
+</body>
+</html>
