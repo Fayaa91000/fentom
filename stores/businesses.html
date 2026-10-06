@@ -1,14 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>MBG Marketplace — Businesses</title>
 
 <style>
-
 :root{
   --navy:#062b55;
   --blue:#0874a6;
@@ -19,9 +17,7 @@
   --muted:#667b8c
 }
 
-*{
-  box-sizing:border-box
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -31,12 +27,7 @@ body{
 }
 
 header{
-  background:linear-gradient(
-    135deg,
-    var(--navy),
-    var(--blue),
-    var(--teal)
-  );
+  background:linear-gradient(135deg,var(--navy),var(--blue),var(--teal));
   color:#fff;
   padding:22px 0
 }
@@ -132,11 +123,7 @@ input,select{
 
 .cover{
   height:150px;
-  background:linear-gradient(
-    135deg,
-    #e8f3f8,
-    #d9efef
-  );
+  background:linear-gradient(135deg,#e8f3f8,#d9efef);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -230,11 +217,7 @@ button,.btn{
 
 .shopBanner{
   height:220px;
-  background:linear-gradient(
-    135deg,
-    #e8f3f8,
-    #d9efef
-  );
+  background:linear-gradient(135deg,#e8f3f8,#d9efef);
   background-size:cover;
   background-position:center;
   position:relative
@@ -260,14 +243,6 @@ button,.btn{
   margin:0 0 5px
 }
 
-.shopBrand .brandBtn{
-  color:#fff!important
-}
-
-.shopBrand .brandPill{
-  color:#17324a
-}
-
 footer{
   margin-top:40px;
   background:var(--navy);
@@ -276,35 +251,19 @@ footer{
 }
 
 @media(max-width:780px){
-
-.grid{
-  grid-template-columns:1fr 1fr
-}
-
-.hero h1{
-  font-size:30px
-}
-
+  .grid{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:30px}
 }
 
 @media(max-width:520px){
-
-.grid,
-.controls{
-  grid-template-columns:1fr
+  .grid,.controls{grid-template-columns:1fr}
 }
-
-}
-
 </style>
-
 </head>
 
 <body>
 
-
 <header>
-
 <div class="wrap">
 
 <div class="brand">
@@ -316,40 +275,21 @@ Discover local businesses and products
 </div>
 
 <div class="nav">
-
-<a
-href="stores.html">
-🛍️ Products
-</a>
-
-<a
-class="active"
-href="businesses.html">
-🏪 Businesses
-</a>
-
+<a href="stores.html">🛍️ Products</a>
+<a class="active" href="businesses.html">🏪 Businesses</a>
 </div>
 
 </div>
-
 </header>
-
 
 <main class="wrap">
 
-
 <section class="hero">
 
-<h1>
-MBG Businesses
-</h1>
+<h1>MBG Businesses</h1>
 
 <p class="muted">
-
-Browse approved businesses
-and their active products
-across the Maldives.
-
+Browse approved businesses and their active products across the Maldives.
 </p>
 
 </section>
@@ -357,73 +297,41 @@ across the Maldives.
 
 <section id="marketView">
 
-
 <div class="controls">
 
 <input
 id="search"
-placeholder="Search businesses, categories or locations…"
+placeholder="Search businesses, products or locations…"
 >
 
 <select id="category">
-
-<option value="">
-All categories
-</option>
-
+<option value="">All categories</option>
 </select>
 
 </div>
 
-
-<div
-id="status"
-class="msg">
-
+<div id="status" class="msg">
 Loading businesses…
-
 </div>
-
 
 <div class="sectionTitle">
 
-<h2>
-🏪 All Registered Businesses
-</h2>
+<h2>🏪 All Registered Businesses</h2>
 
-<span
-id="businessCount"
-class="muted">
-</span>
+<span id="businessCount" class="muted"></span>
 
 </div>
 
-
-<div
-id="businesses"
-class="grid">
-</div>
-
+<div id="businesses" class="grid"></div>
 
 </section>
 
 
+<section id="shopView" style="display:none">
 
-<!-- SHOP VIEW -->
-
-<section
-id="shopView"
-style="display:none"
->
-
-<button
-id="back"
-class="secondary">
-
+<button id="back" class="secondary">
 ← Back to Businesses
-
 </button>
-
 
 <div
 id="shopInfo"
@@ -431,28 +339,17 @@ class="msg"
 style="margin-top:16px">
 </div>
 
-
 <div class="sectionTitle">
 
-<h2>
-Products
-</h2>
+<h2>Products</h2>
 
-<span
-id="shopCount"
-class="muted">
-</span>
+<span id="shopCount" class="muted"></span>
 
 </div>
 
-
-<div
-id="shopProducts"
-class="grid">
-</div>
+<div id="shopProducts" class="grid"></div>
 
 </section>
-
 
 </main>
 
@@ -461,15 +358,10 @@ class="grid">
 
 <div class="wrap">
 
-<b>
-Maldives Business Gateway
-</b>
+<b>Maldives Business Gateway</b>
 
-<div
-style="opacity:.8;margin-top:5px">
-
+<div style="opacity:.8;margin-top:5px">
 Connect • Empower • Prosper
-
 </div>
 
 </div>
@@ -477,44 +369,36 @@ Connect • Empower • Prosper
 </footer>
 
 
+<!-- IMPORTANT:
+     Use normal browser script instead of module import.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script type="module">
+<script>
 
-
-const URL =
+const SUPABASE_URL =
 'https://ehavxdqegpoggrkoxypm.supabase.co';
 
-
-const KEY =
+const SUPABASE_KEY =
 'sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
 
 
-const {
-createClient
-} =
-await import(
-'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-);
-
-
 const sb =
-createClient(
-URL,
-KEY
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
 const $ =
-x =>
-document.getElementById(x);
+id => document.getElementById(id);
 
 
 const esc =
 s =>
-String(s??'').replace(
+String(s ?? '').replace(
 /[&<>"]/g,
-c =>
-({
+c => ({
 '&':'&amp;',
 '<':'&lt;',
 '>':'&gt;',
@@ -526,33 +410,32 @@ c =>
 const safeColor =
 (value,fallback) =>
 /^#[0-9A-Fa-f]{6}$/.test(
-String(value||'')
+String(value || '')
 )
-?
-value
-:
-fallback;
+? value
+: fallback;
 
 
 let businesses = [];
-
 let products = [];
 
 
 
-/* =========================
-   LOAD
-========================= */
+/* ============================
+   LOAD EVERYTHING
+============================ */
 
-async function load(){
+async function loadMarketplace(){
 
-const [
-br,
-pr
-] =
-await Promise.all([
+$('status').style.display = 'block';
+$('status').className = 'msg';
+$('status').textContent = 'Loading businesses and products…';
 
-sb
+
+try{
+
+const businessResult =
+await sb
 .from('businesses')
 .select(
 'id,owner_id,name,slug,category,location,phone,description,order_link,logo_url,cover_url,primary_color,accent_color,status'
@@ -566,9 +449,25 @@ sb
 {
 ascending:false
 }
-),
+);
 
-sb
+
+if(businessResult.error){
+
+throw new Error(
+'Businesses: ' +
+businessResult.error.message
+);
+
+}
+
+
+businesses =
+businessResult.data || [];
+
+
+const productResult =
+await sb
 .from('products')
 .select(
 'id,business_id,title,description,price,image_url,active'
@@ -582,82 +481,106 @@ true
 {
 ascending:false
 }
-)
-
-]);
-
-
-if(
-br.error ||
-pr.error
-){
-
-$('status')
-.className =
-'msg error';
-
-$('status')
-.textContent =
-'Marketplace could not load: ' +
-(
-br.error?.message ||
-pr.error?.message
 );
 
-return;
+
+if(productResult.error){
+
+throw new Error(
+'Products: ' +
+productResult.error.message
+);
 
 }
 
 
-businesses =
-br.data || [];
-
 products =
-pr.data || [];
+productResult.data || [];
 
 
-const cats =
+console.log(
+'MBG businesses:',
+businesses
+);
+
+console.log(
+'MBG products:',
+products
+);
+
+
+const categories =
 [
 ...new Set(
 businesses
 .map(
-b=>b.category
+b => b.category
 )
 .filter(Boolean)
 )
 ].sort();
 
 
-$('category')
-.innerHTML =
+$('category').innerHTML =
 '<option value="">All categories</option>' +
 
-cats
+categories
 .map(
 c =>
-`<option>
-${esc(c)}
-</option>`
+`<option value="${esc(c)}">${esc(c)}</option>`
 )
 .join('');
 
 
-$('status')
-.style.display =
+$('status').style.display =
 'none';
 
 
-render();
+renderBusinesses();
+
+}
+
+catch(error){
+
+console.error(
+'MBG LOAD ERROR:',
+error
+);
+
+
+$('status').className =
+'msg error';
+
+
+$('status').innerHTML = `
+
+<b>
+Marketplace could not load.
+</b>
+
+<br><br>
+
+${esc(error.message)}
+
+<br><br>
+
+Open the browser console with
+<b>F12 → Console</b>
+if you need to inspect the error.
+
+`;
+
+}
 
 }
 
 
 
-/* =========================
+/* ============================
    FILTER
-========================= */
+============================ */
 
-function filtered(){
+function getFilteredBusinesses(){
 
 const q =
 $('search')
@@ -666,84 +589,85 @@ $('search')
 .toLowerCase();
 
 
-const cat =
+const category =
 $('category')
 .value;
 
 
 return businesses.filter(
-b =>
+business => {
 
-(
-!cat ||
-b.category === cat
-)
+const matchesCategory =
+!category ||
+business.category === category;
 
-&&
 
-(
+const matchesSearch =
 !q ||
 
 [
-b.name,
-b.category,
-b.location,
-b.description
+business.name,
+business.category,
+business.location,
+business.description
 ]
 .some(
-v =>
-String(v||'')
+value =>
+String(value || '')
 .toLowerCase()
 .includes(q)
-)
-
-)
-
 );
+
+
+return (
+matchesCategory &&
+matchesSearch
+);
+
+});
 
 }
 
 
 
-/* =========================
-   BUSINESS CARD RENDER
-========================= */
+/* ============================
+   RENDER BUSINESSES
+============================ */
 
-function render(){
+function renderBusinesses(){
 
-const bs =
-filtered();
+const list =
+getFilteredBusinesses();
 
 
 $('businessCount')
 .textContent =
-bs.length +
-' found';
+list.length + ' found';
 
 
 $('businesses').innerHTML =
 
-bs
-.map(
-b => {
+list.map(
+business => {
 
-const pc =
+const primary =
 safeColor(
-b.primary_color,
+business.primary_color,
 '#0F766E'
 );
 
-const ac =
+
+const accent =
 safeColor(
-b.accent_color,
+business.accent_color,
 '#2563EB'
 );
 
 
-const count =
+const productCount =
 products.filter(
 p =>
-p.business_id === b.id
+p.business_id === business.id
 ).length;
 
 
@@ -756,14 +680,14 @@ return `
 class="cover"
 
 ${
-b.cover_url
+business.cover_url
 
 ?
 
 `style="
-background-image:url('${esc(b.cover_url)}');
+background-image:url('${esc(business.cover_url)}');
 background-size:cover;
-background-position:center
+background-position:center;
 "`
 
 :
@@ -774,14 +698,14 @@ background-position:center
 >
 
 ${
-b.logo_url
+business.logo_url
 
 ?
 
 `<img
 class="logo"
-src="${esc(b.logo_url)}"
-alt=""
+src="${esc(business.logo_url)}"
+alt="${esc(business.name)}"
 >`
 
 :
@@ -796,10 +720,9 @@ alt=""
 <div class="body">
 
 
-<h3
-style="color:${pc}">
+<h3 style="color:${primary}">
 
-${esc(b.name)}
+${esc(business.name)}
 
 </h3>
 
@@ -807,7 +730,7 @@ ${esc(b.name)}
 <span class="pill">
 
 ${esc(
-b.category ||
+business.category ||
 'Business'
 )}
 
@@ -815,13 +738,13 @@ b.category ||
 
 
 ${
-b.location
+business.location
 
 ?
 
 `<span class="pill">
 
-${esc(b.location)}
+${esc(business.location)}
 
 </span>`
 
@@ -833,9 +756,8 @@ ${esc(b.location)}
 
 <span class="pill">
 
-${count}
-
-product${count===1?'':'s'}
+${productCount}
+product${productCount === 1 ? '' : 's'}
 
 </span>
 
@@ -843,7 +765,7 @@ product${count===1?'':'s'}
 <p class="muted">
 
 ${esc(
-b.description ||
+business.description ||
 ''
 )}
 
@@ -851,8 +773,8 @@ b.description ||
 
 
 <button
-style="background:${ac}"
-data-shop="${b.id}">
+style="background:${accent}"
+data-shop="${esc(business.id)}">
 
 View Shop
 
@@ -872,7 +794,7 @@ View Shop
 ||
 
 '<div class="msg">
-No businesses found.
+No approved businesses found.
 </div>';
 
 
@@ -881,74 +803,69 @@ document
 '[data-shop]'
 )
 .forEach(
-x =>
-x.onclick =
+button => {
+
+button.onclick =
 () =>
 openShop(
-x.dataset.shop
-)
+button.dataset.shop
+);
+
+}
 );
 
 }
 
 
 
-/* =========================
+/* ============================
    PRODUCT CARD
-========================= */
+============================ */
 
-function productCard(p){
+function productCard(product){
 
 return `
 
 <article class="card">
 
-
 ${
-p.image_url
+product.image_url
 
 ?
 
 `<img
 class="productImg"
-src="${esc(p.image_url)}"
-alt=""
+src="${esc(product.image_url)}"
+alt="${esc(product.title)}"
 >`
 
 :
 
-`<div
-class="productImg">
-</div>`
+`<div class="productImg"></div>`
 
 }
 
-
 <div class="body">
 
-
 <h3>
-
-${esc(p.title)}
-
+${esc(product.title)}
 </h3>
 
 
 <div class="price">
 
 ${
-p.price != null
+product.price != null
 
 ?
 
 'MVR ' +
-Number(p.price)
+Number(product.price)
 .toFixed(2)
 
 :
 
 'Contact seller'
-
 }
 
 </div>
@@ -957,7 +874,7 @@ Number(p.price)
 <p class="muted">
 
 ${esc(
-p.description ||
+product.description ||
 ''
 )}
 
@@ -966,12 +883,11 @@ p.description ||
 
 <a
 class="btn"
-href="stores.html#product=${encodeURIComponent(p.id)}">
+href="stores.html#product=${encodeURIComponent(product.id)}">
 
 View Product
 
 </a>
-
 
 </div>
 
@@ -983,20 +899,19 @@ View Product
 
 
 
-/* =========================
+/* ============================
    OPEN SHOP
-========================= */
+============================ */
 
 function openShop(id){
 
-const b =
+const business =
 businesses.find(
-x =>
-x.id === id
+b => b.id === id
 );
 
 
-if(!b)
+if(!business)
 return;
 
 
@@ -1010,22 +925,21 @@ $('shopView')
 'block';
 
 
-const pc =
+const primary =
 safeColor(
-b.primary_color,
+business.primary_color,
 '#0F766E'
 );
 
 
-const ac =
+const accent =
 safeColor(
-b.accent_color,
+business.accent_color,
 '#2563EB'
 );
 
 
-$('shopInfo')
-.className =
+$('shopInfo').className =
 'shopBrand';
 
 
@@ -1034,29 +948,29 @@ $('shopInfo').innerHTML = `
 <div
 class="shopBanner"
 
-style="${
-b.cover_url
+style="
 
+${
+business.cover_url
 ?
-
-`background-image:url('${esc(b.cover_url)}');`
-
+`background-image:url('${esc(business.cover_url)}');`
 :
-
 ''
 }
 
-background-color:${pc}22">
+background-color:${primary}22;
+
+">
 
 ${
-b.logo_url
+business.logo_url
 
 ?
 
 `<img
 class="shopBannerLogo"
-src="${esc(b.logo_url)}"
-alt=""
+src="${esc(business.logo_url)}"
+alt="${esc(business.name)}"
 >`
 
 :
@@ -1067,14 +981,12 @@ alt=""
 </div>
 
 
-<div
-class="shopBrandBody">
+<div class="shopBrandBody">
 
 
-<h2
-style="color:${pc}">
+<h2 style="color:${primary}">
 
-${esc(b.name)}
+${esc(business.name)}
 
 </h2>
 
@@ -1082,20 +994,15 @@ ${esc(b.name)}
 <div>
 
 ${esc(
-b.category ||
-''
+business.category || ''
 )}
 
 ${
-b.location
-
+business.location
 ?
-
 ' • ' +
-esc(b.location)
-
+esc(business.location)
 :
-
 ''
 }
 
@@ -1105,24 +1012,20 @@ esc(b.location)
 <p>
 
 ${esc(
-b.description ||
-''
+business.description || ''
 )}
 
 </p>
 
 
-<div>
-
 ${
-b.phone
+business.phone
 
 ?
 
-`<span
-class="pill brandPill">
+`<span class="pill">
 
-📞 ${esc(b.phone)}
+📞 ${esc(business.phone)}
 
 </span>`
 
@@ -1131,20 +1034,18 @@ class="pill brandPill">
 ''
 }
 
-</div>
-
 
 ${
-b.order_link
+business.order_link
 
 ?
 
 `<p>
 
 <a
-class="btn brandBtn"
-style="background:${ac}"
-href="${esc(b.order_link)}"
+class="btn"
+style="background:${accent}"
+href="${esc(business.order_link)}"
 target="_blank"
 rel="noopener noreferrer">
 
@@ -1178,31 +1079,29 @@ href="stores.html">
 `;
 
 
-const ps =
+const businessProducts =
 products.filter(
-p =>
-p.business_id === id
+product =>
+product.business_id === business.id
 );
 
 
 $('shopCount')
 .textContent =
-ps.length +
+businessProducts.length +
 ' product(s)';
 
 
 $('shopProducts').innerHTML =
 
-ps
+businessProducts
 .map(productCard)
 .join('')
 
 ||
 
 '<div class="msg">
-
 No active products available.
-
 </div>';
 
 
@@ -1211,8 +1110,8 @@ null,
 '',
 '#shop=' +
 encodeURIComponent(
-b.slug ||
-b.id
+business.slug ||
+business.id
 )
 );
 
@@ -1226,68 +1125,75 @@ behavior:'smooth'
 
 
 
-/* =========================
-   NAVIGATION
-========================= */
+/* ============================
+   EVENTS
+============================ */
 
-$('back')
-.onclick =
-() =>
+$('search').oninput =
+renderBusinesses;
+
+
+$('category').onchange =
+renderBusinesses;
+
+
+$('back').onclick =
+() => {
+
 location.href =
 'businesses.html';
 
-
-$('search')
-.oninput =
-render;
-
-
-$('category')
-.onchange =
-render;
+};
 
 
 
-/* =========================
-   INITIAL LOAD
-========================= */
+/* ============================
+   START
+============================ */
 
-await load();
+loadMarketplace();
 
 
-const shopParam =
-decodeURIComponent(
 
-(
+/* ============================
+   OPEN SHOP FROM HASH
+============================ */
+
+window.addEventListener(
+'load',
+() => {
+
+const match =
 location.hash.match(
 /^#shop=(.*)$/
-)
-||[]
-)[1] || ''
-
 );
 
 
-if(shopParam){
+if(!match)
+return;
 
-const b =
+
+const value =
+decodeURIComponent(
+match[1]
+);
+
+
+const business =
 businesses.find(
-x =>
-x.slug === shopParam ||
-x.id === shopParam
+b =>
+b.slug === value ||
+b.id === value
 );
 
 
-if(b){
-
+if(business)
 openShop(
-b.id
+business.id
 );
 
 }
-
-}
-
+);
 
 </script>
 
