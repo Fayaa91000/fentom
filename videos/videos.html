@@ -1,0 +1,3010 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="MBG Learning Center - Learn how to use Maldives Business Gateway through tutorials, guides, introduction and promotional videos.">
+
+<title>MBG Learning Center | Maldives Business Gateway</title>
+
+<style>
+
+:root{
+  --navy:#041f3d;
+  --deep:#062b55;
+  --blue:#0875bd;
+  --cyan:#12c7d4;
+  --aqua:#70f1f5;
+  --light:#f2fbfd;
+  --white:#fff;
+  --text:#18324a;
+  --muted:#66798a;
+  --line:#dcecf1;
+  --green:#0f9d78;
+  --orange:#ff8a00;
+  --shadow:0 22px 55px rgba(4,31,61,.14);
+  --shadow-soft:0 12px 30px rgba(4,31,61,.08);
+  --radius:24px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f9fb;
+  color:var(--text);
+}
+
+a{
+  color:inherit;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.container{
+  width:min(1200px,calc(100% - 32px));
+  margin:auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.siteHeader{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.headerInner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:22px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  text-decoration:none;
+  flex-shrink:0;
+}
+
+.brandLogo{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-weight:900;
+  font-size:19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--blue) 55%,
+      var(--cyan)
+    );
+
+  box-shadow:
+    0 8px 20px rgba(8,117,189,.24);
+}
+
+.brandText strong{
+  display:block;
+  font-size:19px;
+  color:var(--navy);
+  line-height:1.05;
+}
+
+.brandText span{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:1.3px;
+  font-weight:700;
+  margin-top:4px;
+}
+
+.searchBox{
+  flex:1;
+  max-width:530px;
+  position:relative;
+}
+
+.searchBox input{
+  width:100%;
+  height:46px;
+  border:1px solid #cfe0e8;
+  border-radius:999px;
+  padding:0 52px 0 18px;
+  outline:none;
+  background:#f8fcfd;
+  color:var(--text);
+  transition:.2s;
+}
+
+.searchBox input:focus{
+  border-color:var(--cyan);
+  background:white;
+
+  box-shadow:
+    0 0 0 4px rgba(18,199,212,.10);
+}
+
+.searchButton{
+  position:absolute;
+  right:5px;
+  top:5px;
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:var(--navy);
+  color:white;
+}
+
+.headerActions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.headerBtn{
+  text-decoration:none;
+  padding:10px 13px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:800;
+  color:var(--navy);
+  transition:.2s;
+}
+
+.headerBtn:hover{
+  background:var(--light);
+}
+
+.headerBtn.primary{
+  background:var(--navy);
+  color:white;
+}
+
+.mobileMenuBtn{
+  display:none;
+  border:0;
+  background:var(--light);
+  color:var(--navy);
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  font-size:21px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.marketNav{
+  border-top:1px solid rgba(220,236,241,.7);
+  background:white;
+}
+
+.navInner{
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  overflow-x:auto;
+}
+
+.navInner a{
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:800;
+  white-space:nowrap;
+  color:var(--text);
+}
+
+.navInner a:hover,
+.navInner a.active{
+  color:var(--blue);
+  background:#edf8fa;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  padding:34px 0 25px;
+}
+
+.heroBox{
+  min-height:365px;
+  border-radius:32px;
+  overflow:hidden;
+  position:relative;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(112,241,245,.42),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at 70% 90%,
+      rgba(18,199,212,.24),
+      transparent 32%
+    ),
+
+    linear-gradient(
+      125deg,
+      #031b36,
+      #064e82 60%,
+      #079eaa
+    );
+
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.heroBox:before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  right:-100px;
+  top:-180px;
+  border:70px solid rgba(255,255,255,.06);
+}
+
+.heroBox:after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  right:100px;
+  bottom:-210px;
+  border:55px solid rgba(255,255,255,.05);
+}
+
+.heroContent{
+  position:relative;
+  z-index:2;
+  width:62%;
+  padding:54px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+}
+
+.hero h1{
+  margin:18px 0 12px;
+  font-size:clamp(34px,5vw,58px);
+  line-height:1.02;
+  letter-spacing:-2px;
+}
+
+.hero h1 span{
+  color:var(--aqua);
+}
+
+.heroText{
+  max-width:650px;
+  color:rgba(255,255,255,.82);
+  line-height:1.7;
+  font-size:16px;
+}
+
+.heroButtons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:25px;
+}
+
+.heroBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 19px;
+  border-radius:13px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:14px;
+  transition:.2s;
+}
+
+.heroBtn:hover{
+  transform:translateY(-2px);
+}
+
+.heroBtn.white{
+  background:white;
+  color:var(--navy);
+}
+
+.heroBtn.glass{
+  color:white;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.22);
+}
+
+
+/* floating video visual */
+
+.heroVideoVisual{
+  position:absolute;
+  right:45px;
+  top:50%;
+  transform:translateY(-50%);
+  width:320px;
+  z-index:3;
+}
+
+.videoMiniCard{
+  background:rgba(255,255,255,.96);
+  border-radius:25px;
+  padding:15px;
+  color:var(--text);
+  box-shadow:0 25px 60px rgba(0,0,0,.22);
+  transform:rotate(2deg);
+}
+
+.videoMiniScreen{
+  height:175px;
+  border-radius:18px;
+
+  display:grid;
+  place-items:center;
+
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(112,241,245,.35),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #031b36,
+      #086da2
+    );
+
+  position:relative;
+  overflow:hidden;
+}
+
+.videoMiniScreen:before{
+  content:"";
+  position:absolute;
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  border:30px solid rgba(255,255,255,.06);
+}
+
+.playCircle{
+  position:relative;
+  z-index:2;
+  width:68px;
+  height:68px;
+  border-radius:50%;
+  background:white;
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+  font-size:27px;
+  padding-left:4px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.videoMiniInfo{
+  padding:13px 3px 3px;
+}
+
+.videoMiniInfo strong{
+  color:var(--navy);
+  font-size:15px;
+}
+
+.videoMiniInfo span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+  padding:25px 0;
+}
+
+.sectionHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.sectionTitle h2{
+  margin:0;
+  color:var(--navy);
+  font-size:25px;
+}
+
+.sectionTitle p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.viewAll{
+  text-decoration:none;
+  color:var(--blue);
+  font-weight:900;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+
+/* =========================================================
+   VIDEO SEARCH
+========================================================= */
+
+.videoSearchWrap{
+  margin-bottom:20px;
+}
+
+.videoSearch{
+  width:100%;
+  height:52px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:white;
+  padding:0 18px;
+  outline:none;
+  color:var(--text);
+  box-shadow:var(--shadow-soft);
+}
+
+.videoSearch:focus{
+  border-color:var(--cyan);
+
+  box-shadow:
+    0 0 0 4px rgba(18,199,212,.08);
+}
+
+
+/* =========================================================
+   CATEGORY FILTERS
+========================================================= */
+
+.filterRow{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.filterButton{
+  border:1px solid var(--line);
+  background:white;
+  color:var(--navy);
+  padding:9px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  transition:.2s;
+}
+
+.filterButton:hover{
+  border-color:#b5dce5;
+}
+
+.filterButton.active{
+  background:var(--navy);
+  color:white;
+  border-color:var(--navy);
+}
+
+
+/* =========================================================
+   FEATURED VIDEO
+========================================================= */
+
+.featuredVideo{
+  display:grid;
+  grid-template-columns:1.45fr 1fr;
+  gap:22px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:white;
+  box-shadow:var(--shadow-soft);
+}
+
+.featuredPlayer{
+  min-height:380px;
+  background:#021a31;
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+}
+
+.featuredPlayer video{
+  width:100%;
+  height:100%;
+  min-height:380px;
+  display:block;
+  object-fit:cover;
+  background:#021a31;
+}
+
+.featuredPlaceholder{
+  width:100%;
+  min-height:380px;
+
+  display:grid;
+  place-items:center;
+
+  text-align:center;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(18,199,212,.20),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #031b36,
+      #07527d
+    );
+
+  color:white;
+  padding:30px;
+}
+
+.featuredPlaceholder .bigPlay{
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:white;
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+  font-size:31px;
+  margin:0 auto 16px;
+}
+
+.featuredPlaceholder h3{
+  margin:0;
+  font-size:22px;
+}
+
+.featuredPlaceholder p{
+  color:rgba(255,255,255,.7);
+  font-size:13px;
+  line-height:1.6;
+  max-width:450px;
+  margin:9px auto 0;
+}
+
+.featuredInfo{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:15px;
+}
+
+.featuredBadge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#e7f8fa;
+  color:var(--blue);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.7px;
+}
+
+.featuredInfo h2{
+  margin:15px 0 9px;
+  color:var(--navy);
+  font-size:28px;
+  line-height:1.12;
+}
+
+.featuredInfo p{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.featuredMeta{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.metaPill{
+  padding:7px 10px;
+  border-radius:9px;
+  background:#f2f7f9;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+}
+
+.watchButton{
+  margin-top:18px;
+  border:0;
+  background:var(--blue);
+  color:white;
+  border-radius:12px;
+  padding:13px 17px;
+  font-size:13px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   VIDEO GRID
+========================================================= */
+
+.videoGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.videoCard{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:19px;
+  overflow:hidden;
+  box-shadow:var(--shadow-soft);
+  transition:.22s;
+}
+
+.videoCard:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 35px rgba(4,31,61,.12);
+}
+
+.videoThumb{
+  height:190px;
+  position:relative;
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(112,241,245,.22),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #031b36,
+      #086da2
+    );
+}
+
+.videoThumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.videoThumbOverlay{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(
+    rgba(4,31,61,.05),
+    rgba(4,31,61,.25)
+  );
+}
+
+.smallPlay{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:white;
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  padding-left:3px;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+}
+
+.videoDuration{
+  position:absolute;
+  right:9px;
+  bottom:9px;
+  padding:5px 7px;
+  border-radius:7px;
+  background:rgba(0,0,0,.75);
+  color:white;
+  font-size:10px;
+  font-weight:900;
+}
+
+.videoCategory{
+  position:absolute;
+  left:9px;
+  top:9px;
+  padding:6px 8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.94);
+  color:var(--blue);
+  font-size:9px;
+  font-weight:900;
+}
+
+.videoBody{
+  padding:15px;
+}
+
+.videoTitle{
+  margin:0;
+  color:var(--navy);
+  font-size:16px;
+  line-height:1.3;
+}
+
+.videoDescription{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.55;
+  margin:7px 0 0;
+
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.videoBottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-top:13px;
+}
+
+.videoWatch{
+  border:0;
+  background:#edf7fa;
+  color:var(--navy);
+  padding:9px 12px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.videoWatch:hover{
+  background:#dff2f6;
+}
+
+
+/* =========================================================
+   LEARNING PATH
+========================================================= */
+
+.learningGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.learningCard{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:19px;
+  box-shadow:var(--shadow-soft);
+  transition:.2s;
+}
+
+.learningCard:hover{
+  transform:translateY(-3px);
+}
+
+.learningNumber{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#edf8fa;
+  color:var(--blue);
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+.learningCard strong{
+  display:block;
+  color:var(--navy);
+  font-size:14px;
+}
+
+.learningCard p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.55;
+  margin:6px 0 0;
+}
+
+
+/* =========================================================
+   PROMO
+========================================================= */
+
+.promo{
+  margin:30px 0;
+  padding:30px;
+  border-radius:25px;
+
+  background:
+    linear-gradient(
+      120deg,
+      var(--navy),
+      #075d8b
+    );
+
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.promo:after{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  right:-100px;
+  top:-130px;
+  border:55px solid rgba(255,255,255,.06);
+}
+
+.promoContent{
+  position:relative;
+  z-index:2;
+  max-width:720px;
+}
+
+.promo h2{
+  margin:0 0 8px;
+  font-size:25px;
+}
+
+.promo p{
+  margin:0;
+  color:rgba(255,255,255,.75);
+  line-height:1.6;
+  font-size:13px;
+}
+
+.promoButtons{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.smallWhiteBtn,
+.smallGlassBtn{
+  display:inline-flex;
+  padding:10px 14px;
+  border-radius:10px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+}
+
+.smallWhiteBtn{
+  background:white;
+  color:var(--navy);
+}
+
+.smallGlassBtn{
+  background:rgba(255,255,255,.10);
+  color:white;
+  border:1px solid rgba(255,255,255,.2);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.emptyBox{
+  grid-column:1/-1;
+  padding:45px 25px;
+  text-align:center;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  color:var(--muted);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  margin-top:45px;
+  background:var(--navy);
+  color:white;
+}
+
+.footerMain{
+  padding:38px 0;
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:30px;
+}
+
+.footerBrand{
+  font-size:21px;
+  font-weight:900;
+}
+
+.footerText{
+  color:rgba(255,255,255,.62);
+  font-size:12px;
+  line-height:1.7;
+  margin-top:8px;
+  max-width:310px;
+}
+
+.footerCol h4{
+  margin:0 0 12px;
+  font-size:13px;
+}
+
+.footerCol a{
+  display:block;
+  text-decoration:none;
+  color:rgba(255,255,255,.65);
+  font-size:12px;
+  margin:8px 0;
+}
+
+.footerCol a:hover{
+  color:white;
+}
+
+.footerBottom{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:17px 0;
+  color:rgba(255,255,255,.55);
+  font-size:11px;
+}
+
+
+/* =========================================================
+   VIDEO MODAL
+========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  background:rgba(1,12,25,.88);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.open{
+  display:flex;
+}
+
+.modalBox{
+  width:min(950px,100%);
+  background:#061a2f;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+}
+
+.modalTop{
+  min-height:55px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 15px;
+  color:white;
+}
+
+.modalTitle{
+  font-size:14px;
+  font-weight:900;
+}
+
+.modalClose{
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:10px;
+  background:rgba(255,255,255,.1);
+  color:white;
+  font-size:20px;
+}
+
+.modalVideo{
+  width:100%;
+  max-height:75vh;
+  display:block;
+  background:#000;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .heroContent{
+    width:68%;
+    padding:42px;
+  }
+
+  .heroVideoVisual{
+    right:25px;
+    width:270px;
+  }
+
+  .videoGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .learningGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .footerMain{
+    grid-template-columns:2fr 1fr 1fr;
+  }
+}
+
+@media(max-width:780px){
+
+  .headerInner{
+    min-height:68px;
+    flex-wrap:wrap;
+  }
+
+  .searchBox{
+    order:3;
+    width:100%;
+    max-width:none;
+    display:none;
+  }
+
+  .searchBox.mobileVisible{
+    display:block;
+  }
+
+  .headerActions{
+    display:none;
+  }
+
+  .mobileMenuBtn{
+    display:block;
+  }
+
+  .brandText span{
+    display:none;
+  }
+
+  .marketNav{
+    display:none;
+  }
+
+  .marketNav.open{
+    display:block;
+  }
+
+  .navInner{
+    padding:7px 0;
+  }
+
+  .heroBox{
+    min-height:auto;
+  }
+
+  .heroContent{
+    width:100%;
+    padding:38px 25px 32px;
+  }
+
+  .heroVideoVisual{
+    display:none;
+  }
+
+  .featuredVideo{
+    grid-template-columns:1fr;
+  }
+
+  .featuredPlayer,
+  .featuredPlayer video,
+  .featuredPlaceholder{
+    min-height:300px;
+  }
+
+  .videoGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .footerMain{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:520px){
+
+  .container{
+    width:min(100% - 22px,1200px);
+  }
+
+  .hero{
+    padding-top:18px;
+  }
+
+  .heroContent{
+    padding:31px 21px;
+  }
+
+  .hero h1{
+    font-size:36px;
+  }
+
+  .heroText{
+    font-size:14px;
+  }
+
+  .sectionTitle h2{
+    font-size:21px;
+  }
+
+  .featuredInfo h2{
+    font-size:23px;
+  }
+
+  .videoGrid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .learningGrid{
+    grid-template-columns:1fr;
+  }
+
+  .videoThumb{
+    height:205px;
+  }
+
+  .footerMain{
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+
+  .footerMain > div:first-child{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:370px){
+
+  .hero h1{
+    font-size:32px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="siteHeader">
+
+  <div class="container headerInner">
+
+    <a
+      class="brand"
+      href="index.html">
+
+      <div class="brandLogo">
+        MBG
+      </div>
+
+      <div class="brandText">
+
+        <strong>
+          Maldives Business Gateway
+        </strong>
+
+        <span>
+          CONNECT • EMPOWER • PROSPER
+        </span>
+
+      </div>
+
+    </a>
+
+
+    <div
+      class="searchBox"
+      id="searchBox">
+
+      <input
+        id="headerSearch"
+        type="search"
+        placeholder="Search MBG videos…"
+        autocomplete="off">
+
+      <button
+        class="searchButton"
+        id="headerSearchButton"
+        aria-label="Search videos">
+
+        🔍
+
+      </button>
+
+    </div>
+
+
+    <div class="headerActions">
+
+      <a
+        class="headerBtn"
+        href="stores/businesses.html">
+
+        🏪 Businesses
+
+      </a>
+
+      <a
+        class="headerBtn"
+        href="trackorder.html">
+
+        📦 Track Order
+
+      </a>
+
+      <a
+        class="headerBtn primary"
+        href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+
+        Sell on MBG
+
+      </a>
+
+    </div>
+
+
+    <button
+      class="mobileMenuBtn"
+      id="mobileSearchBtn"
+      aria-label="Search">
+
+      🔍
+
+    </button>
+
+
+    <button
+      class="mobileMenuBtn"
+      id="mobileNavBtn"
+      aria-label="Menu">
+
+      ☰
+
+    </button>
+
+  </div>
+
+
+  <nav
+    class="marketNav"
+    id="marketNav">
+
+    <div class="container navInner">
+
+      <a href="index.html">
+        🏠 Home
+      </a>
+
+      <a href="stores/stores.html">
+        🛍️ All Products
+      </a>
+
+      <a href="stores/businesses.html">
+        🏪 Businesses
+      </a>
+
+      <a
+        href="video.html"
+        class="active">
+
+        🎓 Learn
+
+      </a>
+
+      <a href="trackorder.html">
+        📦 Track Order
+      </a>
+
+      <a href="createbusiness.html">
+        🚀 Start Selling
+      </a>
+
+      <a href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+        👤 Seller Portal
+      </a>
+
+      <a href="index.html#about">
+        ℹ️ About MBG
+      </a>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="heroBox">
+
+      <div class="heroContent">
+
+        <div class="eyebrow">
+          🎓 MBG LEARNING CENTER
+        </div>
+
+
+        <h1>
+
+          Learn.
+          <span>Build.</span>
+          Grow.
+
+        </h1>
+
+
+        <p class="heroText">
+
+          Learn how to use Maldives Business Gateway through
+          simple tutorials, step-by-step guides, business tips
+          and MBG introduction videos.
+
+        </p>
+
+
+        <div class="heroButtons">
+
+          <a
+            class="heroBtn white"
+            href="#videos">
+
+            ▶ Watch Videos
+
+          </a>
+
+
+          <a
+            class="heroBtn glass"
+            href="createbusiness.html">
+
+            🚀 Start Selling
+
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="heroVideoVisual">
+
+        <div class="videoMiniCard">
+
+          <div class="videoMiniScreen">
+
+            <div class="playCircle">
+              ▶
+            </div>
+
+          </div>
+
+
+          <div class="videoMiniInfo">
+
+            <strong>
+              Learn MBG
+            </strong>
+
+            <span>
+              Tutorials • Guides • Business Tips
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SEARCH
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          🎬 MBG Video Library
+        </h2>
+
+        <p>
+          Find tutorials, guides and videos to help you use MBG.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="videoSearchWrap">
+
+      <input
+        id="videoSearch"
+        class="videoSearch"
+        type="search"
+        placeholder="Search videos by title, topic or description…"
+        autocomplete="off">
+
+    </div>
+
+
+    <div
+      class="filterRow"
+      id="filterRow">
+
+      <!-- Filters generated automatically -->
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FEATURED VIDEO
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          ⭐ Featured Video
+        </h2>
+
+        <p>
+          Start here if you are new to Maldives Business Gateway.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="featuredVideo">
+
+      <div
+        class="featuredPlayer"
+        id="featuredPlayer">
+
+        <div class="featuredPlaceholder">
+
+          <div>
+
+            <div class="bigPlay">
+              ▶
+            </div>
+
+            <h3>
+              Welcome to MBG
+            </h3>
+
+            <p>
+              Your MBG introduction video will appear here.
+              Add your video URL in the video library below.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="featuredInfo">
+
+        <span class="featuredBadge">
+          START HERE
+        </span>
+
+
+        <h2 id="featuredTitle">
+          Welcome to Maldives Business Gateway
+        </h2>
+
+
+        <p id="featuredDescription">
+
+          Learn what MBG is, how the marketplace works,
+          and how businesses and customers can use the platform.
+
+        </p>
+
+
+        <div class="featuredMeta">
+
+          <span
+            class="metaPill"
+            id="featuredCategory">
+
+            Introduction
+
+          </span>
+
+          <span
+            class="metaPill"
+            id="featuredDuration">
+
+            Video
+
+          </span>
+
+        </div>
+
+
+        <button
+          class="watchButton"
+          id="featuredWatchButton"
+          type="button">
+
+          ▶ Watch Featured Video
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     VIDEO LIBRARY
+========================================================= -->
+
+<section
+  class="section"
+  id="videos">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          📚 Learn with MBG
+        </h2>
+
+        <p>
+          Choose a topic and learn at your own pace.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="videoGrid"
+      id="videoGrid">
+
+      <!-- Videos generated by JavaScript -->
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LEARNING PATH
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="sectionHeader">
+
+      <div class="sectionTitle">
+
+        <h2>
+          🧭 Recommended Learning Path
+        </h2>
+
+        <p>
+          New to MBG? Follow these steps.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="learningGrid">
+
+
+      <div class="learningCard">
+
+        <div class="learningNumber">
+          01
+        </div>
+
+        <strong>
+          Discover MBG
+        </strong>
+
+        <p>
+          Understand what Maldives Business Gateway is
+          and how the marketplace works.
+        </p>
+
+      </div>
+
+
+      <div class="learningCard">
+
+        <div class="learningNumber">
+          02
+        </div>
+
+        <strong>
+          Create Your Business
+        </strong>
+
+        <p>
+          Learn how to create your business profile
+          and present your business professionally.
+        </p>
+
+      </div>
+
+
+      <div class="learningCard">
+
+        <div class="learningNumber">
+          03
+        </div>
+
+        <strong>
+          Add Your Products
+        </strong>
+
+        <p>
+          Learn how to add products, descriptions,
+          prices and images.
+        </p>
+
+      </div>
+
+
+      <div class="learningCard">
+
+        <div class="learningNumber">
+          04
+        </div>
+
+        <strong>
+          Grow Your Business
+        </strong>
+
+        <p>
+          Learn how to use MBG to reach more customers
+          and promote your business.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROMO
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="promo">
+
+      <div class="promoContent">
+
+        <h2>
+          Ready to bring your business to MBG?
+        </h2>
+
+        <p>
+          Create your business profile, add your products
+          and start reaching customers through the Maldives
+          Business Gateway.
+        </p>
+
+
+        <div class="promoButtons">
+
+          <a
+            class="smallWhiteBtn"
+            href="createbusiness.html">
+
+            🚀 Create Business
+
+          </a>
+
+
+          <a
+            class="smallGlassBtn"
+            href="stores/stores.html">
+
+            🛍️ Explore Marketplace
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+
+<!-- =========================================================
+     VIDEO MODAL
+========================================================= -->
+
+<div
+  class="modal"
+  id="videoModal">
+
+  <div class="modalBox">
+
+    <div class="modalTop">
+
+      <div
+        class="modalTitle"
+        id="modalTitle">
+
+        MBG Video
+
+      </div>
+
+
+      <button
+        class="modalClose"
+        id="modalClose"
+        type="button"
+        aria-label="Close">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <video
+      class="modalVideo"
+      id="modalVideo"
+      controls
+      playsinline>
+
+    </video>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+  <div class="container footerMain">
+
+
+    <div>
+
+      <div class="footerBrand">
+        Maldives Business Gateway
+      </div>
+
+
+      <div class="footerText">
+
+        Connecting people, businesses and opportunities
+        across the Maldives.
+
+        <br><br>
+
+        Connect • Empower • Prosper
+
+      </div>
+
+    </div>
+
+
+    <div class="footerCol">
+
+      <h4>
+        Marketplace
+      </h4>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="stores/stores.html">
+        All Products
+      </a>
+
+      <a href="stores/businesses.html">
+        Businesses
+      </a>
+
+    </div>
+
+
+    <div class="footerCol">
+
+      <h4>
+        Learn
+      </h4>
+
+      <a href="video.html">
+        Video Tutorials
+      </a>
+
+      <a href="#videos">
+        Video Library
+      </a>
+
+      <a href="createbusiness.html">
+        Start Selling
+      </a>
+
+    </div>
+
+
+    <div class="footerCol">
+
+      <h4>
+        Business
+      </h4>
+
+      <a href="createbusiness.html">
+        Create Business Account
+      </a>
+
+      <a href="https://fayaa91000.github.io/fentom/business/seller-main.html">
+        Seller Portal
+      </a>
+
+      <a href="admin.html">
+        Admin
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="footerBottom">
+
+    <div class="container">
+
+      © <span id="year"></span>
+      Maldives Business Gateway (MBG).
+      All rights reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   MBG VIDEO LIBRARY
+=========================================================
+
+   ADD YOUR VIDEOS HERE.
+
+   IMPORTANT:
+
+   Replace the example video URLs with your real
+   Cloudflare Stream / video hosting URLs.
+
+   Example:
+
+   videoUrl:
+   "https://customer-xxxxx.cloudflarestream.com/VIDEO-ID/manifest/video.m3u8"
+
+   OR a normal MP4:
+
+   videoUrl:
+   "https://example.com/my-video.mp4"
+
+   thumbnail:
+   "https://example.com/thumbnail.jpg"
+
+========================================================= */
+
+
+const videos = [
+
+  {
+    id:1,
+
+    title:
+      "Welcome to Maldives Business Gateway",
+
+    description:
+      "Learn what MBG is, how the marketplace works and how businesses and customers can use the platform.",
+
+    category:
+      "Introduction",
+
+    duration:
+      "Start Here",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      true
+
+  },
+
+
+  {
+    id:2,
+
+    title:
+      "How to Create Your MBG Business",
+
+    description:
+      "Learn step by step how to create your business profile and get your business ready for the MBG marketplace.",
+
+    category:
+      "For Businesses",
+
+    duration:
+      "Tutorial",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:3,
+
+    title:
+      "How to Add Products",
+
+    description:
+      "Learn how to add your products, product images, prices and descriptions to your MBG store.",
+
+    category:
+      "For Sellers",
+
+    duration:
+      "Tutorial",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:4,
+
+    title:
+      "How Customers Find Your Business",
+
+    description:
+      "Understand how customers can discover your business and products through MBG.",
+
+    category:
+      "Marketplace",
+
+    duration:
+      "Guide",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:5,
+
+    title:
+      "How Customers Find Products",
+
+    description:
+      "Learn how customers can browse products, discover sellers and explore different businesses.",
+
+    category:
+      "For Customers",
+
+    duration:
+      "Guide",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:6,
+
+    title:
+      "How to Contact a Seller",
+
+    description:
+      "Learn how customers can contact businesses directly about their products and orders.",
+
+    category:
+      "For Customers",
+
+    duration:
+      "Guide",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:7,
+
+    title:
+      "How to Track Your MBG Order",
+
+    description:
+      "Learn how to use your order reference and private access code to track an order.",
+
+    category:
+      "Orders",
+
+    duration:
+      "Tutorial",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:8,
+
+    title:
+      "Tips for Growing Your MBG Business",
+
+    description:
+      "Practical tips to help businesses present their products better and reach more customers.",
+
+    category:
+      "Business Tips",
+
+    duration:
+      "Tips",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  },
+
+
+  {
+    id:9,
+
+    title:
+      "MBG Promotional Video",
+
+    description:
+      "A promotional introduction to the Maldives Business Gateway and the opportunities it creates for local businesses.",
+
+    category:
+      "Promotion",
+
+    duration:
+      "Promo",
+
+    videoUrl:
+      "",
+
+    thumbnail:
+      "",
+
+    featured:
+      false
+
+  }
+
+];
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const videoGrid =
+  document.getElementById("videoGrid");
+
+const filterRow =
+  document.getElementById("filterRow");
+
+const videoSearch =
+  document.getElementById("videoSearch");
+
+const headerSearch =
+  document.getElementById("headerSearch");
+
+const videoModal =
+  document.getElementById("videoModal");
+
+const modalVideo =
+  document.getElementById("modalVideo");
+
+const modalTitle =
+  document.getElementById("modalTitle");
+
+const modalClose =
+  document.getElementById("modalClose");
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function esc(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"]/g,
+      c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;"
+      }[c])
+    );
+
+}
+
+
+/* =========================================================
+   CURRENT FILTER
+========================================================= */
+
+let currentCategory =
+  "All";
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function renderFilters(){
+
+  const categories = [
+
+    "All",
+
+    ...new Set(
+      videos.map(video => video.category)
+    )
+
+  ];
+
+
+  filterRow.innerHTML =
+    categories.map(category => `
+
+      <button
+        type="button"
+        class="filterButton ${
+          category === currentCategory
+            ? "active"
+            : ""
+        }"
+        data-category="${esc(category)}">
+
+        ${esc(category)}
+
+      </button>
+
+    `).join("");
+
+
+  filterRow
+    .querySelectorAll(".filterButton")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          currentCategory =
+            button.dataset.category;
+
+          renderFilters();
+
+          renderVideos();
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   THUMBNAIL
+========================================================= */
+
+function thumbnailHTML(video){
+
+  if(video.thumbnail){
+
+    return `
+
+      <img
+        src="${esc(video.thumbnail)}"
+        alt="${esc(video.title)}"
+        loading="lazy">
+
+    `;
+
+  }
+
+
+  return `
+
+    <div
+      style="
+        width:100%;
+        height:100%;
+        display:grid;
+        place-items:center;
+        font-size:50px;
+        color:white;
+      ">
+
+      🎓
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   VIDEO CARD
+========================================================= */
+
+function videoCard(video){
+
+  return `
+
+    <article class="videoCard">
+
+      <div class="videoThumb">
+
+        ${thumbnailHTML(video)}
+
+
+        <div class="videoThumbOverlay">
+
+          <button
+            class="smallPlay"
+            type="button"
+            data-video-id="${video.id}"
+            aria-label="Watch ${esc(video.title)}">
+
+            ▶
+
+          </button>
+
+        </div>
+
+
+        <div class="videoCategory">
+
+          ${esc(video.category)}
+
+        </div>
+
+
+        <div class="videoDuration">
+
+          ${esc(video.duration)}
+
+        </div>
+
+      </div>
+
+
+      <div class="videoBody">
+
+        <h3 class="videoTitle">
+
+          ${esc(video.title)}
+
+        </h3>
+
+
+        <p class="videoDescription">
+
+          ${esc(video.description)}
+
+        </p>
+
+
+        <div class="videoBottom">
+
+          <span
+            style="
+              color:#8a9aa6;
+              font-size:10px;
+              font-weight:800;
+            ">
+
+            MBG Learning
+
+          </span>
+
+
+          <button
+            class="videoWatch"
+            type="button"
+            data-video-id="${video.id}">
+
+            ▶ Watch
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER VIDEOS
+========================================================= */
+
+function renderVideos(){
+
+  const query =
+    videoSearch
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const filtered =
+    videos.filter(video => {
+
+      const categoryMatch =
+        currentCategory === "All" ||
+        video.category === currentCategory;
+
+
+      const searchMatch =
+        !query ||
+
+        video.title
+          .toLowerCase()
+          .includes(query) ||
+
+        video.description
+          .toLowerCase()
+          .includes(query) ||
+
+        video.category
+          .toLowerCase()
+          .includes(query);
+
+
+      return categoryMatch && searchMatch;
+
+    });
+
+
+  if(!filtered.length){
+
+    videoGrid.innerHTML = `
+
+      <div class="emptyBox">
+
+        🔎
+
+        <br><br>
+
+        No videos found.
+
+        <br>
+
+        Try another search or category.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  videoGrid.innerHTML =
+    filtered
+      .map(videoCard)
+      .join("");
+
+
+  videoGrid
+    .querySelectorAll(
+      "[data-video-id]"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const id =
+            Number(button.dataset.videoId);
+
+          openVideo(id);
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   FEATURED VIDEO
+========================================================= */
+
+function setupFeatured(){
+
+  const featured =
+    videos.find(
+      video => video.featured
+    ) || videos[0];
+
+
+  if(!featured){
+    return;
+  }
+
+
+  document.getElementById(
+    "featuredTitle"
+  ).textContent =
+    featured.title;
+
+
+  document.getElementById(
+    "featuredDescription"
+  ).textContent =
+    featured.description;
+
+
+  document.getElementById(
+    "featuredCategory"
+  ).textContent =
+    featured.category;
+
+
+  document.getElementById(
+    "featuredDuration"
+  ).textContent =
+    featured.duration;
+
+
+  document.getElementById(
+    "featuredWatchButton"
+  ).onclick =
+    () => openVideo(featured.id);
+
+
+  const player =
+    document.getElementById(
+      "featuredPlayer"
+    );
+
+
+  if(featured.videoUrl){
+
+    player.innerHTML = `
+
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster="${esc(featured.thumbnail || "")}">
+
+        <source
+          src="${esc(featured.videoUrl)}">
+
+        Your browser does not support video playback.
+
+      </video>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   OPEN VIDEO MODAL
+========================================================= */
+
+function openVideo(id){
+
+  const video =
+    videos.find(
+      item => item.id === id
+    );
+
+
+  if(!video){
+    return;
+  }
+
+
+  if(!video.videoUrl){
+
+    alert(
+      "This video has not been uploaded yet. Add the video URL in the video library section of video.html."
+    );
+
+    return;
+
+  }
+
+
+  modalTitle.textContent =
+    video.title;
+
+
+  modalVideo.src =
+    video.videoUrl;
+
+
+  videoModal.classList.add(
+    "open"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+
+  modalVideo.play().catch(
+    () => {}
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE VIDEO
+========================================================= */
+
+function closeVideo(){
+
+  modalVideo.pause();
+
+  modalVideo.removeAttribute(
+    "src"
+  );
+
+  modalVideo.load();
+
+  videoModal.classList.remove(
+    "open"
+  );
+
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+modalClose.onclick =
+  closeVideo;
+
+
+videoModal.addEventListener(
+  "click",
+  event => {
+
+    if(event.target === videoModal){
+
+      closeVideo();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Escape" &&
+      videoModal.classList.contains("open")
+    ){
+
+      closeVideo();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function syncSearch(value){
+
+  videoSearch.value =
+    value;
+
+  renderVideos();
+
+  document
+    .getElementById("videos")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+videoSearch.addEventListener(
+  "input",
+  () => renderVideos()
+);
+
+
+headerSearch.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Enter"){
+
+      event.preventDefault();
+
+      syncSearch(
+        headerSearch.value
+      );
+
+    }
+
+  }
+);
+
+
+document
+  .getElementById(
+    "headerSearchButton"
+  )
+  .onclick =
+  () => {
+
+    syncSearch(
+      headerSearch.value
+    );
+
+  };
+
+
+/* =========================================================
+   MOBILE SEARCH
+========================================================= */
+
+document
+  .getElementById(
+    "mobileSearchBtn"
+  )
+  .onclick =
+  () => {
+
+    const box =
+      document.getElementById(
+        "searchBox"
+      );
+
+
+    box.classList.toggle(
+      "mobileVisible"
+    );
+
+
+    if(
+      box.classList.contains(
+        "mobileVisible"
+      )
+    ){
+
+      headerSearch.focus();
+
+    }
+
+  };
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+document
+  .getElementById(
+    "mobileNavBtn"
+  )
+  .onclick =
+  () => {
+
+    document
+      .getElementById(
+        "marketNav"
+      )
+      .classList.toggle(
+        "open"
+      );
+
+  };
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+  "year"
+).textContent =
+  new Date().getFullYear();
+
+
+/* =========================================================
+   START
+========================================================= */
+
+renderFilters();
+
+renderVideos();
+
+setupFeatured();
+
+</script>
+
+</body>
+</html>
+```
