@@ -93,6 +93,30 @@ button,.btn{display:inline-block;border:0;border-radius:999px;padding:10px 14px;
 .galleryCount{position:absolute;right:12px;bottom:12px;background:#062b55d9;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:bold}
 .shareRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 
+.checkoutSummary{
+background:#f8fcfd;
+border:1px solid var(--line);
+border-radius:14px;
+padding:15px;
+margin:14px 0;
+}
+
+.checkoutSummaryRow{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:6px 0;
+}
+
+.checkoutSummaryRow.totalRow{
+border-top:1px solid var(--line);
+margin-top:7px;
+padding-top:12px;
+font-size:20px;
+font-weight:800;
+color:var(--navy);
+}
+
 footer{margin-top:40px;background:var(--navy);color:#fff;padding:24px 0}
 
 @media(max-width:780px){
@@ -255,12 +279,43 @@ min="1"
 max="100"
 value="1">
 
-<div class="price">
+<div class="checkoutSummary">
 
-Total:
+<div class="checkoutSummaryRow">
+
+<span>
+Subtotal
+</span>
+
+<b id="checkoutSubtotal">
+MVR 0.00
+</b>
+
+</div>
+
+<div class="checkoutSummaryRow">
+
+<span>
+Delivery Fee
+</span>
+
+<b id="checkoutDeliveryFee">
+MVR 0.00
+</b>
+
+</div>
+
+<div class="checkoutSummaryRow totalRow">
+
+<span>
+Total
+</span>
+
 <span id="checkoutTotal">
 MVR 0.00
 </span>
+
+</div>
 
 </div>
 
@@ -484,7 +539,6 @@ $('category').innerHTML=
 cats
 .map(c=>`<option>${esc(c)}</option>`)
 .join('');
-
 
 $('status').style.display='none';
 
@@ -1413,7 +1467,7 @@ error
 }=await sb
 .from('seller_payment_settings')
 .select(
-'bank_transfer_enabled,bank_name,bank_account_name,bank_account_number,online_payment_enabled,payment_gateway_name,payment_gateway_url'
+'bank_transfer_enabled,bank_name,bank_account_name,bank_account_number,online_payment_enabled,payment_gateway_name,payment_gateway_url,delivery_fee'
 )
 .eq('business_id',b.id)
 .maybeSingle();
@@ -1464,6 +1518,8 @@ $('paymentOptions').textContent=
 'This seller has not configured a customer payment method yet.';
 
 $('placeOrder').disabled=true;
+
+updateTotal();
 
 return;
 
@@ -1535,6 +1591,8 @@ showSelectedPayment
 
 
 showSelectedPayment();
+
+updateTotal();
 
 }
 
@@ -1665,12 +1723,31 @@ Number($('qty').value)||1
 );
 
 
-$('checkoutTotal').textContent=
-'MVR '+
-(
-Number(checkoutProduct.price||0)*q
+const subtotal=
+Number(checkoutProduct.price||0)*q;
+
+const deliveryFee=
+Math.max(
+0,
+Number(
+checkoutPaymentSettings?.delivery_fee||0
 )
-.toFixed(2);
+);
+
+const total=
+subtotal+deliveryFee;
+
+
+$('checkoutSubtotal').textContent=
+'MVR '+subtotal.toFixed(2);
+
+
+$('checkoutDeliveryFee').textContent=
+'MVR '+deliveryFee.toFixed(2);
+
+
+$('checkoutTotal').textContent=
+'MVR '+total.toFixed(2);
 
 }
 
@@ -1915,8 +1992,19 @@ crypto.randomUUID();
 const price=
 Number(p.price);
 
-const total=
+const deliveryFee=
+Math.max(
+0,
+Number(
+checkoutPaymentSettings?.delivery_fee||0
+)
+);
+
+const subtotal=
 price*q;
+
+const total=
+subtotal+deliveryFee;
 
 
 const chars=
@@ -2092,6 +2180,20 @@ ${esc(accessCode)}
 
 <br><br>
 
+Subtotal:
+<b>
+MVR ${subtotal.toFixed(2)}
+</b>
+
+<br>
+
+Delivery Fee:
+<b>
+MVR ${deliveryFee.toFixed(2)}
+</b>
+
+<br>
+
 Total:
 <b>
 MVR ${total.toFixed(2)}
@@ -2148,6 +2250,8 @@ $('shopView').style.display='none';
 
 $('productView').style.display='none';
 
+$('checkoutView').style.display='none';
+
 $('marketView').style.display='block';
 
 history.replaceState(
@@ -2167,6 +2271,8 @@ behavior:'smooth'
 $('productBack').onclick=()=>{
 
 $('productView').style.display='none';
+
+$('checkoutView').style.display='none';
 
 $('marketView').style.display='block';
 
