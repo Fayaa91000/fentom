@@ -1,0 +1,2640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MBG Seller — Main / Settings</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+header{
+  background:#fff;
+  border-bottom:1px solid #e5e9f0;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  font-weight:900;
+  font-size:22px;
+  color:#0b63ce;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  background:#0b63ce;
+  color:#fff;
+  font-weight:700;
+}
+
+button.secondary{
+  background:#e9eef6;
+  color:#172033;
+}
+
+button.danger{
+  background:#d9363e;
+}
+
+button.green{
+  background:#168a45;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e3e8ef;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 4px 16px rgba(20,35,60,.04);
+}
+
+.card h2{
+  margin:0 0 8px;
+  font-size:20px;
+}
+
+.card h3{
+  margin:0 0 8px;
+}
+
+.muted{
+  color:#697386;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.field{
+  margin-bottom:14px;
+}
+
+label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:700;
+  font-size:14px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid #ccd5e2;
+  border-radius:10px;
+  padding:11px 12px;
+  background:#fff;
+  color:#172033;
+  outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#0b63ce;
+  box-shadow:0 0 0 3px rgba(11,99,206,.1);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+
+.msg{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:10px;
+  display:none;
+  font-size:14px;
+  line-height:1.45;
+}
+
+.msg.show{
+  display:block;
+}
+
+.msg.ok{
+  background:#e9f8ef;
+  color:#116b35;
+}
+
+.msg.err{
+  background:#fff0f0;
+  color:#a51f27;
+}
+
+.msg.warn{
+  background:#fff8df;
+  color:#765b00;
+}
+
+.notice{
+  background:#eef6ff;
+  border:1px solid #cfe2fb;
+  border-radius:12px;
+  padding:13px 14px;
+  margin-bottom:15px;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.payment-method-card{
+  border:1px solid #e1e6ee;
+  border-radius:15px;
+  padding:15px;
+  margin:12px 0;
+  background:#fff;
+}
+
+.payment-method-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.payment-method-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+}
+
+.payment-method-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  background:#eef5ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
+}
+
+.payment-fields{
+  margin-top:14px;
+}
+
+.payment-example{
+  margin-top:7px;
+  color:#697386;
+  font-size:13px;
+  line-height:1.45;
+}
+
+.delivery-fee-card{
+  border:1px solid #cfe0ff;
+  border-radius:15px;
+  padding:15px;
+  margin:12px 0;
+  background:#f8fbff;
+}
+
+.delivery-fee-card input{
+  max-width:260px;
+}
+
+.toggle-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.toggle-row input[type="checkbox"]{
+  width:20px;
+  height:20px;
+  margin:0;
+}
+
+.preview-box{
+  border:1px dashed #b8c3d2;
+  border-radius:12px;
+  padding:15px;
+  background:#fafcff;
+}
+
+.preview-box img{
+  max-width:180px;
+  max-height:120px;
+  object-fit:contain;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid #e5e9f0;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+
+.stat{
+  background:#f8fafc;
+  border:1px solid #e3e8ef;
+  border-radius:14px;
+  padding:16px;
+}
+
+.stat-number{
+  font-size:24px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.product-list{
+  display:grid;
+  gap:10px;
+}
+
+.product-row{
+  border:1px solid #e3e8ef;
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.product-info{
+  min-width:0;
+}
+
+.product-name{
+  font-weight:800;
+  margin-bottom:3px;
+}
+
+.small{
+  font-size:13px;
+}
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.login-card{
+  width:min(460px,100%);
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(max-width:800px){
+  .grid,
+  .grid-3,
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .header-inner{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .product-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loginScreen" class="login-screen">
+
+  <div class="card login-card">
+
+    <h2>MBG Seller Portal</h2>
+
+    <div class="muted">
+      Login to manage your business, products, payments and MBG seller settings.
+    </div>
+
+    <div class="field" style="margin-top:18px">
+
+      <label>Email</label>
+
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Enter your email">
+
+    </div>
+
+    <div class="field">
+
+      <label>Password</label>
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Enter your password">
+
+    </div>
+
+    <div class="actions">
+
+      <button id="loginBtn">
+        Login
+      </button>
+
+      <button
+        id="signupBtn"
+        class="secondary">
+        Create Account
+      </button>
+
+    </div>
+
+    <div id="loginMsg" class="msg"></div>
+
+  </div>
+
+</div>
+
+
+<div id="app" class="hidden">
+
+<header>
+
+  <div class="header-inner">
+
+    <div class="logo">
+      MBG Seller
+    </div>
+
+    <div class="header-actions">
+
+      <button
+        id="viewStoreBtn"
+        class="secondary">
+        View My Store
+      </button>
+
+      <button
+        id="logoutBtn"
+        class="danger">
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="wrap">
+
+
+<div class="card">
+
+  <h2>
+    Seller Dashboard
+  </h2>
+
+  <div class="muted">
+    Manage your Maldives Business Gateway business profile,
+    products, branding, customer payment settings and seller account.
+  </div>
+
+</div>
+
+
+<!-- BUSINESS PROFILE -->
+
+<div class="card">
+
+  <h2>
+    Business Profile
+  </h2>
+
+  <div class="muted">
+    This information is displayed on your MBG business/store page.
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+
+    <div class="field">
+
+      <label>
+        Business Name
+      </label>
+
+      <input
+        id="businessName"
+        type="text"
+        placeholder="Your business name">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Business Category
+      </label>
+
+      <input
+        id="businessCategory"
+        type="text"
+        placeholder="Example: Electronics">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Phone
+      </label>
+
+      <input
+        id="businessPhone"
+        type="text"
+        placeholder="Business phone">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Island / Location
+      </label>
+
+      <input
+        id="businessIsland"
+        type="text"
+        placeholder="Island">
+
+    </div>
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      Business Description
+    </label>
+
+    <textarea
+      id="businessDescription"
+      placeholder="Describe your business"></textarea>
+
+  </div>
+
+
+  <div class="actions">
+
+    <button id="saveBusinessBtn">
+      Save Business Profile
+    </button>
+
+  </div>
+
+
+  <div id="businessMsg" class="msg"></div>
+
+</div>
+
+
+<!-- BRANDING -->
+
+<div class="card">
+
+  <h2>
+    Business Branding
+  </h2>
+
+  <div class="muted">
+    Upload your business logo and manage your storefront branding.
+  </div>
+
+
+  <div class="grid" style="margin-top:16px">
+
+    <div>
+
+      <div class="field">
+
+        <label>
+          Business Logo
+        </label>
+
+        <input
+          id="logoFile"
+          type="file"
+          accept="image/*">
+
+      </div>
+
+      <div class="actions">
+
+        <button id="uploadLogoBtn">
+          Upload Logo
+        </button>
+
+      </div>
+
+      <div id="brandingMsg" class="msg"></div>
+
+    </div>
+
+
+    <div>
+
+      <div class="preview-box">
+
+        <div class="muted">
+          Current Logo
+        </div>
+
+        <div style="margin-top:10px">
+
+          <img
+            id="logoPreview"
+            alt="Business Logo">
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div class="card">
+
+  <h2>
+    Products
+  </h2>
+
+  <div class="muted">
+    Manage the products currently published by your business.
+  </div>
+
+  <div
+    id="productsMsg"
+    class="msg"></div>
+
+  <div
+    id="productList"
+    class="product-list"
+    style="margin-top:15px">
+  </div>
+
+</div>
+
+
+<!-- CUSTOMER PAYMENT SETTINGS -->
+
+<div class="card">
+
+  <h2>
+    Customer Payment Settings
+  </h2>
+
+  <div class="muted">
+    Configure the payment methods customers can use when placing orders
+    from your business.
+  </div>
+
+
+  <div class="notice" style="margin-top:15px">
+
+    <b>Important:</b>
+    These settings are used by your MBG storefront during customer checkout.
+
+  </div>
+
+
+  <!-- CUSTOMER DELIVERY FEE -->
+
+  <div class="delivery-fee-card">
+
+    <div class="payment-method-header">
+
+      <div class="payment-method-title">
+
+        <div class="payment-method-icon">
+          🚚
+        </div>
+
+        <div>
+
+          Customer Delivery Fee
+
+          <div class="muted">
+            Set the delivery charge customers will pay for orders from your business.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="payment-fields">
+
+      <label>
+        Delivery Fee (MVR)
+      </label>
+
+      <input
+        id="deliveryFee"
+        type="number"
+        min="0"
+        step="0.01"
+        inputmode="decimal"
+        placeholder="e.g. 50.00">
+
+      <div class="payment-example">
+
+        🚚 This amount is added to the customer's order total.
+
+        Enter <b>0</b> if you do not charge a delivery fee.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- BANK TRANSFER -->
+
+  <div class="payment-method-card">
+
+    <div class="payment-method-header">
+
+      <div class="payment-method-title">
+
+        <div class="payment-method-icon">
+          🏦
+        </div>
+
+        <div>
+
+          Bank Transfer
+
+          <div class="muted">
+            Allow customers to pay by bank transfer.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="toggle-row">
+
+        <input
+          id="bankEnabled"
+          type="checkbox">
+
+        <label
+          for="bankEnabled"
+          style="margin:0">
+          Enabled
+        </label>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="bankFields"
+      class="payment-fields">
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label>
+            Bank Name
+          </label>
+
+          <input
+            id="sellerBankName"
+            type="text"
+            placeholder="Example: Bank of Maldives">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Account Holder Name
+          </label>
+
+          <input
+            id="sellerAccountName"
+            type="text"
+            placeholder="Account holder name">
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Account Number
+        </label>
+
+        <input
+          id="sellerAccountNumber"
+          type="text"
+          placeholder="Bank account number">
+
+      </div>
+
+
+      <div class="payment-example">
+
+        Customers will see these bank details when they choose bank transfer
+        during checkout.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ONLINE PAYMENT -->
+
+  <div class="payment-method-card">
+
+    <div class="payment-method-header">
+
+      <div class="payment-method-title">
+
+        <div class="payment-method-icon">
+          💳
+        </div>
+
+        <div>
+
+          Online Payment
+
+          <div class="muted">
+            Allow customers to pay through your online payment gateway.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="toggle-row">
+
+        <input
+          id="onlineEnabled"
+          type="checkbox">
+
+        <label
+          for="onlineEnabled"
+          style="margin:0">
+          Enabled
+        </label>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="onlineFields"
+      class="payment-fields">
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label>
+            Payment Gateway Name
+          </label>
+
+          <input
+            id="gatewayName"
+            type="text"
+            placeholder="Example: Bank / Payment Gateway">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Payment Link
+          </label>
+
+          <input
+            id="gatewayUrl"
+            type="url"
+            placeholder="https://example.com/payment">
+
+        </div>
+
+      </div>
+
+
+      <div class="payment-example">
+
+        The payment link must use HTTPS.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="actions">
+
+    <button
+      id="saveCustomerPaymentBtn">
+
+      Save Customer Payment Settings
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="customerPaymentMsg"
+    class="msg">
+  </div>
+
+</div>
+
+
+<!-- PROMOTION -->
+
+<div class="card">
+
+  <h2>
+    Promote Your Business
+  </h2>
+
+  <div class="muted">
+    Share your MBG business page with customers.
+  </div>
+
+
+  <div class="actions"
+       style="margin-top:15px">
+
+    <button
+      id="shareBusinessBtn">
+
+      Share Business
+
+    </button>
+
+
+    <button
+      id="copyBusinessLinkBtn"
+      class="secondary">
+
+      Copy Business Link
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="promotionMsg"
+    class="msg">
+  </div>
+
+</div>
+
+
+<!-- MBG UPGRADE -->
+
+<div class="card">
+
+  <h2>
+    MBG Seller Plan
+  </h2>
+
+  <div class="muted">
+    Manage your seller plan and upgrade request.
+  </div>
+
+
+  <div
+    id="planInfo"
+    class="notice"
+    style="margin-top:15px">
+
+    Loading seller plan...
+
+  </div>
+
+
+  <div class="grid">
+
+    <div class="field">
+
+      <label>
+        Payment Reference
+      </label>
+
+      <input
+        id="upgradePaymentReference"
+        type="text"
+        placeholder="Enter payment reference">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Payment Note
+      </label>
+
+      <input
+        id="upgradePaymentNote"
+        type="text"
+        placeholder="Optional note">
+
+    </div>
+
+  </div>
+
+
+  <div class="actions">
+
+    <button
+      id="requestUpgradeBtn">
+
+      Request Upgrade
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="upgradeMsg"
+    class="msg">
+  </div>
+
+</div>
+
+
+<!-- HQ STATS -->
+
+<div class="card">
+
+  <h2>
+    Business Statistics
+  </h2>
+
+  <div class="muted">
+    Quick overview of your business activity.
+  </div>
+
+
+  <div
+    id="stats"
+    class="stats"
+    style="margin-top:15px">
+
+    <div class="stat">
+
+      <div class="muted">
+        Products
+      </div>
+
+      <div
+        id="statProducts"
+        class="stat-number">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="muted">
+        Active Products
+      </div>
+
+      <div
+        id="statActiveProducts"
+        class="stat-number">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="muted">
+        Business Status
+      </div>
+
+      <div
+        id="statBusinessStatus"
+        class="stat-number"
+        style="font-size:18px">
+        —
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="muted">
+        Seller Plan
+      </div>
+
+      <div
+        id="statPlan"
+        class="stat-number"
+        style="font-size:18px">
+        —
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  'https://ehavxdqegpoggrkoxypm.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+
+const sb =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let user = null;
+let business = null;
+
+
+const $ = id =>
+  document.getElementById(id);
+
+
+/* MESSAGE */
+
+function msg(id,text,type=''){
+
+  const el=$(id);
+
+  if(!el)return;
+
+  el.textContent=text;
+
+  el.className='msg show '+type;
+
+}
+
+
+/* LOGIN */
+
+async function login(){
+
+  const email=
+    $('loginEmail')
+      .value
+      .trim();
+
+  const password=
+    $('loginPassword')
+      .value;
+
+  if(!email||!password){
+
+    return msg(
+      'loginMsg',
+      'Enter your email and password.',
+      'err'
+    );
+
+  }
+
+  msg(
+    'loginMsg',
+    'Logging in…'
+  );
+
+  const {error}=
+    await sb.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+
+    return msg(
+      'loginMsg',
+      error.message,
+      'err'
+    );
+
+  }
+
+}
+
+
+async function signup(){
+
+  const email=
+    $('loginEmail')
+      .value
+      .trim();
+
+  const password=
+    $('loginPassword')
+      .value;
+
+  if(!email||!password){
+
+    return msg(
+      'loginMsg',
+      'Enter your email and password.',
+      'err'
+    );
+
+  }
+
+  if(password.length<6){
+
+    return msg(
+      'loginMsg',
+      'Password must be at least 6 characters.',
+      'err'
+    );
+
+  }
+
+  msg(
+    'loginMsg',
+    'Creating account…'
+  );
+
+  const {error}=
+    await sb.auth.signUp({
+      email,
+      password
+    });
+
+  if(error){
+
+    return msg(
+      'loginMsg',
+      error.message,
+      'err'
+    );
+
+  }
+
+  msg(
+    'loginMsg',
+    'Account created. Check your email if confirmation is required.',
+    'ok'
+  );
+
+}
+
+
+async function logout(){
+
+  await sb.auth.signOut();
+
+}
+
+
+/* AUTH STATE */
+
+async function init(){
+
+  const {
+    data:{
+      session
+    }
+  }=
+    await sb.auth.getSession();
+
+  if(session){
+
+    user=session.user;
+
+    await enterApp();
+
+  }else{
+
+    showLogin();
+
+  }
+
+}
+
+
+sb.auth.onAuthStateChange(
+  async(
+    event,
+    session
+  )=>{
+
+    if(session){
+
+      user=session.user;
+
+      await enterApp();
+
+    }else{
+
+      user=null;
+      business=null;
+
+      showLogin();
+
+    }
+
+  }
+);
+
+
+function showLogin(){
+
+  $('loginScreen')
+    .classList
+    .remove('hidden');
+
+  $('app')
+    .classList
+    .add('hidden');
+
+}
+
+
+async function enterApp(){
+
+  $('loginScreen')
+    .classList
+    .add('hidden');
+
+  $('app')
+    .classList
+    .remove('hidden');
+
+  await loadBusiness();
+
+}
+
+
+/* BUSINESS */
+
+async function loadBusiness(){
+
+  if(!user)return;
+
+  const {
+    data,
+    error
+  }=
+    await sb
+      .from('businesses')
+      .select('*')
+      .eq('owner_id',user.id)
+      .maybeSingle();
+
+  if(error){
+
+    return msg(
+      'businessMsg',
+      'Could not load business: '+error.message,
+      'err'
+    );
+
+  }
+
+  business=data||null;
+
+  if(!business){
+
+    $('businessName').value='';
+    $('businessCategory').value='';
+    $('businessPhone').value='';
+    $('businessIsland').value='';
+    $('businessDescription').value='';
+
+    await loadProducts();
+    await loadCustomerPaymentSettings();
+
+    return;
+
+  }
+
+  $('businessName').value=
+    business.name||'';
+
+  $('businessCategory').value=
+    business.category||'';
+
+  $('businessPhone').value=
+    business.phone||'';
+
+  $('businessIsland').value=
+    business.island||'';
+
+  $('businessDescription').value=
+    business.description||'';
+
+  if(business.logo_url){
+
+    $('logoPreview').src=
+      business.logo_url;
+
+  }else{
+
+    $('logoPreview').removeAttribute('src');
+
+  }
+
+  await loadProducts();
+  await loadCustomerPaymentSettings();
+  updateStats();
+
+}
+
+
+async function saveBusiness(){
+
+  if(!user){
+
+    return msg(
+      'businessMsg',
+      'Please login first.',
+      'err'
+    );
+
+  }
+
+  const name=
+    $('businessName')
+      .value
+      .trim();
+
+  const category=
+    $('businessCategory')
+      .value
+      .trim();
+
+  const phone=
+    $('businessPhone')
+      .value
+      .trim();
+
+  const island=
+    $('businessIsland')
+      .value
+      .trim();
+
+  const description=
+    $('businessDescription')
+      .value
+      .trim();
+
+  if(!name){
+
+    return msg(
+      'businessMsg',
+      'Business name is required.',
+      'err'
+    );
+
+  }
+
+  msg(
+    'businessMsg',
+    'Saving business profile…'
+  );
+
+  const payload={
+
+    owner_id:user.id,
+
+    name,
+
+    category:
+      category||null,
+
+    phone:
+      phone||null,
+
+    island:
+      island||null,
+
+    description:
+      description||null,
+
+    updated_at:
+      new Date().toISOString()
+
+  };
+
+
+  let result;
+
+  if(business){
+
+    result=
+      await sb
+        .from('businesses')
+        .update(payload)
+        .eq('id',business.id)
+        .eq('owner_id',user.id)
+        .select()
+        .maybeSingle();
+
+  }else{
+
+    result=
+      await sb
+        .from('businesses')
+        .insert(payload)
+        .select()
+        .single();
+
+  }
+
+
+  if(result.error){
+
+    return msg(
+      'businessMsg',
+      'Save failed: '+result.error.message,
+      'err'
+    );
+
+  }
+
+
+  business=result.data;
+
+  msg(
+    'businessMsg',
+    'Business profile saved successfully.',
+    'ok'
+  );
+
+  await loadCustomerPaymentSettings();
+  updateStats();
+
+}
+
+
+/* BRANDING */
+
+async function uploadLogo(){
+
+  if(!business){
+
+    return msg(
+      'brandingMsg',
+      'Save your business first.',
+      'err'
+    );
+
+  }
+
+  const file=
+    $('logoFile').files[0];
+
+  if(!file){
+
+    return msg(
+      'brandingMsg',
+      'Select a logo image first.',
+      'err'
+    );
+
+  }
+
+  if(!file.type.startsWith('image/')){
+
+    return msg(
+      'brandingMsg',
+      'Please select an image file.',
+      'err'
+    );
+
+  }
+
+  msg(
+    'brandingMsg',
+    'Uploading logo…'
+  );
+
+
+  const ext=
+    file.name
+      .split('.')
+      .pop()
+      .toLowerCase();
+
+  const path=
+    user.id+
+    '/business-logo.'+
+    ext;
+
+
+  const {
+    error:uploadError
+  }=
+    await sb.storage
+      .from('business-logos')
+      .upload(
+        path,
+        file,
+        {
+          upsert:true,
+          contentType:file.type
+        }
+      );
+
+
+  if(uploadError){
+
+    return msg(
+      'brandingMsg',
+      'Logo upload failed: '+uploadError.message,
+      'err'
+    );
+
+  }
+
+
+  const {
+    data:publicData
+  }=
+    sb.storage
+      .from('business-logos')
+      .getPublicUrl(path);
+
+
+  const logoUrl=
+    publicData.publicUrl;
+
+
+  const {
+    error:updateError
+  }=
+    await sb
+      .from('businesses')
+      .update({
+        logo_url:logoUrl,
+        updated_at:new Date().toISOString()
+      })
+      .eq('id',business.id)
+      .eq('owner_id',user.id);
+
+
+  if(updateError){
+
+    return msg(
+      'brandingMsg',
+      'Logo uploaded but profile update failed: '+
+      updateError.message,
+      'err'
+    );
+
+  }
+
+
+  business.logo_url=logoUrl;
+
+  $('logoPreview').src=
+    logoUrl;
+
+  msg(
+    'brandingMsg',
+    'Business logo uploaded successfully.',
+    'ok'
+  );
+
+}
+
+
+/* PRODUCTS */
+
+async function loadProducts(){
+
+  if(!business){
+
+    $('productList').innerHTML=
+      '<div class="muted">Create your business first to manage products.</div>';
+
+    $('statProducts').textContent='0';
+    $('statActiveProducts').textContent='0';
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  }=
+    await sb
+      .from('products')
+      .select('*')
+      .eq('business_id',business.id)
+      .eq('owner_id',user.id)
+      .order('created_at',{
+        ascending:false
+      });
+
+
+  if(error){
+
+    return msg(
+      'productsMsg',
+      'Could not load products: '+error.message,
+      'err'
+    );
+
+  }
+
+
+  const products=
+    data||[];
+
+
+  $('statProducts').textContent=
+    products.length;
+
+  $('statActiveProducts').textContent=
+    products.filter(p=>p.active).length;
+
+
+  if(!products.length){
+
+    $('productList').innerHTML=
+      '<div class="muted">No products found.</div>';
+
+    return;
+
+  }
+
+
+  $('productList').innerHTML=
+    products.map(
+      p=>`
+
+        <div class="product-row">
+
+          <div class="product-info">
+
+            <div class="product-name">
+              ${escapeHtml(p.name||'Unnamed Product')}
+            </div>
+
+            <div class="muted small">
+
+              MVR ${Number(p.price||0).toFixed(2)}
+
+              •
+
+              ${p.active?'Active':'Inactive'}
+
+            </div>
+
+          </div>
+
+
+          <div class="actions">
+
+            <button
+              class="secondary"
+              onclick="toggleProduct('${p.id}',${!p.active})">
+
+              ${p.active?'Disable':'Enable'}
+
+            </button>
+
+          </div>
+
+        </div>
+
+      `
+    )
+    .join('');
+
+}
+
+
+async function toggleProduct(id,active){
+
+  const {
+    error
+  }=
+    await sb
+      .from('products')
+      .update({
+        active,
+        updated_at:new Date().toISOString()
+      })
+      .eq('id',id)
+      .eq('business_id',business.id)
+      .eq('owner_id',user.id);
+
+
+  if(error){
+
+    return msg(
+      'productsMsg',
+      'Could not update product: '+error.message,
+      'err'
+    );
+
+  }
+
+
+  await loadProducts();
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* CUSTOMER PAYMENT SETTINGS */
+
+function togglePaymentFields(){
+
+  const bank=
+    $('bankEnabled').checked;
+
+  const online=
+    $('onlineEnabled').checked;
+
+
+  $('bankFields').style.display=
+    bank?'block':'none';
+
+  $('onlineFields').style.display=
+    online?'block':'none';
+
+}
+
+
+function updatePaymentCardStyles(){
+
+  const bank=
+    $('bankEnabled').checked;
+
+  const online=
+    $('onlineEnabled').checked;
+
+
+  const cards=
+    document.querySelectorAll(
+      '.payment-method-card'
+    );
+
+
+  if(cards[0]){
+
+    cards[0].style.borderColor=
+      bank?'#9bd4b0':'#e1e6ee';
+
+    cards[0].style.background=
+      bank?'#f5fff8':'#fff';
+
+  }
+
+
+  if(cards[1]){
+
+    cards[1].style.borderColor=
+      online?'#9bd4b0':'#e1e6ee';
+
+    cards[1].style.background=
+      online?'#f5fff8':'#fff';
+
+  }
+
+}
+
+
+async function loadCustomerPaymentSettings(){
+
+  if(!business)return;
+
+
+  const {
+    data,
+    error
+  }=
+    await sb
+      .from('seller_payment_settings')
+      .select('*')
+      .eq('business_id',business.id)
+      .maybeSingle();
+
+
+  if(error){
+
+    return msg(
+      'customerPaymentMsg',
+      'Could not load payment settings: '+
+      error.message,
+      'err'
+    );
+
+  }
+
+
+  const s=data||{};
+
+
+  $('bankEnabled').checked=
+    !!s.bank_transfer_enabled;
+
+
+  $('sellerBankName').value=
+    s.bank_name||'';
+
+
+  $('sellerAccountName').value=
+    s.bank_account_name||'';
+
+
+  $('sellerAccountNumber').value=
+    s.bank_account_number||'';
+
+
+  $('onlineEnabled').checked=
+    !!s.online_payment_enabled;
+
+
+  $('gatewayName').value=
+    s.payment_gateway_name||'';
+
+
+  $('gatewayUrl').value=
+    s.payment_gateway_url||'';
+
+
+  /* CUSTOMER DELIVERY FEE */
+
+  const loadedDeliveryFee=
+    Number(s.delivery_fee);
+
+
+  $('deliveryFee').value=
+    Number.isFinite(loadedDeliveryFee) &&
+    loadedDeliveryFee>=0
+      ? loadedDeliveryFee.toFixed(2)
+      : '0.00';
+
+
+  togglePaymentFields();
+
+  updatePaymentCardStyles();
+
+
+  if(data){
+
+    msg(
+      'customerPaymentMsg',
+      'Customer payment and delivery settings loaded.',
+      'ok'
+    );
+
+  }
+
+}
+
+
+async function saveCustomerPaymentSettings(){
+
+  if(!business){
+
+    return msg(
+      'customerPaymentMsg',
+      'Save your business first.',
+      'err'
+    );
+
+  }
+
+
+  const bank=
+    $('bankEnabled').checked;
+
+
+  const online=
+    $('onlineEnabled').checked;
+
+
+  const bankName=
+    $('sellerBankName')
+      .value
+      .trim();
+
+
+  const accountName=
+    $('sellerAccountName')
+      .value
+      .trim();
+
+
+  const accountNumber=
+    $('sellerAccountNumber')
+      .value
+      .trim();
+
+
+  const gatewayName=
+    $('gatewayName')
+      .value
+      .trim();
+
+
+  const gatewayUrl=
+    $('gatewayUrl')
+      .value
+      .trim();
+
+
+  /* CUSTOMER DELIVERY FEE */
+
+  const deliveryFeeRaw=
+    $('deliveryFee')
+      .value
+      .trim();
+
+
+  const deliveryFee=
+    deliveryFeeRaw==='' 
+      ? 0
+      : Number(deliveryFeeRaw);
+
+
+  if(
+    !Number.isFinite(deliveryFee) ||
+    deliveryFee<0
+  ){
+
+    return msg(
+      'customerPaymentMsg',
+      'Delivery fee must be 0 or a positive amount in MVR.',
+      'err'
+    );
+
+  }
+
+
+  const normalizedDeliveryFee=
+    Math.round(deliveryFee*100)/100;
+
+
+  if(
+    bank &&
+    (
+      !bankName||
+      !accountName||
+      !accountNumber
+    )
+  ){
+
+    return msg(
+      'customerPaymentMsg',
+      'Complete the bank name, account holder name and account number.',
+      'err'
+    );
+
+  }
+
+
+  if(online){
+
+    if(!gatewayName||!gatewayUrl){
+
+      return msg(
+        'customerPaymentMsg',
+        'Complete the gateway name and payment link.',
+        'err'
+      );
+
+    }
+
+
+    try{
+
+      const u=
+        new URL(gatewayUrl);
+
+      if(u.protocol!=='https:')
+        throw Error();
+
+    }catch{
+
+      return msg(
+        'customerPaymentMsg',
+        'Online payment link must be a valid HTTPS URL.',
+        'err'
+      );
+
+    }
+
+  }
+
+
+  if(!bank&&!online){
+
+    return msg(
+      'customerPaymentMsg',
+      'Enable at least one customer payment method.',
+      'warn'
+    );
+
+  }
+
+
+  msg(
+    'customerPaymentMsg',
+    'Saving customer payment and delivery settings…'
+  );
+
+
+  const payload={
+
+    seller_id:user.id,
+
+    business_id:business.id,
+
+    bank_transfer_enabled:bank,
+
+    bank_name:
+      bank?
+        bankName:
+        null,
+
+    bank_account_name:
+      bank?
+        accountName:
+        null,
+
+    bank_account_number:
+      bank?
+        accountNumber:
+        null,
+
+    online_payment_enabled:online,
+
+    payment_gateway_name:
+      online?
+        gatewayName:
+        null,
+
+    payment_gateway_url:
+      online?
+        gatewayUrl:
+        null,
+
+    /* CUSTOMER DELIVERY FEE */
+
+    delivery_fee:
+      normalizedDeliveryFee,
+
+    updated_at:
+      new Date().toISOString()
+
+  };
+
+
+  const {error}=
+    await sb
+      .from('seller_payment_settings')
+      .upsert(
+        payload,
+        {
+          onConflict:'business_id'
+        }
+      );
+
+
+  if(error){
+
+    return msg(
+      'customerPaymentMsg',
+      'Save failed: '+error.message,
+      'err'
+    );
+
+  }
+
+
+  msg(
+    'customerPaymentMsg',
+    'Customer payment and delivery settings saved successfully.',
+    'ok'
+  );
+
+
+  updatePaymentCardStyles();
+
+}
+
+
+/* PROMOTION */
+
+function getBusinessLink(){
+
+  if(!business)return '';
+
+  const base=
+    window.location.origin;
+
+  return base+
+    '/business.html?id='+
+    encodeURIComponent(business.id);
+
+}
+
+
+async function copyBusinessLink(){
+
+  if(!business){
+
+    return msg(
+      'promotionMsg',
+      'Save your business first.',
+      'err'
+    );
+
+  }
+
+
+  const link=
+    getBusinessLink();
+
+
+  try{
+
+    await navigator.clipboard.writeText(link);
+
+    msg(
+      'promotionMsg',
+      'Business link copied successfully.',
+      'ok'
+    );
+
+  }catch{
+
+    msg(
+      'promotionMsg',
+      link,
+      'ok'
+    );
+
+  }
+
+}
+
+
+async function shareBusiness(){
+
+  if(!business){
+
+    return msg(
+      'promotionMsg',
+      'Save your business first.',
+      'err'
+    );
+
+  }
+
+
+  const link=
+    getBusinessLink();
+
+
+  if(
+    navigator.share
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          business.name||'MBG Business',
+
+        text:
+          'Visit my business on Maldives Business Gateway.',
+
+        url:link
+
+      });
+
+    }catch(e){
+
+      if(e.name!=='AbortError'){
+
+        msg(
+          'promotionMsg',
+          'Could not open sharing.',
+          'err'
+        );
+
+      }
+
+    }
+
+  }else{
+
+    await copyBusinessLink();
+
+  }
+
+}
+
+
+/* UPGRADE */
+
+async function loadPlan(){
+
+  if(!business)return;
+
+
+  const plan=
+    business.plan||
+    business.subscription_plan||
+    'Seller';
+
+
+  $('planInfo').innerHTML=
+    '<b>Current Plan:</b> '+
+    escapeHtml(plan);
+
+
+  $('statPlan').textContent=
+    plan;
+
+}
+
+
+async function requestUpgrade(){
+
+  if(!business){
+
+    return msg(
+      'upgradeMsg',
+      'Save your business first.',
+      'err'
+    );
+
+  }
+
+
+  const reference=
+    $('upgradePaymentReference')
+      .value
+      .trim();
+
+
+  const note=
+    $('upgradePaymentNote')
+      .value
+      .trim();
+
+
+  if(!reference){
+
+    return msg(
+      'upgradeMsg',
+      'Enter the payment reference.',
+      'err'
+    );
+
+  }
+
+
+  msg(
+    'upgradeMsg',
+    'Submitting upgrade request…'
+  );
+
+
+  const payload={
+
+    seller_id:user.id,
+
+    business_id:business.id,
+
+    payment_reference:reference,
+
+    note:note||null,
+
+    status:'pending'
+
+  };
+
+
+  const {
+    error
+  }=
+    await sb
+      .from('mbg_upgrade_requests')
+      .insert(payload);
+
+
+  if(error){
+
+    return msg(
+      'upgradeMsg',
+      'Upgrade request failed: '+error.message,
+      'err'
+    );
+
+  }
+
+
+  msg(
+    'upgradeMsg',
+    'Upgrade request submitted successfully.',
+    'ok'
+  );
+
+
+  $('upgradePaymentReference').value='';
+  $('upgradePaymentNote').value='';
+
+}
+
+
+/* STATS */
+
+function updateStats(){
+
+  if(!business){
+
+    $('statBusinessStatus').textContent=
+      'Not Created';
+
+    return;
+
+  }
+
+
+  $('statBusinessStatus').textContent=
+    business.status||
+    'Pending';
+
+
+  loadPlan();
+
+}
+
+
+/* EVENTS */
+
+$('loginBtn')
+  .addEventListener(
+    'click',
+    login
+  );
+
+
+$('signupBtn')
+  .addEventListener(
+    'click',
+    signup
+  );
+
+
+$('logoutBtn')
+  .addEventListener(
+    'click',
+    logout
+  );
+
+
+$('saveBusinessBtn')
+  .addEventListener(
+    'click',
+    saveBusiness
+  );
+
+
+$('uploadLogoBtn')
+  .addEventListener(
+    'click',
+    uploadLogo
+  );
+
+
+$('bankEnabled')
+  .addEventListener(
+    'change',
+    ()=>{
+      togglePaymentFields();
+      updatePaymentCardStyles();
+    }
+  );
+
+
+$('onlineEnabled')
+  .addEventListener(
+    'change',
+    ()=>{
+      togglePaymentFields();
+      updatePaymentCardStyles();
+    }
+  );
+
+
+$('saveCustomerPaymentBtn')
+  .addEventListener(
+    'click',
+    saveCustomerPaymentSettings
+  );
+
+
+$('shareBusinessBtn')
+  .addEventListener(
+    'click',
+    shareBusiness
+  );
+
+
+$('copyBusinessLinkBtn')
+  .addEventListener(
+    'click',
+    copyBusinessLink
+  );
+
+
+$('requestUpgradeBtn')
+  .addEventListener(
+    'click',
+    requestUpgrade
+  );
+
+
+$('viewStoreBtn')
+  .addEventListener(
+    'click',
+    ()=>{
+
+      if(!business){
+
+        return msg(
+          'businessMsg',
+          'Save your business first.',
+          'err'
+        );
+
+      }
+
+      window.location.href=
+        'business.html?id='+
+        encodeURIComponent(
+          business.id
+        );
+
+    }
+  );
+
+
+/* START */
+
+init();
+
+</script>
+
+</body>
+</html>
