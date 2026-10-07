@@ -1,0 +1,2283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Products</title>
+
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--teal:#13a3a0;--bg:#f4f8fb;--line:#dbe7ed;--text:#17324a;--muted:#667b8c}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy),var(--blue),var(--teal));color:#fff;padding:22px 0}
+.wrap{max-width:1120px;margin:auto;padding:0 15px}
+.brand{font-size:24px;font-weight:800}
+.hero{padding:28px 0 18px}
+.hero h1{font-size:36px;margin:0 0 8px;color:var(--navy)}
+.muted{color:var(--muted)}
+
+.topNav{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin:18px 0 5px;
+}
+
+.topNav a{
+display:inline-block;
+padding:11px 16px;
+border-radius:999px;
+background:#fff;
+border:1px solid var(--line);
+color:var(--navy);
+font-weight:bold;
+text-decoration:none;
+box-shadow:0 4px 12px #062b5508;
+}
+
+.topNav a.active{
+background:var(--blue);
+color:#fff;
+border-color:var(--blue);
+}
+
+.controls{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin:18px 0}
+input,select{width:100%;padding:13px;border:1px solid #cbdbe5;border-radius:12px;background:#fff;font:inherit}
+
+.sectionTitle{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:25px 0 12px}
+.sectionTitle h2{margin:0;color:var(--navy)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:0 7px 22px #062b550b}
+
+.cover{height:150px;background:linear-gradient(135deg,#e8f3f8,#d9efef);display:flex;align-items:center;justify-content:center}
+.cover img{width:100%;height:100%;object-fit:cover}
+.logo{width:88px!important;height:88px!important;object-fit:cover!important;border-radius:50%;border:4px solid #fff;box-shadow:0 4px 15px #0002}
+
+.body{padding:15px}
+.body h3{margin:0 0 6px;color:var(--navy)}
+.pill{display:inline-block;padding:5px 9px;background:#eaf5f7;border-radius:999px;font-size:12px;margin:3px 4px 3px 0}
+
+button,.btn{display:inline-block;border:0;border-radius:999px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:bold;text-decoration:none;cursor:pointer}
+.secondary{background:#eaf3f7;color:var(--navy)}
+
+.fileHelp{font-size:13px;color:var(--muted);margin:6px 0 14px}
+.uploadBox{border:1px dashed #9bb8c8;background:#f8fcfd;padding:14px;border-radius:12px;margin:12px 0}
+
+.productImg{width:100%;height:180px;object-fit:cover;background:#edf4f7}
+.price{font-size:18px;font-weight:800;color:var(--navy);margin:8px 0}
+
+.msg{background:#fff;border:1px solid var(--line);padding:16px;border-radius:14px;margin:12px 0}
+.error{color:#8a2020;background:#fff0f0}
+
+.shopHead{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.shopHead img{width:82px;height:82px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+
+.shopBrand{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 7px 22px #062b550b}
+.shopBanner{height:220px;background:linear-gradient(135deg,#e8f3f8,#d9efef);background-size:cover;background-position:center;position:relative}
+.shopBannerLogo{position:absolute;left:22px;bottom:-45px;width:96px!important;height:96px!important;border-radius:22px!important;object-fit:cover;border:5px solid #fff!important;box-shadow:0 5px 18px #0003}
+.shopBrandBody{padding:58px 20px 20px}
+.shopBrandBody h2{margin:0 0 5px}
+.shopBrand .brandBtn{color:#fff!important}
+.shopBrand .brandPill{color:#17324a}
+
+.productGallery{background:#f7fafc}
+.galleryMainWrap{position:relative;background:#edf4f7}
+.galleryMain{width:100%;height:min(62vw,520px);min-height:280px;object-fit:contain;display:block}
+.galleryArrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;padding:0;border-radius:50%;background:#062b55cc;font-size:24px}
+.galleryPrev{left:12px}
+.galleryNext{right:12px}
+.galleryThumbs{display:flex;gap:9px;padding:12px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--line)}
+.galleryThumb{flex:0 0 76px;width:76px;height:76px;object-fit:cover;border-radius:10px;border:2px solid transparent;cursor:pointer}
+.galleryThumb.active{border-color:var(--blue)}
+.galleryCount{position:absolute;right:12px;bottom:12px;background:#062b55d9;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:bold}
+.shareRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+footer{margin-top:40px;background:var(--navy);color:#fff;padding:24px 0}
+
+@media(max-width:780px){
+.grid{grid-template-columns:1fr 1fr}
+.hero h1{font-size:30px}
+}
+
+@media(max-width:520px){
+.grid,.controls{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="wrap">
+
+<div class="brand">Maldives Business Gateway</div>
+
+<div>Discover local products from approved businesses</div>
+
+</div>
+</header>
+
+<main class="wrap">
+
+<section class="hero">
+
+<h1>MBG Products</h1>
+
+<p class="muted">
+Browse active products from approved businesses across the Maldives.
+</p>
+
+<!-- MARKETPLACE NAVIGATION -->
+<div class="topNav">
+
+<a href="stores.html" class="active">
+🛍️ Products
+</a>
+
+<a href="businesses.html">
+🏪 Businesses
+</a>
+
+</div>
+
+</section>
+
+
+<!-- PRODUCT MARKETPLACE -->
+
+<section id="marketView">
+
+<div class="controls">
+
+<input
+id="search"
+placeholder="Search products or sellers…">
+
+<select id="category">
+
+<option value="">
+All categories
+</option>
+
+</select>
+
+</div>
+
+
+<div id="status" class="msg">
+Loading products…
+</div>
+
+
+<div class="sectionTitle">
+
+<h2>Products</h2>
+
+<span id="productCount" class="muted"></span>
+
+</div>
+
+
+<div id="products" class="grid"></div>
+
+</section>
+
+
+<!-- SELLER SHOP -->
+
+<section id="shopView" style="display:none">
+
+<button id="back" class="secondary">
+← Back to Products
+</button>
+
+<div id="shopInfo"
+class="msg"
+style="margin-top:16px">
+</div>
+
+<div class="sectionTitle">
+
+<h2>Products</h2>
+
+<span id="shopCount" class="muted"></span>
+
+</div>
+
+<div id="shopProducts" class="grid"></div>
+
+</section>
+
+
+<!-- PRODUCT DETAIL -->
+
+<section id="productView" style="display:none">
+
+<button id="productBack" class="secondary">
+← Back
+</button>
+
+<div
+id="productInfo"
+class="card"
+style="margin-top:16px">
+</div>
+
+</section>
+
+
+<!-- CHECKOUT -->
+
+<section id="checkoutView" style="display:none">
+
+<button id="checkoutBack" class="secondary">
+← Back to Product
+</button>
+
+<div
+class="card"
+style="margin-top:16px">
+
+<div class="body">
+
+<h2>🛒 Checkout</h2>
+
+<div id="checkoutProduct"
+class="msg"></div>
+
+<label>Quantity</label>
+
+<input
+id="qty"
+type="number"
+min="1"
+max="100"
+value="1">
+
+<div class="price">
+
+Subtotal:
+<span id="checkoutSubtotal">
+MVR 0.00
+</span><br>
+
+Delivery Fee:
+<span id="checkoutDeliveryFee">
+MVR 0.00
+</span><br>
+
+<b>Total:</b>
+<span id="checkoutTotal">
+MVR 0.00
+</span>
+
+</div>
+
+<label>Your Name</label>
+
+<input
+id="customerName"
+placeholder="Full name">
+
+<label>Phone / Contact Number</label>
+
+<input
+id="customerPhone"
+placeholder="+960...">
+
+<label>Island / Location</label>
+
+<input
+id="customerIsland"
+placeholder="Island or location">
+
+<label>Delivery Address</label>
+
+<input
+id="deliveryAddress"
+placeholder="Delivery address">
+
+<h3>Choose Payment Method</h3>
+
+<div id="paymentOptions"
+class="msg">
+Loading seller payment methods…
+</div>
+
+<div
+id="bankPaymentBox"
+class="msg"
+style="display:none">
+</div>
+
+<div
+id="onlinePaymentBox"
+class="msg"
+style="display:none">
+</div>
+
+<label>Payment Reference</label>
+
+<input
+id="paymentReference"
+placeholder="Enter reference after payment">
+
+<div class="uploadBox">
+
+<label>
+<b>Payment Slip</b>
+</label>
+
+<input
+id="paymentSlip"
+type="file"
+accept="image/jpeg,image/png,image/webp,application/pdf">
+
+<div class="fileHelp">
+
+Required • JPG, PNG, WebP or PDF • Maximum 5 MB.
+
+Uploading a slip does not verify payment;
+the seller must confirm the money in their account.
+
+</div>
+
+</div>
+
+<label>
+Order Note (optional)
+</label>
+
+<input
+id="customerNote"
+placeholder="Size, colour, delivery note, etc.">
+
+<div class="msg">
+
+Payment goes directly to the seller.
+MBG does not receive the product payment.
+The seller verifies the payment before confirming the order.
+
+</div>
+
+<button id="placeOrder">
+Place Order
+</button>
+
+<div
+id="orderResult"
+class="msg"
+style="display:none">
+</div>
+
+</div>
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="wrap">
+
+<b>Maldives Business Gateway</b>
+
+<div style="opacity:.8;margin-top:5px">
+Connect • Empower • Prosper
+</div>
+
+</div>
+
+</footer>
+
+
+<script type="module">
+
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',
+KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+
+const {createClient}=await import(
+'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+);
+
+const sb=createClient(URL,KEY),
+$=x=>document.getElementById(x);
+
+const esc=s=>String(s??'').replace(
+/[&<>"]/g,
+c=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;'
+}[c])
+);
+
+const safeColor=(value,fallback)=>
+/^#[0-9A-Fa-f]{6}$/.test(
+String(value||'')
+)
+?
+value
+:
+fallback;
+
+let businesses=[],
+products=[],
+checkoutProduct=null,
+checkoutPaymentSettings=null,
+currentGallery=[],
+currentGalleryIndex=0;
+
+
+/* =========================
+   LOAD DATA
+========================= */
+
+async function load(){
+
+const [br,pr]=await Promise.all([
+
+sb.from('businesses')
+.select(
+'id,owner_id,name,slug,category,location,phone,description,order_link,logo_url,cover_url,primary_color,accent_color,status'
+)
+.eq('status','approved')
+.order('created_at',{ascending:false}),
+
+sb.from('products')
+.select(
+'id,business_id,title,description,price,image_url,active,delivery_fee_mode,delivery_fee'
+)
+.eq('active',true)
+.order('created_at',{ascending:false})
+
+]);
+
+
+if(br.error||pr.error){
+
+$('status').className='msg error';
+
+$('status').textContent=
+'Marketplace could not load: '+
+(
+br.error?.message||
+pr.error?.message
+);
+
+return;
+
+}
+
+
+businesses=br.data||[];
+products=pr.data||[];
+
+
+/* Categories still come from businesses */
+
+const cats=[
+...new Set(
+businesses
+.map(b=>b.category)
+.filter(Boolean)
+)
+].sort();
+
+
+$('category').innerHTML=
+'<option value="">All categories</option>'+
+cats
+.map(c=>`<option>${esc(c)}</option>`)
+.join('');
+
+
+$('status').style.display='none';
+
+render();
+
+}
+
+
+/* =========================
+   FILTER PRODUCTS
+========================= */
+
+function filtered(){
+
+const q=
+$('search')
+.value
+.trim()
+.toLowerCase();
+
+const cat=
+$('category').value;
+
+
+const allowed=new Set(
+
+(
+cat
+?
+businesses.filter(
+b=>b.category===cat
+)
+:
+businesses
+).map(
+b=>b.id
+)
+
+);
+
+
+const ps=products.filter(p=>{
+
+const seller=
+businesses.find(
+b=>b.id===p.business_id
+);
+
+
+return allowed.has(p.business_id)&&
+(
+!q||
+[
+p.title,
+p.description,
+seller?.name,
+seller?.category,
+seller?.location
+]
+.some(v=>
+String(v||'')
+.toLowerCase()
+.includes(q)
+)
+);
+
+});
+
+
+return {ps};
+
+}
+
+
+/* =========================
+   RENDER PRODUCTS
+========================= */
+
+function render(){
+
+const {ps}=filtered();
+
+$('productCount').textContent=
+ps.length+' found';
+
+
+$('products').innerHTML=
+ps.map(productCard).join('')||
+'<div class="msg">No products found.</div>';
+
+
+document
+.querySelectorAll('[data-product]')
+.forEach(x=>
+x.onclick=
+()=>openProduct(
+x.dataset.product
+)
+);
+
+
+document
+.querySelectorAll('[data-shop]')
+.forEach(x=>
+x.onclick=
+()=>openShop(
+x.dataset.shop
+)
+);
+
+}
+
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+function productCard(p){
+
+const b=
+businesses.find(
+x=>x.id===p.business_id
+);
+
+
+return `
+
+<article class="card">
+
+${
+p.image_url
+?
+`
+<img
+class="productImg"
+src="${esc(p.image_url)}"
+alt="">
+`
+:
+`
+<div class="productImg"></div>
+`
+}
+
+<div class="body">
+
+<h3>
+${esc(p.title)}
+</h3>
+
+<div class="price">
+
+${
+p.price!=null
+?
+'MVR '+Number(p.price).toFixed(2)
+:
+'Contact seller'
+}
+
+</div>
+
+<p class="muted">
+${esc(p.description||'')}
+</p>
+
+
+${
+b
+?
+`
+<div
+class="muted"
+style="margin-bottom:10px">
+
+Sold by ${esc(b.name)}
+
+</div>
+`
+:
+''
+}
+
+
+<button
+data-product="${p.id}">
+View Product
+</button>
+
+
+${
+b
+?
+`
+<button
+class="secondary"
+data-shop="${b.id}">
+View Shop
+</button>
+`
+:
+''
+}
+
+</div>
+
+</article>
+
+`;
+
+}
+
+
+/* =========================
+   OPEN SELLER SHOP
+========================= */
+
+function openShop(id){
+
+const b=
+businesses.find(
+x=>x.id===id
+);
+
+if(!b)return;
+
+
+$('marketView').style.display='none';
+
+$('shopView').style.display='block';
+
+
+const pc=
+safeColor(
+b.primary_color,
+'#0F766E'
+);
+
+const ac=
+safeColor(
+b.accent_color,
+'#2563EB'
+);
+
+
+$('shopInfo').className=
+'shopBrand';
+
+
+$('shopInfo').innerHTML=`
+
+<div
+class="shopBanner"
+style="${
+b.cover_url
+?
+`background-image:url('${esc(b.cover_url)}');`
+:
+''
+}background-color:${pc}22">
+
+${
+b.logo_url
+?
+`
+<img
+class="shopBannerLogo"
+src="${esc(b.logo_url)}"
+alt="">
+`
+:
+''
+}
+
+</div>
+
+
+<div class="shopBrandBody">
+
+<h2 style="color:${pc}">
+${esc(b.name)}
+</h2>
+
+<div>
+
+${esc(b.category||'')}
+
+${b.location
+?
+' • '+esc(b.location)
+:
+''}
+
+</div>
+
+<p>
+${esc(b.description||'')}
+</p>
+
+
+<div>
+
+${
+b.phone
+?
+`
+<span class="pill brandPill">
+📞 ${esc(b.phone)}
+</span>
+`
+:
+''
+}
+
+</div>
+
+
+${
+b.order_link
+?
+`
+<p>
+
+<a
+class="btn brandBtn"
+style="background:${ac}"
+href="${esc(b.order_link)}"
+target="_blank"
+rel="noopener noreferrer">
+
+Order / Contact Seller
+
+</a>
+
+</p>
+`
+:
+''
+}
+
+</div>
+
+`;
+
+
+const ps=
+products.filter(
+p=>p.business_id===id
+);
+
+
+$('shopCount').textContent=
+ps.length+' product(s)';
+
+
+$('shopProducts').innerHTML=
+ps.map(productCard).join('')||
+'<div class="msg">No active products available.</div>';
+
+
+document
+.querySelectorAll(
+'#shopProducts [data-shop]'
+)
+.forEach(x=>
+x.style.display='none'
+);
+
+
+document
+.querySelectorAll(
+'#shopProducts [data-product]'
+)
+.forEach(x=>
+x.onclick=
+()=>openProduct(
+x.dataset.product
+)
+);
+
+
+history.replaceState(
+null,
+'',
+'#shop='+encodeURIComponent(
+b.slug||b.id
+)
+);
+
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+/* =========================
+   PRODUCT GALLERY
+========================= */
+
+function showGalleryImage(index){
+
+if(!currentGallery.length)return;
+
+currentGalleryIndex=
+(index+currentGallery.length)%
+currentGallery.length;
+
+
+if($('galleryMain'))
+$('galleryMain').src=
+currentGallery[
+currentGalleryIndex
+];
+
+
+document
+.querySelectorAll('.galleryThumb')
+.forEach((x,i)=>
+x.classList.toggle(
+'active',
+i===currentGalleryIndex
+)
+);
+
+
+if($('galleryCount'))
+$('galleryCount').textContent=
+`${currentGalleryIndex+1} / ${currentGallery.length}`;
+
+}
+
+
+function galleryHTML(images){
+
+if(!images.length)return '';
+
+
+return `
+
+<div class="productGallery">
+
+<div class="galleryMainWrap">
+
+<img
+id="galleryMain"
+class="galleryMain"
+src="${esc(images[0])}"
+alt="Product image">
+
+<span
+id="galleryCount"
+class="galleryCount">
+
+1 / ${images.length}
+
+</span>
+
+
+${
+images.length>1
+?
+`
+<button
+id="galleryPrev"
+class="galleryArrow galleryPrev">
+‹
+</button>
+
+<button
+id="galleryNext"
+class="galleryArrow galleryNext">
+›
+</button>
+`
+:
+''
+}
+
+</div>
+
+
+${
+images.length>1
+?
+`
+<div class="galleryThumbs">
+
+${images.map((u,i)=>
+`
+<img
+class="galleryThumb ${i===0?'active':''}"
+data-gallery-index="${i}"
+src="${esc(u)}"
+alt="Product image ${i+1}">
+`
+).join('')}
+
+</div>
+`
+:
+''
+}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   SHARE PRODUCT
+========================= */
+
+async function shareProduct(p,b){
+
+const data={
+title:p.title,
+
+text:
+`${p.title}${
+p.price!=null
+?
+' — MVR '+Number(p.price).toFixed(2)
+:
+''
+} | ${b.name}`,
+
+url:location.href
+};
+
+
+if(navigator.share){
+
+try{
+
+await navigator.share(data);
+
+return;
+
+}
+catch(e){
+
+if(e.name==='AbortError')return;
+
+}
+
+}
+
+
+try{
+
+await navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+'Product link copied. Paste it into Facebook, WhatsApp, TikTok, X or another app.'
+);
+
+}
+catch(e){
+
+prompt(
+'Copy this product link:',
+location.href
+);
+
+}
+
+}
+
+
+/* =========================
+   OPEN PRODUCT
+========================= */
+
+async function openProduct(id){
+
+const p=
+products.find(
+x=>x.id===id
+);
+
+const b=
+p&&businesses.find(
+x=>x.id===p.business_id
+);
+
+if(!p||!b)return;
+
+
+$('marketView').style.display='none';
+$('shopView').style.display='none';
+$('checkoutView').style.display='none';
+$('productView').style.display='block';
+
+
+const {
+data:rows,
+error
+}=await sb
+.from('product_images')
+.select('image_url,position')
+.eq('product_id',p.id)
+.order('position',{ascending:true});
+
+
+currentGallery=
+(!error&&rows?.length)
+?
+rows
+.map(x=>x.image_url)
+.filter(Boolean)
+:
+(
+p.image_url
+?
+[p.image_url]
+:
+[]
+);
+
+
+if(
+p.image_url&&
+!currentGallery.includes(
+p.image_url
+)
+)
+currentGallery.unshift(
+p.image_url
+);
+
+
+currentGalleryIndex=0;
+
+
+const ac=
+safeColor(
+b.accent_color,
+'#2563EB'
+);
+
+const pc=
+safeColor(
+b.primary_color,
+'#0F766E'
+);
+
+
+$('productInfo').innerHTML=`
+
+${galleryHTML(currentGallery)}
+
+<div class="body">
+
+<span class="pill">
+${esc(b.category||'Business')}
+</span>
+
+
+<h1
+style="color:${pc};margin-bottom:5px">
+
+${esc(p.title)}
+
+</h1>
+
+
+<div
+class="price"
+style="font-size:26px">
+
+${
+p.price!=null
+?
+'MVR '+Number(p.price).toFixed(2)
+:
+'Contact seller for price'
+}
+
+</div>
+
+
+<p
+style="font-size:17px;line-height:1.6">
+
+${esc(
+p.description||
+'No additional description.'
+)}
+
+</p>
+
+
+<hr
+style="
+border:0;
+border-top:1px solid var(--line);
+margin:20px 0
+">
+
+
+<div class="shopHead">
+
+${
+b.logo_url
+?
+`
+<img
+src="${esc(b.logo_url)}"
+alt="">
+`
+:
+''
+}
+
+
+<div>
+
+<b style="font-size:19px">
+${esc(b.name)}
+</b>
+
+<div class="muted">
+${esc(b.location||'')}
+</div>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:18px">
+
+<button
+id="buyNow"
+style="background:${ac}">
+🛒 Buy Now
+</button>
+
+
+${
+b.order_link
+?
+`
+<a
+class="btn secondary"
+href="${esc(b.order_link)}"
+target="_blank"
+rel="noopener noreferrer">
+
+Contact Seller
+
+</a>
+`
+:
+''
+}
+
+
+<button
+class="secondary"
+id="productShop">
+
+View Seller Shop
+
+</button>
+
+</div>
+
+
+<div class="shareRow">
+
+<button
+class="secondary"
+id="shareProduct">
+
+↗ Share Product
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+
+document
+.querySelectorAll(
+'[data-gallery-index]'
+)
+.forEach(x=>
+x.onclick=()=>
+showGalleryImage(
+Number(
+x.dataset.galleryIndex
+)
+)
+);
+
+
+if($('galleryPrev'))
+$('galleryPrev').onclick=
+()=>showGalleryImage(
+currentGalleryIndex-1
+);
+
+
+if($('galleryNext'))
+$('galleryNext').onclick=
+()=>showGalleryImage(
+currentGalleryIndex+1
+);
+
+
+$('buyNow').onclick=
+()=>openCheckout(p.id);
+
+
+$('productShop').onclick=
+()=>openShop(b.id);
+
+
+$('shareProduct').onclick=
+()=>shareProduct(p,b);
+
+
+history.replaceState(
+null,
+'',
+'#product='+encodeURIComponent(p.id)
+);
+
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+/* =========================
+   CHECKOUT
+========================= */
+
+async function openCheckout(id){
+
+const p=
+products.find(
+x=>x.id===id
+);
+
+const b=
+p&&businesses.find(
+x=>x.id===p.business_id
+);
+
+if(!p||!b)return;
+
+
+checkoutProduct=p;
+checkoutPaymentSettings=null;
+
+
+$('marketView').style.display='none';
+$('shopView').style.display='none';
+$('productView').style.display='none';
+$('checkoutView').style.display='block';
+
+
+$('qty').value=1;
+
+$('customerName').value='';
+$('customerPhone').value='';
+$('customerIsland').value='';
+$('deliveryAddress').value='';
+$('paymentReference').value='';
+
+if($('paymentSlip'))
+$('paymentSlip').value='';
+
+$('customerNote').value='';
+
+$('orderResult').style.display='none';
+
+
+$('checkoutProduct').innerHTML=`
+
+<b>${esc(p.title)}</b><br>
+
+MVR ${Number(p.price||0).toFixed(2)} each<br>
+
+<span class="muted">
+Seller: ${esc(b.name)}
+</span>
+
+`;
+
+
+$('paymentOptions').innerHTML=
+'Loading seller payment methods…';
+
+$('bankPaymentBox').style.display='none';
+$('onlinePaymentBox').style.display='none';
+
+
+updateTotal();
+
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+
+const {
+data,
+error
+}=await sb
+.from('seller_payment_settings')
+.select(
+'bank_transfer_enabled,bank_name,bank_account_name,bank_account_number,online_payment_enabled,payment_gateway_name,payment_gateway_url,delivery_fee'
+)
+.eq('business_id',b.id)
+.maybeSingle();
+
+
+if(error){
+
+$('paymentOptions').className=
+'msg error';
+
+$('paymentOptions').textContent=
+'Could not load seller payment methods: '+
+error.message;
+
+return;
+
+}
+
+
+checkoutPaymentSettings=data;
+
+renderPaymentOptions();
+updateTotal();
+
+}
+
+
+/* =========================
+   PAYMENT OPTIONS
+========================= */
+
+function renderPaymentOptions(){
+
+const s=checkoutPaymentSettings;
+
+
+if(
+!s||
+(
+!s.bank_transfer_enabled&&
+!s.online_payment_enabled
+)
+){
+
+$('paymentOptions').className=
+'msg error';
+
+$('paymentOptions').textContent=
+'This seller has not configured a customer payment method yet.';
+
+$('placeOrder').disabled=true;
+
+return;
+
+}
+
+
+$('placeOrder').disabled=false;
+
+$('paymentOptions').className='msg';
+
+
+let html=
+'<b>Select how you want to pay:</b><br>';
+
+
+if(s.bank_transfer_enabled)
+
+html+=`
+
+<label
+style="display:block;margin-top:10px">
+
+<input
+type="radio"
+name="payChoice"
+value="bank_transfer"
+style="width:auto"
+checked>
+
+🏦 Bank Transfer
+
+</label>
+
+`;
+
+
+if(s.online_payment_enabled)
+
+html+=`
+
+<label
+style="display:block;margin-top:10px">
+
+<input
+type="radio"
+name="payChoice"
+value="online_payment"
+style="width:auto"
+${!s.bank_transfer_enabled?'checked':''}>
+
+🌐 Online Payment
+
+</label>
+
+`;
+
+
+$('paymentOptions').innerHTML=html;
+
+
+document
+.querySelectorAll(
+'input[name="payChoice"]'
+)
+.forEach(r=>
+r.onchange=
+showSelectedPayment
+);
+
+
+showSelectedPayment();
+
+}
+
+
+/* =========================
+   PAYMENT DETAILS
+========================= */
+
+function showSelectedPayment(){
+
+const s=
+checkoutPaymentSettings;
+
+const choice=
+document
+.querySelector(
+'input[name="payChoice"]:checked'
+)
+?.value;
+
+
+$('bankPaymentBox').style.display='none';
+$('onlinePaymentBox').style.display='none';
+
+
+if(choice==='bank_transfer'){
+
+$('bankPaymentBox').style.display='block';
+
+$('bankPaymentBox').innerHTML=`
+
+<b>
+🏦 Bank Transfer Details
+</b><br>
+
+Bank:
+<b>${esc(s.bank_name||'')}</b><br>
+
+Account Name:
+<b>${esc(s.bank_account_name||'')}</b><br>
+
+Account Number:
+<b>${esc(s.bank_account_number||'')}</b>
+
+<br><br>
+
+Transfer the total amount,
+then enter the transaction/reference
+number below.
+
+`;
+
+}
+
+
+if(choice==='online_payment'){
+
+$('onlinePaymentBox').style.display='block';
+
+
+const safe=
+/^https:\/\//i.test(
+s.payment_gateway_url||''
+)
+?
+s.payment_gateway_url
+:
+'';
+
+
+$('onlinePaymentBox').innerHTML=`
+
+<b>
+🌐 ${esc(
+s.payment_gateway_name||
+'Online Payment'
+)}
+</b>
+
+<br><br>
+
+${
+safe
+?
+`
+<a
+class="btn"
+href="${esc(safe)}"
+target="_blank"
+rel="noopener noreferrer">
+
+Pay Online
+
+</a>
+
+<br><br>
+`
+:
+''
+}
+
+After completing payment,
+return to this checkout and enter
+your payment/reference number below.
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+function getCheckoutDeliveryFee(){
+
+if(!checkoutProduct)return 0;
+
+const mode=checkoutProduct.delivery_fee_mode||'default';
+
+if(mode==='free')return 0;
+
+if(mode==='custom'){
+  const custom=Number(checkoutProduct.delivery_fee||0);
+  return Number.isFinite(custom)&&custom>=0?custom:0;
+}
+
+const businessFee=Number(checkoutPaymentSettings?.delivery_fee||0);
+return Number.isFinite(businessFee)&&businessFee>=0?businessFee:0;
+
+}
+
+function updateTotal(){
+
+if(!checkoutProduct)return;
+
+const q=Math.max(1,Math.min(100,Number($('qty').value)||1));
+const subtotal=Number(checkoutProduct.price||0)*q;
+const deliveryFee=getCheckoutDeliveryFee();
+const total=subtotal+deliveryFee;
+
+$('checkoutSubtotal').textContent='MVR '+subtotal.toFixed(2);
+$('checkoutDeliveryFee').textContent=deliveryFee===0?'FREE':'MVR '+deliveryFee.toFixed(2);
+$('checkoutTotal').textContent='MVR '+total.toFixed(2);
+
+}
+
+
+/* =========================
+   PAYMENT SLIP
+========================= */
+
+async function uploadPaymentSlip(
+orderId,
+accessCode,
+reference,
+file
+){
+
+const form=new FormData();
+
+form.append(
+'order_id',
+orderId
+);
+
+form.append(
+'access_code',
+accessCode
+);
+
+form.append(
+'payment_reference',
+reference
+);
+
+form.append(
+'payment_slip',
+file,
+file.name
+);
+
+
+const res=await fetch(
+`${URL}/functions/v1/mbg-payment-slip-upload`,
+{
+method:'POST',
+headers:{apikey:KEY},
+body:form
+}
+);
+
+
+let data=null;
+
+try{
+data=await res.json()
+}
+catch(e){}
+
+
+if(!res.ok)
+
+throw new Error(
+data?.error||
+data?.message||
+`Payment slip upload failed (HTTP ${res.status}).`
+);
+
+
+return data;
+
+}
+
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+async function placeOrder(){
+
+const p=checkoutProduct;
+
+const b=
+p&&businesses.find(
+x=>x.id===p.business_id
+);
+
+if(!p||!b)return;
+
+
+const name=
+$('customerName')
+.value
+.trim();
+
+const phone=
+$('customerPhone')
+.value
+.trim();
+
+const q=Math.max(
+1,
+Math.min(
+100,
+Number($('qty').value)||1
+)
+);
+
+
+if(!name||!phone){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Please enter your name and phone/contact number.';
+
+return;
+
+}
+
+
+if(p.price==null){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Please contact the seller for the price.';
+
+return;
+
+}
+
+
+const choice=
+document
+.querySelector(
+'input[name="payChoice"]:checked'
+)
+?.value;
+
+
+if(!choice){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Please choose a payment method.';
+
+return;
+
+}
+
+
+const ref=
+$('paymentReference')
+.value
+.trim();
+
+
+if(!ref){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Please complete payment and enter the payment/reference number.';
+
+return;
+
+}
+
+
+const slip=
+$('paymentSlip')
+?.files?.[0];
+
+
+if(!slip){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Please upload your payment slip.';
+
+return;
+
+}
+
+
+const allowedTypes=[
+'image/jpeg',
+'image/png',
+'image/webp',
+'application/pdf'
+];
+
+
+if(!allowedTypes.includes(slip.type)){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Payment slip must be JPG, PNG, WebP or PDF.';
+
+return;
+
+}
+
+
+if(slip.size>5*1024*1024){
+
+$('orderResult').style.display='block';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Payment slip must be 5 MB or smaller.';
+
+return;
+
+}
+
+
+const orderId=
+crypto.randomUUID();
+
+const price=
+Number(p.price);
+
+const deliveryFee=getCheckoutDeliveryFee();
+const total=price*q+deliveryFee;
+
+
+const chars=
+'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+
+const randomPart=n=>{
+
+const a=
+new Uint32Array(n);
+
+crypto.getRandomValues(a);
+
+return Array.from(
+a,
+x=>chars[
+x%chars.length
+]
+).join('');
+
+};
+
+
+const accessCode=
+`MBG-${randomPart(4)}-${randomPart(4)}-${randomPart(4)}`;
+
+
+$('placeOrder').disabled=true;
+
+$('placeOrder').textContent=
+'Placing Order…';
+
+
+const {error}=await sb.rpc(
+'mbg_create_guest_order',
+{
+target_product:p.id,
+order_id:orderId,
+access_code:accessCode,
+customer_name_input:name,
+customer_phone_input:phone,
+customer_island_input:
+$('customerIsland').value.trim(),
+delivery_address_input:
+$('deliveryAddress').value.trim(),
+quantity_input:q,
+payment_method_input:choice,
+payment_reference_input:ref,
+customer_note_input:
+$('customerNote').value.trim()
+}
+);
+
+
+$('orderResult').style.display='block';
+
+
+if(error){
+
+$('placeOrder').disabled=false;
+
+$('placeOrder').textContent=
+'Place Order';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').textContent=
+'Order could not be placed: '+
+error.message;
+
+return;
+
+}
+
+
+$('placeOrder').textContent=
+'Uploading Payment Slip…';
+
+
+try{
+
+await uploadPaymentSlip(
+orderId,
+accessCode,
+ref,
+slip
+);
+
+}
+catch(uploadError){
+
+$('placeOrder').disabled=false;
+
+$('placeOrder').textContent=
+'Place Order';
+
+$('orderResult').className=
+'msg error';
+
+$('orderResult').innerHTML=`
+
+<b>
+ORDER CREATED,
+BUT PAYMENT SLIP UPLOAD FAILED ⚠️
+</b>
+
+<br><br>
+
+Order Reference:<br>
+
+<b>${esc(orderId)}</b>
+
+<br><br>
+
+Private Access Code:<br>
+
+<b style="font-size:20px">
+${esc(accessCode)}
+</b>
+
+<br><br>
+
+Please save both now.
+The order exists, but the payment slip
+was not attached.
+
+<br><br>
+
+Error:
+${esc(
+uploadError.message||
+'Upload failed'
+)}
+
+`;
+
+return;
+
+}
+
+
+$('placeOrder').disabled=false;
+
+$('placeOrder').textContent=
+'Place Order';
+
+$('orderResult').className='msg';
+
+$('orderResult').innerHTML=`
+
+<b>ORDER PLACED ✅</b>
+
+<br>
+
+<b>
+PAYMENT SLIP UPLOADED ✅
+</b>
+
+<br><br>
+
+Order Reference:<br>
+
+<b>${esc(orderId)}</b>
+
+<br><br>
+
+Private Access Code:<br>
+
+<b style="font-size:20px">
+${esc(accessCode)}
+</b>
+
+<br><br>
+
+Subtotal:
+<b>
+MVR ${(price*q).toFixed(2)}
+</b>
+
+<br>
+
+Delivery Fee:
+<b>
+${deliveryFee===0?'FREE':'MVR '+deliveryFee.toFixed(2)}
+</b>
+
+<br>
+
+Total:
+<b>
+MVR ${total.toFixed(2)}
+</b>
+
+<br><br>
+
+🔐
+<b>
+Save the Order Reference
+and Private Access Code.
+</b>
+
+<br>
+
+You will need both to track this
+order, confirm delivery, or open a dispute.
+
+For security, MBG cannot display
+the original private access code again
+after you leave this page.
+
+<br><br>
+
+Payment is still awaiting seller verification.
+Uploading a slip does not prove that funds
+were received.
+
+`;
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+$('qty').oninput=updateTotal;
+
+$('placeOrder').onclick=
+placeOrder;
+
+
+$('checkoutBack').onclick=()=>
+checkoutProduct&&
+openProduct(
+checkoutProduct.id
+);
+
+
+$('back').onclick=()=>{
+
+$('shopView').style.display='none';
+
+$('productView').style.display='none';
+
+$('marketView').style.display='block';
+
+history.replaceState(
+null,
+'',
+location.pathname
+);
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+};
+
+
+$('productBack').onclick=()=>{
+
+$('productView').style.display='none';
+
+$('marketView').style.display='block';
+
+history.replaceState(
+null,
+'',
+location.pathname
+);
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+};
+
+
+$('search').oninput=render;
+
+$('category').onchange=render;
+
+
+/* =========================
+   START
+========================= */
+
+await load();
+
+
+const productParam=
+decodeURIComponent(
+(
+location.hash.match(
+/^#product=(.*)$/
+)||[]
+)[1]||''
+);
+
+
+const slugParam=
+decodeURIComponent(
+(
+location.hash.match(
+/^#shop=(.*)$/
+)||[]
+)[1]||''
+);
+
+
+if(productParam){
+
+const p=
+products.find(
+x=>x.id===productParam
+);
+
+if(p)
+openProduct(p.id);
+
+}
+
+else if(slugParam){
+
+const b=
+businesses.find(
+x=>
+x.slug===slugParam||
+x.id===slugParam
+);
+
+if(b)
+openShop(b.id);
+
+}
+
+</script>
+
+</body>
+</html>
