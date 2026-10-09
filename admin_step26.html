@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Admin Dashboard</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--green:#137a3d;--red:#b42318;--gold:#8a6100;--bg:#f4f8fb;--line:#d9e5ec;--muted:#667b8c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17324a}header{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:20px}
+.wrap{max-width:1080px;margin:20px auto;padding:0 14px}.card,.item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:14px;box-shadow:0 7px 22px #062b550b}
+h2,h3{color:var(--navy)}input,textarea{width:100%;padding:12px;border:1px solid #cbdbe5;border-radius:10px;margin:6px 0 12px;font:inherit}
+button{border:0;border-radius:999px;padding:11px 15px;margin:3px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer}.green{background:var(--green)}.red{background:var(--red)}.secondary{background:#eaf3f7;color:var(--navy)}
+.hidden{display:none}.msg{padding:12px;border-radius:10px;background:#edf6f8;margin:12px 0;white-space:pre-wrap}.ok{background:#e8f8ed;color:#176b38}.err{background:#ffe9e9;color:#8a2020}.warn{background:#fff5dc;color:#765300}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.muted{font-size:13px;color:var(--muted)}.pill{padding:6px 10px;border-radius:999px;background:#eef4f7;font-size:12px;font-weight:bold}
+.pending{background:#fff2c7;color:#765300}.verified{background:#e4f7e9;color:#176b38}.rejected{background:#ffe6e6;color:#8a2020}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:13px 0}.stat{background:#f7fafc;border-radius:11px;padding:11px}.stat b{display:block;margin-top:4px}
+.paygrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.paybox{background:#f7fafc;border-radius:10px;padding:10px}.products{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.product{border:1px solid var(--line);border-radius:11px;padding:9px}.product img{width:100%;height:95px;object-fit:cover;border-radius:8px}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.products{grid-template-columns:1fr 1fr}}@media(max-width:430px){.products,.paygrid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><div class="wrap" style="margin:0 auto;padding:0"><b style="font-size:22px">Maldives Business Gateway</b><div>Secure Administration • Payment Verification • Plans</div></div></header>
+<main class="wrap">
+<section id="loginBox" class="card"><h2>Administrator Login</h2><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button id="login">Admin Login</button><div id="loginMsg" class="msg">Ready.</div></section>
+<section id="dash" class="hidden">
+<div class="card"><div class="top"><div><h2 style="margin:0">MBG Admin Dashboard</h2><div id="who" class="muted"></div></div><button id="logout" class="secondary">Logout</button></div><div id="msg" class="msg">Ready.</div></div>
+
+<div class="card"><div class="top"><div><h2 style="margin:0">🏦 Seller Bank Verification Center</h2><div class="muted">Review seller bank account requests. This is separate from MBG subscription payments.</div></div><button id="refreshBanks" class="secondary">Refresh bank requests</button></div><div class="msg warn">Only approve after independently checking seller identity and account ownership evidence. A request alone is not verification. Existing approved accounts remain active during pending replacements. Do not enable customer payments yet.</div><div id="bankRequests"></div></div>
+
+<div class="card"><div class="top"><div><h2 style="margin:0">💳 Payment Verification Center</h2><div class="muted">Verify the money in your actual bank/payment account before activation.</div></div><button id="refreshPayments" class="secondary">Refresh</button></div><div id="payments" style="margin-top:14px"></div></div>
+
+<div class="card"><div class="top"><div><h2 style="margin:0">🚨 Dispute Investigation Center</h2><div class="muted">Review buyer complaints, seller responses and start a 15-day resolution period.</div></div><button id="refreshDisputes" class="secondary">Refresh</button></div><div id="disputes" style="margin-top:14px"></div></div>
+
+<div class="card"><div class="top"><h2 style="margin:0">Businesses</h2><button id="refresh" class="secondary">Refresh</button></div><div id="businesses"></div></div>
+</section></main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=x=>document.getElementById(x),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let sb,user,businessMap={};
+function message(id,t,c=''){let e=$(id);e.textContent=t;e.className='msg '+c}
+function dt(v){return v?new Date(v).toLocaleString():'—'} function d(v){return v?new Date(v).toLocaleDateString():'—'}
+
+async function enter(session){
+ user=session?.user;
+ if(!user){$('loginBox').classList.remove('hidden');$('dash').classList.add('hidden');return}
+ const {data,error}=await sb.from('mbg_admins').select('user_id').eq('user_id',user.id).maybeSingle();
+ if(error||!data){await sb.auth.signOut();message('loginMsg','Access denied. This account is not an MBG administrator.','err');return}
+ $('loginBox').classList.add('hidden');$('dash').classList.remove('hidden');$('who').textContent=user.email;
+ await loadAll()
+}
+async function loadAll(){await loadBusinesses();await loadBankRequests();await loadPayments();await loadDisputes()}
+
+async function loadBusinesses(){
+ const {data,error}=await sb.from('businesses').select('*').order('created_at',{ascending:false});
+ if(error)return message('msg','Business load failed: '+error.message,'err');
+ businessMap=Object.fromEntries((data||[]).map(b=>[b.id,b]));$('businesses').innerHTML='';
+ for(const b of data||[]){
+  const {data:ps}=await sb.from('products').select('*').eq('business_id',b.id);
+  const count=(ps||[]).length,plan=(b.plan||'free').toUpperCase(),limit=b.product_limit??10;
+  const el=document.createElement('div');el.className='item';
+  el.innerHTML=`<div class="top"><div><h3 style="margin:0 0 4px">${esc(b.name)}</h3><div class="muted">${esc(b.category||'')} ${b.location?'• '+esc(b.location):''}</div></div><span class="pill">${esc((b.status||'pending').toUpperCase())}</span></div>
+  <div class="stats"><div class="stat">Plan<b>${esc(plan)}</b></div><div class="stat">Products<b>${count} / ${limit}</b></div><div class="stat">Subscription<b>${esc((b.subscription_status||'free').toUpperCase())}</b></div><div class="stat">Expires<b>${d(b.subscription_expires_at)}</b></div></div>
+  <p>${esc(b.description||'')}</p><div class="muted"><b>Phone:</b> ${esc(b.phone||'—')} &nbsp; <b>Slug:</b> ${esc(b.slug||'—')}</div>
+  <h4>Products (${count})</h4><div class="products">${(ps||[]).map(p=>`<div class="product">${p.image_url?`<img src="${esc(p.image_url)}">`:''}<b>${esc(p.title)}</b><div>${p.price!=null?'MVR '+Number(p.price).toFixed(2):''}</div></div>`).join('')||'<span class="muted">No products</span>'}</div>
+  <div style="margin-top:14px"><button class="green" data-status="${b.id}|approved">Approve Business</button><button class="red" data-status="${b.id}|rejected">Reject</button><button class="secondary" data-status="${b.id}|pending">Pending</button></div>`;
+  $('businesses').appendChild(el)
+ }
+ document.querySelectorAll('[data-status]').forEach(x=>x.onclick=()=>{let [id,s]=x.dataset.status.split('|');setStatus(id,s)});
+ message('msg',`Loaded ${(data||[]).length} business(es).`,'ok')
+}
+
+async function loadBankRequests(){
+ const target=$('bankRequests');target.textContent='Loading bank verification requests…';
+ const {data,error}=await sb.rpc('mbg_admin_list_bank_requests');
+ if(error){target.innerHTML=`<div class="msg err">Bank request load failed: ${esc(error.message)}</div>`;return}
+ const rows=data||[];
+ if(!rows.length){target.innerHTML='<div class="msg">No bank verification requests submitted yet.</div>';return}
+ target.innerHTML=rows.map(r=>{
+  const pending=r.status==='pending';
+  return `<div class="item"><div class="top"><div><h3 style="margin:0">${esc(r.business_name||'Business')}</h3><div class="muted">Request ${esc(r.id)} • Submitted ${esc(dt(r.submitted_at))}</div></div><span class="pill ${esc(r.status)}">${esc((r.status||'unknown').toUpperCase())}</span></div>
+  <div class="paygrid"><div class="paybox">Bank<b style="display:block">${esc(r.bank_name)}</b></div><div class="paybox">Account holder<b style="display:block">${esc(r.bank_account_name)}</b></div><div class="paybox">Account number<b style="display:block">${esc(r.bank_account_number)}</b></div><div class="paybox">Seller ID<b style="display:block;overflow-wrap:anywhere">${esc(r.seller_id)}</b></div></div>
+  ${r.admin_note?`<p><b>Review note:</b> ${esc(r.admin_note)}</p>`:''}
+  ${pending?`<div class="msg warn">Verify identity and bank ownership outside this dashboard before approval. Evidence upload and KYC checks are not yet implemented here.</div><button class="green" data-bank-approve="${esc(r.id)}">Approve verified bank</button><button class="red" data-bank-reject="${esc(r.id)}">Reject request</button>`:`<div class="muted">Reviewed ${esc(dt(r.reviewed_at))}</div>`}
+  </div>`;
+ }).join('');
+ target.querySelectorAll('[data-bank-approve]').forEach(el=>el.onclick=()=>reviewBank(el.dataset.bankApprove,'approved'));
+ target.querySelectorAll('[data-bank-reject]').forEach(el=>el.onclick=()=>reviewBank(el.dataset.bankReject,'rejected'));
+}
+async function reviewBank(id,decision){
+ const approving=decision==='approved';
+ const note=prompt(approving?'Record which identity and bank-ownership evidence you checked (required):':'Reason for rejecting this bank request (required):');
+ if(note===null)return;
+ if(note.trim().length<10){alert('Please enter a meaningful review note (at least 10 characters).');return}
+ if(!confirm(approving?'Confirm you independently verified the seller identity and account ownership? This will replace the approved bank account for this business.':'Reject this bank verification request?'))return;
+ const {error}=await sb.rpc('mbg_admin_review_bank_request',{p_request_id:id,p_decision:decision,p_note:note.trim()});
+ if(error)return message('msg','Bank review failed: '+error.message,'err');
+ message('msg',approving?'Bank account approved and audit recorded.':'Bank request rejected and audit recorded.','ok');
+ await loadBankRequests();
+}
+
+async function loadPayments(){
+ const {data,error}=await sb.from('payment_requests').select('*').order('created_at',{ascending:false});
+ if(error){$('payments').innerHTML=`<div class="msg err">Could not load payment requests: ${esc(error.message)}</div>`;return}
+ const rows=data||[];if(!rows.length){$('payments').innerHTML='<div class="msg">No payment requests yet.</div>';return}
+ $('payments').innerHTML=rows.map(r=>{
+   const b=businessMap[r.business_id]||{},st=(r.status||'pending').toLowerCase();
+   return `<div class="item"><div class="top"><div><h3 style="margin:0">${esc(b.name||'Business')}</h3><div class="muted">Submitted ${dt(r.created_at)}</div></div><span class="pill ${st}">${esc(st.toUpperCase())}</span></div>
+   <div class="paygrid"><div class="paybox">Plan<b style="display:block">MBG Business</b></div><div class="paybox">Amount<b style="display:block">$${Number(r.amount_usd||5).toFixed(2)}</b></div><div class="paybox">Method<b style="display:block">${esc(r.payment_method||'—')}</b></div><div class="paybox">Reference<b style="display:block">${esc(r.transaction_reference||'—')}</b></div></div>
+   ${r.seller_note?`<p><b>Seller note:</b> ${esc(r.seller_note)}</p>`:''}${r.admin_note?`<p><b>Admin note:</b> ${esc(r.admin_note)}</p>`:''}
+   ${st==='pending'?`<div class="msg warn"><b>Do not approve from the reference alone.</b> Check your actual bank/payment account and confirm the money was received.</div><button class="green" data-verify="${r.id}|${r.business_id}">✓ Payment Received — Verify & Activate</button><button class="red" data-reject="${r.id}">Reject Payment</button>`:`<div class="muted">${r.verified_at?'Processed: '+dt(r.verified_at):''}</div>`}</div>`
+ }).join('');
+ document.querySelectorAll('[data-verify]').forEach(x=>x.onclick=()=>{let [rid,bid]=x.dataset.verify.split('|');verifyPayment(rid,bid)});
+ document.querySelectorAll('[data-reject]').forEach(x=>x.onclick=()=>rejectPayment(x.dataset.reject))
+}
+
+function disputeLabel(st){return ({open:'AWAITING SELLER RESPONSE',seller_responded:'SELLER RESPONDED',under_review:'15-DAY RESOLUTION',refund_required:'REFUND REQUIRED',refund_submitted:'REFUND SUBMITTED',resolved:'RESOLVED',rejected:'CLOSED / NOT UPHELD',refund_overdue:'REFUND OVERDUE'})[st]||String(st||'').toUpperCase()}
+async function loadDisputes(){
+ const {data,error}=await sb.from('order_disputes').select('*').order('opened_at',{ascending:false});
+ if(error){$('disputes').innerHTML=`<div class="msg err">Could not load disputes: ${esc(error.message)}</div>`;return}
+ const rows=data||[];
+ if(!rows.length){$('disputes').innerHTML='<div class="msg">No disputes yet.</div>';return}
+ $('disputes').innerHTML=rows.map(d=>{
+  const b=businessMap[d.business_id]||{};
+  return `<div class="item" style="${['open','seller_responded','under_review','refund_required','refund_overdue'].includes(d.status)?'border:2px solid #d79b32':''}">
+   <div class="top"><div><h3 style="margin:0">🚨 ${esc(b.name||'Business')} — Dispute</h3><div class="muted">Dispute ${esc(d.id)} • Order ${esc(d.order_id)} • Opened ${dt(d.opened_at)}</div></div><span class="pill">${esc(disputeLabel(d.status))}</span></div>
+   <div class="paygrid"><div class="paybox">Buyer<b>${esc(d.customer_name)}</b></div><div class="paybox">Phone<b>${esc(d.customer_phone)}</b></div><div class="paybox">Reason<b>${esc(d.reason)}</b></div><div class="paybox">Deadline<b>${d.refund_deadline?dt(d.refund_deadline):'Not set'}</b></div></div>
+   <div class="msg"><b>Buyer statement</b><br>${esc(d.buyer_statement)}</div>
+   <div class="msg"><b>Seller response</b><br>${d.seller_response?esc(d.seller_response):'<span class="muted">Waiting for seller response.</span>'}</div>
+   ${d.admin_note?`<div class="msg"><b>MBG note</b><br>${esc(d.admin_note)}</div>`:''}
+   ${d.status==='seller_responded'?`<button class="green" data-review="${d.id}">Start 15-Day Resolution Period</button><button class="secondary" data-close="${d.id}">Close Dispute</button>`:''}
+   ${d.status==='open'?`<div class="msg warn">Waiting for the seller to respond before MBG starts the resolution period.</div>`:''}
+   ${d.status==='under_review'?`<div class="msg warn"><b>Resolution period active.</b> If the item arrives, the buyer should confirm receipt. If it remains unresolved, MBG can decide whether a refund is required.</div><button class="red" data-refund="${d.id}">Require Refund</button><button class="secondary" data-close="${d.id}">Resolve / Close</button>`:''}
+   ${d.status==='refund_required'?`<div class="msg warn"><b>Seller must refund.</b> Amount: ${d.refund_amount!=null?'MVR '+Number(d.refund_amount).toFixed(2):'See decision'} • Deadline: ${d.refund_deadline?dt(d.refund_deadline):'—'}</div>`:''}
+  </div>`
+ }).join('');
+ document.querySelectorAll('[data-review]').forEach(x=>x.onclick=()=>startResolution(x.dataset.review));
+ document.querySelectorAll('[data-refund]').forEach(x=>x.onclick=()=>requireRefund(x.dataset.refund));
+ document.querySelectorAll('[data-close]').forEach(x=>x.onclick=()=>closeDispute(x.dataset.close));
+}
+async function startResolution(id){
+ const note=prompt('MBG review note (optional):')??'';
+ if(!confirm('Start the 15-day resolution period? During this time the buyer can confirm if the item arrives.'))return;
+ const {error}=await sb.rpc('mbg_admin_start_resolution',{target_dispute:id,admin_message:note||null});
+ if(error)return message('msg','Could not start resolution period: '+error.message,'err');
+ message('msg','15-day resolution period started.','ok');await loadDisputes()
+}
+async function requireRefund(id){
+ const amount=prompt('Refund amount in MVR:');
+ if(amount===null)return;
+ const n=Number(amount);if(!Number.isFinite(n)||n<0)return alert('Enter a valid refund amount.');
+ const note=prompt('MBG refund decision / instruction:')??'';
+ if(!confirm('Require the seller to refund MVR '+n.toFixed(2)+'?'))return;
+ const {error}=await sb.rpc('mbg_admin_require_refund',{target_dispute:id,refund_amount_input:n,admin_message:note||null});
+ if(error)return message('msg','Refund decision failed: '+error.message,'err');
+ message('msg','Refund requirement recorded.','ok');await loadDisputes()
+}
+async function closeDispute(id){
+ const note=prompt('Reason / MBG resolution note:');
+ if(note===null||note.trim().length<3)return;
+ if(!confirm('Close this dispute as resolved?'))return;
+ const {error}=await sb.rpc('mbg_admin_close_dispute',{target_dispute:id,admin_message:note.trim()});
+ if(error)return message('msg','Could not close dispute: '+error.message,'err');
+ message('msg','Dispute closed.','ok');await loadDisputes()
+}
+
+async function verifyPayment(requestId,businessId){
+ if(!confirm('Have you checked your actual bank/payment account and confirmed the $5 payment was received?'))return;
+ message('msg','Activating Business plan…');
+ const {error}=await sb.rpc('mbg_verify_payment_and_activate',{target_request:requestId});
+ if(error)return message('msg','Verification/activation failed: '+error.message,'err');
+ message('msg','Payment verified and MBG Business activated together successfully: 100 products for one month.','ok');await loadAll()
+}
+async function rejectPayment(id){
+ const note=prompt('Reason / admin note for rejection (optional):')??'';
+ if(!confirm('Reject this payment request?'))return;
+ const {error}=await sb.from('payment_requests').update({status:'rejected',verified_at:new Date().toISOString(),admin_note:note||'Payment not verified by MBG.'}).eq('id',id).eq('status','pending');
+ if(error)return message('msg','Reject failed: '+error.message,'err');
+ message('msg','Payment request rejected.','ok');await loadPayments()
+}
+async function setStatus(id,s){
+ if(!confirm('Change business status to '+s+'?'))return;
+ const {error}=await sb.from('businesses').update({status:s}).eq('id',id);
+ if(error)return message('msg','Update failed: '+error.message,'err');message('msg','Business status changed to '+s+'.','ok');await loadBusinesses()
+}
+
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');sb=createClient(URL,KEY);
+$('login').onclick=async()=>{message('loginMsg','Signing in…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)message('loginMsg','Login failed: '+error.message,'err')};
+$('logout').onclick=()=>sb.auth.signOut();$('refresh').onclick=loadBusinesses;$('refreshPayments').onclick=loadPayments;$('refreshBanks').onclick=loadBankRequests;$('refreshDisputes').onclick=loadDisputes;
+sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>enter(s),0));const {data:{session}}=await sb.auth.getSession();await enter(session);if(!session)message('loginMsg','Ready for secure administrator login.','ok');
+</script></body></html>
