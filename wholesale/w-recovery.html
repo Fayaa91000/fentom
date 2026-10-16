@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBG Wholesale — Recovery</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--green:#137a3d;--red:#b42318;--bg:#f4f8fb;--line:#d9e5ec;--muted:#667b8c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17324a}
+header{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:20px}.wrap{max-width:980px;margin:20px auto;padding:0 14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:14px;box-shadow:0 7px 22px #062b550b}
+h2,h3{color:var(--navy)}input,textarea,select{width:100%;padding:12px;border:1px solid #cbdbe5;border-radius:10px;margin:6px 0 12px;font:inherit}
+textarea{min-height:90px}button{border:0;border-radius:999px;padding:11px 16px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer}
+.secondary{background:#eaf3f7;color:var(--navy)}.danger{background:var(--red)}.hidden{display:none}
+.save-feedback{margin-top:12px!important;border:1px solid #d9e5ec;line-height:1.55;font-weight:600}.save-feedback[hidden]{display:none!important}button:disabled{opacity:.65;cursor:wait}.msg{padding:12px;border-radius:10px;background:#edf6f8;margin:12px 0;white-space:pre-wrap}.ok{background:#e8f8ed;color:#176b38}.err{background:#ffe9e9;color:#8a2020}.warn{background:#fff5dc;color:#765300}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.pill{padding:6px 10px;border-radius:999px;background:#eef4f7;font-size:12px;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#f7fafc;padding:12px;border-radius:11px}.stat b{display:block;margin-top:4px}
+.bar{height:10px;background:#e4edf2;border-radius:99px;overflow:hidden}.bar>div{height:100%;background:var(--blue)}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.product{border:1px solid var(--line);border-radius:12px;padding:10px}.product img{width:100%;height:120px;object-fit:cover;border-radius:9px}
+.bank{background:#f7fbfd;border:1px solid var(--line);border-radius:13px;padding:14px;line-height:1.7}.muted{font-size:13px;color:var(--muted)}
+.brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.color-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input[type="color"]{height:48px;padding:4px;cursor:pointer}
+.store-preview{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;margin-top:12px}
+.store-cover{height:150px;background:linear-gradient(135deg,#dceef5,#eef7fa);background-size:cover;background-position:center;position:relative}
+.store-logo{width:82px;height:82px;border-radius:18px;border:4px solid #fff;background:#fff;object-fit:cover;position:absolute;left:18px;bottom:-40px;box-shadow:0 5px 15px #0002}
+.store-preview-body{padding:52px 18px 18px}.store-preview-button{display:inline-block;padding:9px 14px;border-radius:999px;color:#fff;font-weight:bold;margin-top:8px}
+.product-images-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0 12px}.product-images-grid>div{border:1px solid var(--line);border-radius:12px;padding:10px;background:#f9fcfd}.product-images-grid label{font-size:13px;font-weight:bold}.main-image{border:2px solid #137a3d!important;background:#f1fbf4!important}.gallery-note{font-size:13px;color:var(--muted);margin-bottom:8px}
+.promo-box{background:#f7fbfd;border:1px solid var(--line);border-radius:13px;padding:14px;margin:12px 0}
+.promo-actions{display:flex;gap:8px;flex-wrap:wrap}.share-green{background:var(--green)}.copy-link{background:#eaf3f7;color:var(--navy)}
+.share-url{font-size:12px;color:var(--muted);word-break:break-all;margin:8px 0}
+.shipping-box{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:13px;background:#f7fbfd}
+.shipping-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shipping-details{margin-top:10px;padding:12px;border-radius:10px;background:#eef7fa;border:1px solid var(--line)}
+@media(max-width:650px){.shipping-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.brand-grid,.color-row,.product-images-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.stats,.products{grid-template-columns:1fr 1fr}}@media(max-width:430px){.stats,.products{grid-template-columns:1fr}}
+
+/* ===== MBG organized seller dashboard ===== */
+.dashboard-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.nav-tile{border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff;cursor:pointer;text-align:left;color:var(--navy);box-shadow:0 5px 15px #062b5508}
+.nav-tile b{display:block;font-size:15px;margin-bottom:3px}.nav-tile span{font-size:12px;color:var(--muted)}
+.section-card{overflow:hidden;padding:0!important}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;cursor:pointer;user-select:none}
+.section-head-left{display:flex;align-items:center;gap:12px}.section-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:21px;background:#eef5f8}
+.section-title{margin:0!important;font-size:18px}.section-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.section-toggle{font-size:20px;font-weight:bold;transition:.2s}.section-card.collapsed .section-toggle{transform:rotate(-90deg)}
+.section-body{padding:0 18px 18px}.section-card.collapsed .section-body{display:none}
+.theme-business{border-top:5px solid #0874a6}.theme-business .section-head{background:#eef8fc}
+.theme-design{border-top:5px solid #7c3aed}.theme-design .section-head{background:#f6f1ff}
+.theme-promote{border-top:5px solid #db7c00}.theme-promote .section-head{background:#fff7e8}
+.theme-disputes{border-top:5px solid #b42318}.theme-disputes .section-head{background:#fff1f0}
+.theme-orders{border-top:5px solid #137a3d}.theme-orders .section-head{background:#eefaf2}
+.theme-payments{border-top:5px solid #0e7490}.theme-payments .section-head{background:#edfafd}
+.theme-products{border-top:5px solid #2563eb}.theme-products .section-head{background:#eff6ff}
+.theme-plan{border-top:5px solid #475569}.theme-plan .section-head{background:#f5f7f9}
+.payment-evidence{border:2px solid #137a3d;background:linear-gradient(135deg,#edfff3,#f7fffa);border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 5px 16px #137a3d16}
+.payment-evidence-title{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;color:#0f6533;margin-bottom:8px}
+.view-slip-btn{width:100%;border-radius:12px!important;padding:14px 16px!important;background:#137a3d!important;font-size:15px;margin:9px 0 6px;box-shadow:0 5px 12px #137a3d25}
+.no-slip{border:1px dashed #d5a323;background:#fff9e8;border-radius:12px;padding:12px;margin:10px 0}
+.orders-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.products-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.products-summary{padding:12px 14px;border-radius:12px;background:#eff6ff;border:1px solid #cfe0ff;margin:10px 0}
+.orders-toolbar button{padding:8px 12px}
+.order-card{border:1px solid var(--line);border-left:5px solid #137a3d;border-radius:14px;padding:14px;margin:12px 0;background:#fff;box-shadow:0 4px 14px #062b5508}
+@media(max-width:520px){.dashboard-nav{grid-template-columns:1fr}.section-head{padding:14px}.section-body{padding:0 14px 14px}}
+
+
+/* ===== Seller Control Center ===== */
+.hq{background:linear-gradient(135deg,#062b55,#0874a6);color:#fff;border:0!important;padding:20px!important}
+.hq h2{color:#fff;margin:0}.hq-sub{opacity:.88;margin-top:4px}
+.hq-status{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.hq-chip{background:#ffffff20;border:1px solid #ffffff35;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:bold}
+.hq-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.hq-action{background:#fff;color:#062b55;border-radius:13px;padding:12px 8px;text-align:center;font-size:12px;min-height:66px}
+.hq-action b{display:block;font-size:18px;margin-bottom:4px}
+.attention{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+.attn{background:#ffffff12;border:1px solid #ffffff30;border-radius:12px;padding:10px;text-align:center}.attn strong{display:block;font-size:20px}.attn span{font-size:11px;opacity:.9}
+.product-tools{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin:10px 0}.product-tools input,.product-tools select{margin:0}
+@media(max-width:650px){.hq-actions{grid-template-columns:repeat(2,1fr)}.attention{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:430px){.attention{grid-template-columns:1fr 1fr 1fr}.product-tools{grid-template-columns:1fr}}
+
+.page-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.page-nav a{display:inline-block;text-decoration:none;border:1px solid var(--line);background:#fff;color:var(--navy);padding:10px 13px;border-radius:999px;font-weight:bold;font-size:13px}
+.page-nav a.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.item{border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;background:#fff}
+.badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#eef4f7;font-size:11px;font-weight:bold}
+.green{background:var(--green)!important;color:#fff!important}.red{background:var(--red)!important;color:#fff!important}
+hr{border:0;border-top:1px solid var(--line)}
+
+/* Wholesale settings */
+.wholesale-panel{border:1px solid #b8d9e9;border-radius:14px;padding:15px;margin:14px 0;background:#f2faff}
+.wholesale-panel h3{margin:0 0 8px}.wholesale-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wholesale-note{font-size:12px;color:#526b7c;line-height:1.5}.wholesale-total{padding:12px;background:#e7f6ed;border:1px solid #b2e1c2;border-radius:10px;color:#126334;font-weight:bold;margin:8px 0}
+@media(max-width:550px){.wholesale-grid{grid-template-columns:1fr}}
+
+/* Packaging designer (preview until backend installation) */
+.pkg-builder{border:1px solid #b8d9e9;border-radius:13px;padding:14px;margin-top:12px;background:#fff}
+.pkg-option{border:1px solid #d9e5ec;border-radius:11px;padding:12px;margin:10px 0;background:#f7fbfd}
+.pkg-option .wholesale-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pkg-result{font-weight:bold;color:#11683b;background:#e8f8ed;padding:10px;border-radius:9px;margin-top:7px}
+.pkg-note{color:#765300;background:#fff5dc;padding:10px;border-radius:9px;font-size:13px;margin-top:9px}
+@media(max-width:550px){.pkg-option .wholesale-grid{grid-template-columns:1fr}}
+
+/* MBG wholesale dashboard */
+.mbg-dashboard{background:linear-gradient(145deg,#062b55,#0874a6);color:#fff;border:0}.mbg-dashboard h2{color:#fff;margin:0 0 5px}.mbg-dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.mbg-dash-stat{background:#ffffff19;border:1px solid #ffffff33;border-radius:12px;padding:14px}.mbg-dash-stat strong{font-size:23px;display:block;margin-top:5px}.mbg-dash-stat span{font-size:12px;opacity:.9}.mbg-dash-actions{display:flex;flex-wrap:wrap;gap:8px}.mbg-dash-actions button{background:#fff;color:#062b55;border-radius:10px}.mbg-dash-actions button:disabled{opacity:.5}.mbg-dash-note{font-size:12px;opacity:.85;margin-top:10px}
+@media(min-width:700px){.mbg-dash-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>
+
+<style>.mbg-five-nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}.mbg-five-nav a{background:#fff;border:1px solid #d9e5ec;border-radius:12px;padding:11px;text-decoration:none;color:#062b55;font-weight:bold}.mbg-five-nav a.active{background:#0874a6;color:white}.mbg-split-note{background:#edf6f8;padding:12px;border-radius:12px;margin:10px 0}</style><style>#wholesalePaymentCard{display:none!important}#mbgDashboard{display:none!important}#wholesaleAccess{display:none!important}#productCard{display:none!important}</style></head>
+<body><header><div class="wrap" style="margin:0 auto;padding:0"><b style="font-size:22px">Maldives Business Gateway</b><div>Seller Portal</div></div></header><main class="wrap"><section id="authBox" class="card"><h2>Seller Login</h2><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button id="login">Login</button><div id="authMsg" class="msg">Ready.</div></section><section id="app" class="hidden"><div class="card"><div class="top"><div><h2 style="margin:0">Seller Dashboard</h2><div id="who" class="muted"></div></div><button id="logout" class="secondary">Logout</button></div><div id="msg" class="msg">Ready.</div></div><div class="page-nav mbg-five-nav"><a href="w-main.html">🏠 Dashboard</a><a href="w-orders.html">🛒 Orders</a><a href="w-dispute.html">🚨 Disputes</a><a href="w-recovery.html" class="active">🔐 Recovery</a><a href="w-products.html">📦 Products</a></div>
+<div class="card hq"><div class="top"><div><h2 id="hqName">🔐 Wholesale Order Recovery</h2><div id="hqSub" class="hq-sub">Manage retail, wholesale or both in one place</div></div><span id="hqApproval" class="hq-chip">Loading…</span></div><div class="hq-status"><span id="hqPlan" class="hq-chip">PLAN</span><span id="hqProducts" class="hq-chip">0 products</span><span class="hq-chip">0% MBG commission</span></div></div>
+<div id="wholesalePaymentCard" class="card theme-payments hidden"><h2>💳 Seller Payment Settings</h2><p class="muted">Choose how buyers pay your business. These settings are shared with your retail store. Do not enter PINs, OTPs, CVVs, passwords or secret keys.</p><label><input id="bankEnabled" type="checkbox" style="width:auto;margin-right:8px"> Enable Bank Transfer</label><div id="bankFields" class="hidden"><label>Bank Name</label><input id="sellerBankName" autocomplete="organization" placeholder="e.g. Bank of Maldives"><label>Account Holder Name</label><input id="sellerAccountName" placeholder="Account holder name"><label>Bank Account Number</label><input id="sellerAccountNumber" placeholder="Account number"></div><hr><label><input id="onlineEnabled" type="checkbox" style="width:auto;margin-right:8px"> Enable Online Payment</label><div id="onlineFields" class="hidden"><label>Payment Provider Name</label><input id="gatewayName" placeholder="Payment provider"><label>HTTPS Payment Link</label><input id="gatewayUrl" type="url" placeholder="https://..."></div><button id="saveCustomerPayments" type="button">💾 Save Payment Settings</button><div id="customerPaymentMsg" class="msg" role="status" aria-live="polite">Loading payment settings…</div><p class="muted">Payment receipts are stored separately in the private payment-slips bucket and checked through the seller orders page. Always verify receipt of money before confirming payment.</p></div>
+<div id="mbgDashboard" class="card mbg-dashboard hidden"><div class="top"><div><h2>📊 Wholesale Dashboard</h2><div class="muted" style="color:#dbeefa" id="mbgDashBusiness">Your business overview</div></div><button id="mbgDashRefresh" class="secondary" type="button">↻ Refresh</button></div><div class="mbg-dash-grid"><div class="mbg-dash-stat"><span>All products</span><strong id="mbgDashTotal">—</strong></div><div class="mbg-dash-stat"><span>Available products</span><strong id="mbgDashActive">—</strong></div><div class="mbg-dash-stat"><span>Out of stock</span><strong id="mbgDashInactive">—</strong></div><div class="mbg-dash-stat"><span>Orders awaiting payment</span><strong id="mbgDashPending">—</strong></div></div><div class="mbg-dash-grid"><div class="mbg-dash-stat"><span>Wholesale verification</span><strong id="mbgDashVerification" style="font-size:16px">—</strong></div><div class="mbg-dash-stat"><span>Subscription</span><strong id="mbgDashSubscription" style="font-size:16px">—</strong></div><div class="mbg-dash-stat"><span>Bank transfer</span><strong id="mbgDashBank" style="font-size:16px">—</strong></div><div class="mbg-dash-stat"><span>Online payment</span><strong id="mbgDashOnline" style="font-size:16px">—</strong></div></div><div class="mbg-dash-actions"><button type="button" data-mbg-jump="productCard">📦 Products</button><button type="button" data-mbg-jump="wholesalePaymentCard">💳 Payment Settings</button><button type="button" id="mbgDashOrders">🛒 Open Orders</button></div><div class="mbg-dash-note" id="mbgDashNotice">Counts are for your own business. Refresh to update.</div></div>
+<section id="mbgWholesaleRecovery" class="card hidden" style="border-top:5px solid #0874a6"><h2>🔐 Order Recovery</h2><p class="muted">Find a buyer's order and request recovery. No manual order reference required. MBG Admin independently verifies the buyer.</p><input id="mbgWrSearch" type="search" placeholder="Search buyer name, phone, order ID or date"><button id="mbgWrRefresh" type="button" class="secondary">Refresh Orders</button><div id="mbgWrOrders" style="max-height:360px;overflow:auto"></div><button id="mbgWrMore" type="button" class="secondary">Load More Orders</button><div id="mbgWrSelected" class="msg">Select an order above.</div><textarea id="mbgWrNote" maxlength="2000" placeholder="Reason for recovery (20–2000 characters). Do not enter private codes."></textarea><button id="mbgWrSubmit" type="button">Submit Recovery Request</button><div id="mbgWrMessage" class="msg">Only your own orders can be requested.</div><h3>Previous Requests</h3><div id="mbgWrRequests"></div></section>
+<div id="wholesaleAccess" class="card"><h2>🔒 Wholesale Seller Verification</h2><div id="wholesaleAccessStatus" class="msg">Checking your wholesale approval…</div><div id="wholesaleApply" class="hidden"><p class="muted">Only government-registered businesses verified by MBG can publish wholesale products. Upload your official business registration certificate for private manual review. Do not upload personal identity documents.</p><label>Registered legal business name</label><input id="wholesaleLegalName" maxlength="200" placeholder="Name on government registration"><label>Government business registration number</label><input id="wholesaleRegistration" maxlength="100" placeholder="Registration number"><label for="wholesaleCertificate">Government business registration certificate (required)</label><input id="wholesaleCertificate" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"><div class="muted">JPG, PNG or PDF, maximum 10 MB. Stored privately for MBG verification.</div><button id="submitWholesaleApplication" type="button">Submit Wholesale Application</button></div><div id="wholesaleCertificateUpdate" class="hidden"><p class="muted">Your application needs a registration certificate before MBG can approve it.</p><input id="wholesaleCertificateReplacement" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"><button id="uploadWholesaleCertificate" type="button">Upload Registration Certificate</button></div></div><div id="productCard" class="card theme-products hidden"><div class="section-head"><div class="section-head-left"><div class="section-icon">📦</div><div><h3 class="section-title">Products</h3><div class="section-sub">Manage retail prices, wholesale MOQ, unit prices and listings</div></div></div></div>
+<div id="limitWarning" class="msg warn hidden">Your current plan limit has been reached. Delete a product to free a slot or upgrade your plan.</div>
+<div id="productForm"><input id="title" placeholder="Product title"><textarea id="productDescription" placeholder="Product description"></textarea><div id="retailPriceWrap"><label for="price">Retail price per piece (MVR)</label><input id="price" type="number" min="0.01" step="0.01" placeholder="e.g. 1200.00"></div>
+<div class="wholesale-panel"><h3>🏷️ Retail / Wholesale Listing</h3><label for="listingType">Where should this product appear?</label><select id="listingType"><option value="wholesale">Wholesale only</option><option value="retail">Retail only — sell individual pieces</option><option value="both">Both retail and wholesale</option></select><div id="wholesaleFields" class="hidden"><div class="wholesale-grid"><div><label for="wholesaleMoq">Minimum wholesale quantity (MOQ, pieces)</label><input id="wholesaleMoq" type="number" min="2" step="1" value="10"></div><div><label for="wholesalePrice">Wholesale price per item (MVR)</label><input id="wholesalePrice" type="number" min="0.01" step="0.01" placeholder="e.g. 85.00"></div></div><div class="pkg-builder" id="packagingDesigner"><h3>📦 Packaging & Selling Units</h3><p class="muted">Design your wholesale packages: KG, piece, dozen, case, box, carton, tray, bag, pack or litre. Each option has its own price and minimum order.</p><div id="packageOptions"></div><button id="addPackageOption" type="button" class="secondary">+ Add Another Package Option</button><div id="packageDesignSummary" class="pkg-result">Choose a selling unit to preview pricing.</div><div class="pkg-note">Package options are saved in Supabase. Packaged products are initially saved as Out of Stock for checkout safety. Use the stock control after checkout testing. Retail-only listings are unaffected.</div></div><div class="wholesale-total" id="wholesaleTotal">Enter MOQ and unit price to see the minimum order total.</div><p class="wholesale-note">Wholesale customers may order MOQ or more; the buyer checkout calculates the final amount. For Both, enter a separate retail price.</p></div></div>
+<input id="deliveryFeeMode" type="hidden" value="default">
+<div class="shipping-box"><b>🚚 Product Delivery</b><div class="muted" style="margin:4px 0 8px">Choose how delivery is charged for this product.</div><label>Delivery Option</label><select id="productDeliveryMode"><option value="default">Use Business Default Delivery Fee</option><option value="free">Free Delivery — 0 MVR</option><option value="custom">Custom Delivery Fee</option></select><div id="customDeliveryWrap" class="hidden"><label>Custom Delivery Fee (MVR)</label><input id="productDeliveryFee" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 100.00"></div><div class="muted">Example: set a diamond to <b>Free Delivery</b>, while other products can use your business default.</div></div>
+<div class="gallery-note">📷 Add up to 5 photos. Image 1 is the main marketplace image. Each photo must be JPG, PNG or WebP and 5 MB or smaller.</div>
+<div class="product-images-grid"><div class="main-image"><label>⭐ Image 1 — Main Image</label><input id="productImage1" type="file" accept="image/jpeg,image/png,image/webp"></div><div><label>Image 2 — Optional</label><input id="productImage2" type="file" accept="image/jpeg,image/png,image/webp"></div><div><label>Image 3 — Optional</label><input id="productImage3" type="file" accept="image/jpeg,image/png,image/webp"></div><div><label>Image 4 — Optional</label><input id="productImage4" type="file" accept="image/jpeg,image/png,image/webp"></div><div><label>Image 5 — Optional</label><input id="productImage5" type="file" accept="image/jpeg,image/png,image/webp"></div></div><button id="addProduct" type="button">📦 Add Product</button><div id="addProductStatus" class="msg save-feedback" role="status" aria-live="polite" hidden></div><p class="muted" style="margin:8px 0 0">Please tap Add Product once and wait for confirmation. Your saved product will appear under Your Products.</p></div>
+<div class="shipping-box"><b>🎬 Product Video — Optional</b><div class="muted">1 MP4 video per product · Maximum 10 MB · Maximum 60 seconds. Photos remain unchanged.</div><input id="productVideo" type="file" accept="video/mp4,.mp4"><div id="videoCheck" class="muted">No video selected.</div></div>
+<div id="editProductPanel" class="shipping-box hidden" style="border:2px solid #0874a6;margin:16px 0">
+<h3>✏️ Edit Product</h3><div class="muted">Update details without deleting your existing product or images. Product photos stay unchanged.</div>
+<label>Product title</label><input id="editTitle" maxlength="200">
+<label>Description</label><textarea id="editDescription"></textarea>
+<div id="editRetailPriceWrap"><label>Retail price per piece (MVR)</label><input id="editPrice" type="number" min="0" step="0.01" placeholder="e.g. 1200.00"></div>
+<div class="wholesale-panel"><h3>🏷️ Edit Retail / Wholesale</h3><label for="editListingType">Listing type</label><select id="editListingType"><option value="wholesale">Wholesale only</option><option value="retail">Retail only — sell individual pieces</option><option value="both">Both retail and wholesale</option></select><div id="editWholesaleFields" class="hidden"><div class="wholesale-grid"><div><label for="editWholesaleMoq">Wholesale MOQ</label><input id="editWholesaleMoq" type="number" min="2" step="1"></div><div><label for="editWholesalePrice">Wholesale price per item (MVR)</label><input id="editWholesalePrice" type="number" min="0.01" step="0.01"></div></div><div id="editPackagesNotice" class="pkg-note">Package options for this product will appear here after you choose Edit.</div><div class="wholesale-total" id="editWholesaleTotal">Enter MOQ and unit price to see the minimum order total.</div></div></div>
+<label>Delivery option</label><select id="editDeliveryMode"><option value="default">Use Business Default Delivery Fee</option><option value="free">Free Delivery</option><option value="custom">Custom Delivery Fee</option></select>
+<div id="editCustomDeliveryWrap" class="hidden"><label>Custom delivery fee (MVR)</label><input id="editDeliveryFee" type="number" min="0" step="0.01"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button id="saveProductEdit" type="button">💾 Save Changes</button><button id="cancelProductEdit" type="button" class="secondary">Cancel</button></div>
+</div>
+<h3>Your Products</h3><div class="products-summary"><b id="productSummary">Your product listings are ready.</b><div class="muted">Keep the list hidden when you are not managing products.</div></div>
+<div class="products-toolbar"><button id="toggleProducts" class="secondary">📦 Show Products</button></div><div id="productTools" class="product-tools hidden"><input id="productSearch" placeholder="🔎 Search your products"><select id="productFilter"><option value="all">All Products</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div><div id="products" class="products hidden"></div></div>
+</section>
+<script type="module">
+const SUPABASE_URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=x=>document.getElementById(x),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let sb,user,business,products=[],customerOrders=[];
+function msg(id,t,c=''){const e=$(id);if(!e)return;e.textContent=t;e.className='msg '+c}
+function slug(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Math.random().toString(36).slice(2,7)}
+async function upload(file,folder){
+ if(!file)return null;
+ if(file.size>5*1024*1024)throw Error('Image must be 5 MB or smaller.');
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('Use JPG, PNG or WebP.');
+ const ext=(file.name.split('.').pop()||'jpg').toLowerCase(),path=`${user.id}/${folder}-${crypto.randomUUID()}.${ext}`;
+ const {error}=await sb.storage.from('mbg-images').upload(path,file);if(error)throw error;
+ return sb.storage.from('mbg-images').getPublicUrl(path).data.publicUrl;
+}
+function marketplaceUrl(){const u=new URL(window.location.href);const parts=u.pathname.split('/');parts[parts.length-1]='marketplace.html';u.pathname=parts.join('/');u.search='';u.hash='';return u}
+function storeShareLink(){const u=marketplaceUrl();u.searchParams.set('shop',business.slug||business.id);return u.toString()}
+function publicStoreUrl(){return storeShareLink()}
+function productShareLink(id){
+ const u=new URL(window.location.href);
+ const parts=u.pathname.split('/');
+ const businessIndex=parts.lastIndexOf('business');
+ if(businessIndex!==-1)parts.splice(businessIndex);
+ u.pathname=parts.join('/')+'/stores/stores.html';
+ u.search='';
+ u.hash='product='+encodeURIComponent(id);
+ return u.toString()
+}
+async function copyText(text,label){
+ try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(text);else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();if(!document.execCommand('copy'))throw Error('Copy unavailable');ta.remove()}msg('promotionMsg',label+' link copied successfully.','ok')}
+ catch(e){window.prompt('Copy this link:',text);msg('promotionMsg','If it was not copied automatically, copy the link shown above.','warn')}
+}
+async function shareData(data,label){
+ try{if(typeof navigator.share==='function'){await navigator.share(data);msg('promotionMsg',label+' sharing opened successfully.','ok')}else{await copyText(data.url,label);msg('promotionMsg','Your browser does not support the share menu, so the '+label.toLowerCase()+' link was copied instead.','warn')}}
+ catch(e){if(e&&e.name==='AbortError')return;await copyText(data.url,label);msg('promotionMsg','Share menu could not open, so the '+label.toLowerCase()+' link was copied instead.','warn')}
+}
+async function shareStoreNow(){
+ if(!business)return msg('promotionMsg','Save your business first.','err');
+ const data={title:business.name||'MBG Store',text:`Visit ${business.name||'this store'} on Maldives Business Gateway`,url:storeShareLink()};
+ try{if(navigator.share&&(!navigator.canShare||navigator.canShare(data))){await navigator.share(data);msg('promotionMsg','Store sharing opened successfully.','ok')}else{await copyText(data.url,'Store');msg('promotionMsg','Share menu is unavailable on this browser, so the store link was copied.','warn')}}
+ catch(e){if(e?.name==='AbortError')return;await copyText(data.url,'Store');msg('promotionMsg','Share menu could not open, so the store link was copied.','warn')}
+}
+function selectedProduct(){const id=$('shareProductSelect')?.value;return products.find(p=>String(p.id)===String(id))}
+async function shareProductNow(){
+ const p=selectedProduct();if(!p)return msg('promotionMsg','Add or choose a product first.','err');
+ return shareData({title:p.title||'MBG Product',text:`${p.title}${p.price!=null?' — MVR '+Number(p.price).toFixed(2):''} | ${business.name||'Maldives Business Gateway'}`,url:productShareLink(p.id)},'Product')
+}
+async function shareProductById(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return msg('promotionMsg','Product could not be found.','err');
+ const data={title:p.title||'MBG Product',text:`${p.title}${p.price!=null?' — MVR '+Number(p.price).toFixed(2):''} | ${business.name||'Maldives Business Gateway'}`,url:productShareLink(p.id)};
+ try{if(navigator.share&&(!navigator.canShare||navigator.canShare(data))){await navigator.share(data);msg('msg','Product sharing opened successfully.','ok')}else{await copyText(data.url,'Product')}}
+ catch(e){if(e?.name==='AbortError')return;await copyText(data.url,'Product')}
+}
+async function copyProductById(id){const p=products.find(x=>String(x.id)===String(id));if(p)await copyText(productShareLink(p.id),'Product')}
+
+
+// Step 2: packaging designer connected to seller-owned Supabase package rows.
+// Packaged products stay inactive until secure buyer checkout is implemented.
+const MBG_UNITS=['piece','kg','gram','litre','dozen','case','box','carton','pack','bag','tray','bundle'];
+let packageDesign=[{unit:'piece',contents:1,contentUnit:'piece',price:'',minimum:2,maximum:''}];
+function packageInput(i,key,value){packageDesign[i][key]=value;renderPackageSummary()}
+function packageUnit(i,value){
+ packageDesign[i].unit=value;
+ if(value==='dozen'){packageDesign[i].contents=12;packageDesign[i].contentUnit='piece'}
+ else if(['piece','kg','gram','litre'].includes(value)){packageDesign[i].contents=1;packageDesign[i].contentUnit=value}
+ else {packageDesign[i].contents='';packageDesign[i].contentUnit='piece'}
+ renderPackageDesigner();
+}
+function renderPackageDesigner(){
+ const host=$('packageOptions');if(!host)return;
+ host.innerHTML=packageDesign.map((p,i)=>`<div class="pkg-option"><div class="top"><b>Package option ${i+1}</b>${i?`<button class="danger" type="button" data-remove-pkg="${i}">Remove</button>`:''}</div>
+ <div class="wholesale-grid"><div><label>Selling unit</label><select data-pkg="${i}" data-field="unit">${MBG_UNITS.map(u=>`<option value="${u}" ${p.unit===u?'selected':''}>${u.toUpperCase()}</option>`).join('')}</select></div>
+ <div><label>Price per ${p.unit} (MVR)</label><input type="number" min="0.01" step="0.01" data-pkg="${i}" data-field="price" value="${esc(p.price)}" placeholder="e.g. 1200"></div>
+ <div><label>Minimum order (${p.unit})</label><input type="number" min="1" step="1" data-pkg="${i}" data-field="minimum" value="${esc(p.minimum)}"></div>
+ <div><label>Maximum order (${p.unit}, optional)</label><input type="number" min="1" step="1" data-pkg="${i}" data-field="maximum" value="${esc(p.maximum)}"></div>
+ ${['piece','kg','gram','litre'].includes(p.unit)?'':`<div><label>How many pieces are in 1 ${p.unit}?</label><input type="number" min="1" step="1" data-pkg="${i}" data-field="contents" value="${esc(p.contents)}" ${p.unit==='dozen'?'readonly':''} placeholder="e.g. ${p.unit==='case'?'48':p.unit==='box'?'24':p.unit==='bag'?'10':'12'}"></div>`}
+ ${['piece','kg','gram','litre'].includes(p.unit)?'':`<div><label>Items measured in</label><select data-pkg="${i}" data-field="contentUnit">${['piece','kg','gram','litre'].map(u=>`<option value="${u}" ${p.contentUnit===u?'selected':''}>${u.toUpperCase()}</option>`).join('')}</select></div>`}</div>
+ <div class="muted">${p.unit==='dozen'?'1 dozen = 12 pieces.':p.unit==='piece'?'You are selling individual pieces.': ['kg','gram','litre'].includes(p.unit)?`You are selling by ${p.unit}; no pieces-per-package question is needed.`:`Example: 1 ${p.unit} = ${p.contents|| (p.unit==='case'?'48':p.unit==='box'?'24':'12')} ${p.contentUnit}(s). Minimum ${p.minimum||0} ${p.unit}(s) = ${(Number(p.minimum)||0)*(Number(p.contents)||0)} ${p.contentUnit}(s).`}</div></div>`).join('');
+ host.querySelectorAll('[data-field]').forEach(el=>el.addEventListener('input',()=>{const i=Number(el.dataset.pkg),key=el.dataset.field;if(key==='unit')packageUnit(i,el.value);else packageInput(i,key,el.value)}));
+ host.querySelectorAll('[data-remove-pkg]').forEach(el=>el.onclick=()=>{packageDesign.splice(Number(el.dataset.removePkg),1);renderPackageDesigner()});
+ renderPackageSummary();
+}
+function renderPackageSummary(){
+ const host=$('packageDesignSummary');if(!host)return;
+ host.textContent=packageDesign.map(p=>{const price=Number(p.price),min=Number(p.minimum),contents=Number(p.contents);
+ const valid=Number.isFinite(price)&&price>0&&Number.isSafeInteger(min)&&min>=1&&Number.isFinite(contents)&&contents>0;
+ return valid?`${min} ${p.unit}(s) = ${min*contents} ${p.contentUnit}(s) · Minimum MVR ${(price*min).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`:`${p.unit.toUpperCase()}: enter price, contents and minimum order`;}).join(' | ');
+}
+$('addPackageOption').onclick=()=>{if(packageDesign.length>=6)return alert('Maximum 6 package options per product.');packageDesign.push({unit:'case',contents:'',contentUnit:'piece',price:'',minimum:1,maximum:''});renderPackageDesigner()};
+renderPackageDesigner();
+function customPackageSelected(){return packageDesign.length>1||packageDesign.some(p=>p.unit!=='piece'||Number(p.contents)!==1||p.maximum!=='')}
+function validatedPackages(){
+ if(!packageDesign.length||packageDesign.length>6)throw Error('Choose 1 to 6 package options.');
+ return packageDesign.map((p,i)=>{
+  const unit=p.unit,price=Number(p.price),minimum=Number(p.minimum),maximum=p.maximum===''?null:Number(p.maximum);
+  const pieces=['piece','kg','gram','litre'].includes(unit)?null:unit==='dozen'?12:Number(p.contents);
+  if(!MBG_UNITS.includes(unit)||!Number.isFinite(price)||price<=0||!Number.isSafeInteger(minimum)||minimum<1||
+    (maximum!==null&&(!Number.isSafeInteger(maximum)||maximum<minimum))||
+    (pieces!==null&&(!Number.isSafeInteger(pieces)||pieces<1)))
+    throw Error('Check package option '+(i+1)+': price, minimum, maximum and pieces per package.');
+  if(!['piece','kg','gram','litre'].includes(unit)&&p.contentUnit!=='piece')
+    throw Error('Package option '+(i+1)+': this version supports pieces inside packages only.');
+  return {selling_unit:unit,pieces_per_unit:pieces,unit_price:Math.round(price*100)/100,minimum_units:minimum,maximum_units:maximum,active:true};
+ });
+}
+async function savePackages(productId,rows){
+ const {error}=await sb.from('mbg_wholesale_packages').insert(rows.map(x=>({...x,product_id:productId,owner_id:user.id})));
+ if(error)throw Error('Package saving failed: '+error.message);
+}
+async function loadPackagesForEdit(productId){
+ const {data,error}=await sb.from('mbg_wholesale_packages').select('selling_unit,pieces_per_unit,unit_price,minimum_units,maximum_units').eq('product_id',productId).eq('owner_id',user.id);
+ const box=$('editPackagesNotice');if(!box)return;
+ if(error){box.textContent='Could not load package options: '+error.message;return}
+ box.textContent=data?.length?'Saved package options: '+data.map(x=>`${x.minimum_units} ${x.selling_unit}(s) minimum · MVR ${Number(x.unit_price).toFixed(2)} per ${x.selling_unit}${x.pieces_per_unit?' · '+x.pieces_per_unit+' pieces each':''}`).join(' | ')+'. Package editing will be enabled with the checkout upgrade.':'No custom package options saved for this product.';
+}
+
+
+function wholesalePayload(prefix=''){
+ const mode=$(prefix ? 'editListingType' : 'listingType').value;
+ const active=mode!=='retail';
+ const moq=active?Number($(prefix ? 'editWholesaleMoq' : 'wholesaleMoq').value):null;
+ const price=active?Number($(prefix ? 'editWholesalePrice' : 'wholesalePrice').value):null;
+ if(active&&(!Number.isSafeInteger(moq)||moq<2||!Number.isFinite(price)||price<=0))throw Error('Wholesale MOQ must be a whole number of at least 2, and wholesale unit price must be greater than zero.');
+ if(!['retail','wholesale','both'].includes(mode))throw Error('Choose a listing type.');return {listing_type:mode,wholesale_moq:moq,wholesale_price:price};
+}
+function toggleWholesale(prefix=''){
+ const mode=$(prefix ? 'editListingType' : 'listingType').value;
+ $(prefix ? 'editWholesaleFields' : 'wholesaleFields').classList.toggle('hidden',mode==='retail');
+ $(prefix ? 'editRetailPriceWrap' : 'retailPriceWrap').classList.toggle('hidden',mode==='wholesale');
+ updateWholesaleTotal(prefix);
+}
+function updateWholesaleTotal(prefix=''){
+ const el=$(prefix ? 'editWholesaleTotal' : 'wholesaleTotal');if(!el)return;
+ const moq=Number($(prefix ? 'editWholesaleMoq' : 'wholesaleMoq').value),price=Number($(prefix ? 'editWholesalePrice' : 'wholesalePrice').value);
+ el.textContent=Number.isSafeInteger(moq)&&moq>=2&&Number.isFinite(price)&&price>0
+  ?'Minimum wholesale order: '+moq+' pcs × MVR '+price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' = MVR '+(moq*price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})
+  :'Enter MOQ and wholesale unit price to see the minimum order total.';
+}
+for(const prefix of ['', 'edit'])for(const key of ['WholesaleMoq','WholesalePrice'])$(prefix ? 'edit'+key : key[0].toLowerCase()+key.slice(1)).addEventListener('input',()=>updateWholesaleTotal(prefix));
+$('listingType').onchange=()=>toggleWholesale();
+$('editListingType').onchange=()=>toggleWholesale('edit');
+function renderProducts(){
+ if(!$('products'))return;
+ $('productSummary').textContent=`${products.length} product${products.length===1?'':'s'} currently listed`;
+ const q=($('productSearch').value||'').trim().toLowerCase(),filter=$('productFilter').value||'all';
+ const shown=products.filter(p=>{const t=`${p.title||''} ${p.description||''}`.toLowerCase();return(!q||t.includes(q))&&(filter==='all'||(filter==='active'&&p.active!==false)||(filter==='inactive'&&p.active===false))});
+ $('products').innerHTML=shown.map(p=>`<div class="product">${p.image_url?`<img src="${esc(p.image_url)}" alt="">`:''}<b>${esc(p.title)}</b><div>${p.listing_type==='wholesale'?'Wholesale MVR '+Number(p.wholesale_price||0).toFixed(2)+'/pc':p.price!=null?'Retail MVR '+Number(p.price).toFixed(2)+'/pc':'Contact seller for price'}</div><p class="muted">${esc(p.description||'')}</p><p><span class="badge">${esc(p.listing_type||'retail').toUpperCase()}${p.listing_type&&p.listing_type!=='retail'?' · MOQ '+Number(p.wholesale_moq||0)+' · MVR '+Number(p.wholesale_price||0).toFixed(2):''}</span></p><p><span class="badge ${p.active===false?'red':'green'}">${p.active===false?'Out of Stock':'Available'}</span></p><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="secondary" data-edit-product="${esc(p.id)}">✏️ Edit</button><button class="${p.active===false?'green':'secondary'}" data-stock-product="${esc(p.id)}">${p.active===false?'📦 Restock':'⛔ Out of Stock'}</button><button class="secondary" data-share-product="${esc(p.id)}">📤 Share</button><button class="danger" data-del="${esc(p.id)}">Delete</button></div></div>`).join('')||'<span class="muted">No matching products.</span>';
+ document.querySelectorAll('[data-del]').forEach(x=>x.onclick=()=>removeProduct(x.dataset.del));
+ document.querySelectorAll('[data-share-product]').forEach(x=>x.onclick=()=>shareProductById(x.dataset.shareProduct));
+ document.querySelectorAll('[data-edit-product]').forEach(x=>x.onclick=()=>startEditProduct(x.dataset.editProduct));
+ document.querySelectorAll('[data-stock-product]').forEach(x=>x.onclick=()=>setProductStock(x.dataset.stockProduct,x));
+}
+let editingProductId=null;
+function startEditProduct(id){
+ const p=products.find(x=>x.id===id);if(!p)return msg('msg','Product not found.','err');
+ editingProductId=p.id;
+  loadPackagesForEdit(p.id);
+ $('editTitle').value=p.title||'';$('editDescription').value=p.description||'';
+ $('editPrice').value=p.price==null?'':p.price;
+  $('editListingType').value=['retail','wholesale','both'].includes(p.listing_type)?p.listing_type:'wholesale';
+  $('editWholesaleMoq').value=p.wholesale_moq??10; $('editWholesalePrice').value=p.wholesale_price??'';toggleWholesale('edit');
+ $('editDeliveryMode').value=['default','free','custom'].includes(p.delivery_fee_mode)?p.delivery_fee_mode:'default';
+ $('editDeliveryFee').value=p.delivery_fee??0;
+ $('editCustomDeliveryWrap').classList.toggle('hidden',$('editDeliveryMode').value!=='custom');
+ $('editProductPanel').classList.remove('hidden');$('editProductPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function cancelEditProduct(){editingProductId=null;$('editProductPanel').classList.add('hidden')}
+async function saveProductEdit(){
+ if(!editingProductId||!business||!user)return;
+ const title=$('editTitle').value.trim(),description=$('editDescription').value.trim();
+ const priceRaw=$('editPrice').value.trim(),price=priceRaw===''?null:Number(priceRaw);
+ const mode=$('editDeliveryMode').value,feeRaw=$('editDeliveryFee').value.trim();
+ const fee=mode==='custom'?Number(feeRaw):0;
+ if(!title)return msg('msg','Product title is required.','err');
+ if($('editListingType').value!=='wholesale'&&(price===null||!Number.isFinite(price)||price<=0))return msg('msg','Enter a retail price greater than zero.','err');
+ if(!['default','free','custom'].includes(mode)||!Number.isFinite(fee)||fee<0||mode==='custom'&&feeRaw==='')return msg('msg','Enter a valid delivery option and fee.','err');
+ let wholesale;try{wholesale=wholesalePayload('edit')}catch(e){return msg('msg',e.message,'err')}
+  const btn=$('saveProductEdit');btn.disabled=true;btn.textContent='Saving…';
+ try{
+  const {data,error}=await sb.from('products').update({title,description,price,...wholesale,delivery_fee_mode:mode,delivery_fee:Math.round(fee*100)/100}).eq('id',editingProductId).eq('owner_id',user.id).eq('business_id',business.id).select('id');
+  if(error)throw error;if(!data?.length)throw Error('No product updated. Check permissions and try again.');
+  cancelEditProduct();await load();msg('msg','Product details updated successfully.','ok');
+ }catch(e){msg('msg','Could not update product: '+e.message,'err')}
+ finally{btn.disabled=false;btn.textContent='💾 Save Changes'}
+}
+async function setProductStock(id,btn){
+ const p=products.find(x=>x.id===id);if(!p||!business||!user)return;
+ const available=p.active===false;
+ if(!confirm(available?'Mark this product AVAILABLE for new orders?':'Mark this product OUT OF STOCK? New orders will be blocked, but existing orders remain.'))return;
+ btn.disabled=true;
+ try{
+  const {data,error}=await sb.from('products').update({active:available}).eq('id',id).eq('owner_id',user.id).eq('business_id',business.id).eq('active',!available).select('id');
+  if(error)throw error;if(!data?.length)throw Error('Product status changed or update was not permitted. Refresh and try again.');
+  await load();msg('msg',available?'Product restocked and available for new orders.':'Product marked out of stock. Existing orders are unchanged.','ok');
+ }catch(e){msg('msg','Could not change stock status: '+e.message,'err')}
+ finally{btn.disabled=false}
+}
+$('editDeliveryMode').onchange=()=>{$('editCustomDeliveryWrap').classList.toggle('hidden',$('editDeliveryMode').value!=='custom')};
+$('saveProductEdit').onclick=saveProductEdit;
+$('cancelProductEdit').onclick=cancelEditProduct;
+
+async function checkWholesaleAccess(){
+ const {data,error}=await sb.from('mbg_wholesale_applications').select('status,registration_number,legal_business_name,certificate_path').eq('business_id',business.id).maybeSingle();
+ if(error){$('wholesaleAccessStatus').textContent='Verification setup is not ready: '+error.message;return false}
+ if(data?.status==='approved'){$('wholesaleAccess').classList.add('hidden');return true}
+ $('wholesaleAccess').classList.remove('hidden');
+ $('wholesaleAccessStatus').textContent=data ? 'Application status: '+data.status.toUpperCase()+'. Wholesale publishing remains locked until MBG approves.' : 'Wholesale access is restricted. Apply using your government business registration.';
+ $('wholesaleApply').classList.toggle('hidden',!!data);
+  $('wholesaleCertificateUpdate').classList.toggle('hidden',!data||!!data.certificate_path||data.status==='approved');
+  if(data&&!data.certificate_path)$('wholesaleAccessStatus').textContent+=' Registration certificate missing — upload required.';
+ if(!data)$('wholesaleLegalName').value=business.name||'';
+ return false;
+}
+async function uploadWholesaleCertificate(file){
+ if(!file)throw Error('Choose your government registration certificate.');
+ const types={'image/jpeg':'jpg','image/png':'png','application/pdf':'pdf'};
+ const ext=types[file.type];
+ if(!ext)throw Error('Only JPG, PNG or PDF certificates are accepted.');
+ if(file.size<1||file.size>10*1024*1024)throw Error('Certificate must be between 1 byte and 10 MB.');
+ const path=`${user.id}/${business.id}/${crypto.randomUUID()}.${ext}`;
+ const {error}=await sb.storage.from('mbg-registration-certificates').upload(path,file,{contentType:file.type,upsert:false});
+ if(error)throw Error('Certificate upload failed: '+error.message);
+ return path;
+}
+$('submitWholesaleApplication').onclick=async()=>{
+ if(!business||!user)return;
+ const legal_business_name=$('wholesaleLegalName').value.trim(),registration_number=$('wholesaleRegistration').value.trim();
+ if(legal_business_name.length<2||registration_number.length<3)return msg('msg','Enter a valid legal business name and registration number.','err');
+ const btn=$('submitWholesaleApplication');btn.disabled=true;let path;
+ try{
+  path=await uploadWholesaleCertificate($('wholesaleCertificate').files[0]);
+  const {error}=await sb.from('mbg_wholesale_applications').insert({business_id:business.id,owner_id:user.id,legal_business_name,registration_number,certificate_path:path});
+  if(error)throw error;
+  await load();msg('msg','Application and private registration certificate submitted for manual MBG verification.','ok');
+ }catch(e){if(path)await sb.storage.from('mbg-registration-certificates').remove([path]);msg('msg','Application failed: '+e.message,'err')}
+ finally{btn.disabled=false}
+};
+$('uploadWholesaleCertificate').onclick=async()=>{
+ if(!business||!user)return;
+ const btn=$('uploadWholesaleCertificate');btn.disabled=true;let path;
+ try{
+  path=await uploadWholesaleCertificate($('wholesaleCertificateReplacement').files[0]);
+  const {data,error}=await sb.from('mbg_wholesale_applications').update({certificate_path:path}).eq('business_id',business.id).eq('owner_id',user.id).is('certificate_path',null).select('business_id');
+  if(error)throw error;
+  if(!data?.length)throw Error('Certificate could not be attached. Refresh your application.');
+  await load();msg('msg','Certificate attached. MBG will manually review your application.','ok');
+ }catch(e){if(path)await sb.storage.from('mbg-registration-certificates').remove([path]);msg('msg','Certificate upload failed: '+e.message,'err')}
+ finally{btn.disabled=false}
+};
+
+function togglePaymentFields(){
+ $('bankFields').classList.toggle('hidden',!$('bankEnabled').checked);
+ $('onlineFields').classList.toggle('hidden',!$('onlineEnabled').checked);
+}
+$('bankEnabled').onchange=togglePaymentFields;
+$('onlineEnabled').onchange=togglePaymentFields;
+async function loadCustomerPaymentSettings(){
+ if(!business)return;
+ $('wholesalePaymentCard').classList.remove('hidden');
+ const {data,error}=await sb.from('seller_payment_settings').select('*').eq('business_id',business.id).maybeSingle();
+ if(error){msg('customerPaymentMsg','Could not load payment settings: '+error.message,'err');return}
+ const s=data||{};
+ $('bankEnabled').checked=!!s.bank_transfer_enabled;
+ $('sellerBankName').value=s.bank_name||'';
+ $('sellerAccountName').value=s.bank_account_name||'';
+ $('sellerAccountNumber').value=s.bank_account_number||'';
+ $('onlineEnabled').checked=!!s.online_payment_enabled;
+ $('gatewayName').value=s.payment_gateway_name||'';
+ $('gatewayUrl').value=s.payment_gateway_url||'';
+ togglePaymentFields();
+ msg('customerPaymentMsg',data?'Existing seller payment settings loaded.':'Choose at least one payment method to enable checkout.','ok');
+}
+async function saveCustomerPaymentSettings(){
+ if(!business||!user)return msg('customerPaymentMsg','Sign in and load your business first.','err');
+ const bank=$('bankEnabled').checked,online=$('onlineEnabled').checked;
+ const bankName=$('sellerBankName').value.trim(),accountName=$('sellerAccountName').value.trim(),accountNumber=$('sellerAccountNumber').value.trim();
+ const gatewayName=$('gatewayName').value.trim(),gatewayUrl=$('gatewayUrl').value.trim();
+ if(bank&&(!bankName||!accountName||!accountNumber))return msg('customerPaymentMsg','Complete all bank account fields.','err');
+ if(online){
+  if(!gatewayName||!gatewayUrl)return msg('customerPaymentMsg','Enter payment provider and payment link.','err');
+  try{const u=new URL(gatewayUrl);if(u.protocol!=='https:'||!u.hostname)throw Error('Invalid HTTPS URL')}catch{return msg('customerPaymentMsg','Enter a valid HTTPS payment link.','err')}
+ }
+ if(!bank&&!online)return msg('customerPaymentMsg','Enable at least one payment method.','warn');
+ const btn=$('saveCustomerPayments');btn.disabled=true;msg('customerPaymentMsg','Saving payment settings…','warn');
+ try{
+  const payload={seller_id:user.id,business_id:business.id,bank_transfer_enabled:bank,bank_name:bank?bankName:null,bank_account_name:bank?accountName:null,bank_account_number:bank?accountNumber:null,online_payment_enabled:online,payment_gateway_name:online?gatewayName:null,payment_gateway_url:online?gatewayUrl:null,updated_at:new Date().toISOString()};
+  const {error}=await sb.from('seller_payment_settings').upsert(payload,{onConflict:'business_id'});
+  if(error)throw error;
+  msg('customerPaymentMsg','Payment settings saved successfully.','ok');
+ }catch(e){msg('customerPaymentMsg','Save failed: '+e.message,'err')}
+ finally{btn.disabled=false}
+}
+$('saveCustomerPayments').onclick=saveCustomerPaymentSettings;
+// Wholesale overview: only queries data visible to the authenticated seller.
+let mbgDashboardBusy=false;
+async function refreshMbgDashboard(){
+ if(!business||!user||mbgDashboardBusy)return;
+ mbgDashboardBusy=true;const refresh=$('mbgDashRefresh');refresh.disabled=true;
+ $('mbgDashboard').classList.remove('hidden');$('mbgDashBusiness').textContent=business.name||'My Business';
+ $('mbgDashNotice').textContent='Updating dashboard…';
+ try{
+  const [pr,or,vr,sr,pay]=await Promise.all([
+   sb.from('products').select('id,active').eq('business_id',business.id).eq('owner_id',user.id),
+   sb.from('orders').select('id',{count:'exact',head:true}).eq('business_id',business.id).eq('seller_id',user.id).eq('status','payment_pending'),
+   sb.from('mbg_wholesale_applications').select('status').eq('business_id',business.id).maybeSingle(),
+   sb.from('mbg_wholesale_subscriptions').select('status,expires_at').eq('business_id',business.id).maybeSingle(),
+   sb.from('seller_payment_settings').select('bank_transfer_enabled,online_payment_enabled').eq('business_id',business.id).maybeSingle()
+  ]);
+  if(pr.error)throw pr.error;
+  const rows=pr.data||[];
+  $('mbgDashTotal').textContent=String(rows.length);
+  $('mbgDashActive').textContent=String(rows.filter(x=>x.active===true).length);
+  $('mbgDashInactive').textContent=String(rows.filter(x=>x.active!==true).length);
+  $('mbgDashPending').textContent=or.error?'Unavailable':String(or.count??0);
+  $('mbgDashVerification').textContent=vr.error?'Unavailable':(vr.data?.status||'Not applied').toUpperCase();
+  const subscriptionActive=sr.data?.status==='active'&&sr.data.expires_at&&new Date(sr.data.expires_at)>new Date();
+  $('mbgDashSubscription').textContent=sr.error?'Unavailable':subscriptionActive?'ACTIVE':'INACTIVE';
+  $('mbgDashBank').textContent=pay.error?'Unavailable':pay.data?.bank_transfer_enabled?'ENABLED':'DISABLED';
+  $('mbgDashOnline').textContent=pay.error?'Unavailable':pay.data?.online_payment_enabled?'ENABLED':'DISABLED';
+  $('mbgDashNotice').textContent=or.error?'Product totals updated. Order count unavailable: '+or.error.message:'Dashboard updated. Payment confirmation and shipping are managed from Seller Orders.';
+ }catch(e){$('mbgDashNotice').textContent='Could not refresh dashboard: '+e.message}
+ finally{mbgDashboardBusy=false;refresh.disabled=false}
+}
+$('mbgDashRefresh').onclick=refreshMbgDashboard;
+document.querySelectorAll('[data-mbg-jump]').forEach(b=>b.onclick=()=>{const el=$(b.dataset.mbgJump);if(el&&!el.classList.contains('hidden'))el.scrollIntoView({behavior:'smooth',block:'start'});else $('mbgDashNotice').textContent='This section is not available until your business is approved.'});
+$('mbgDashOrders').onclick=()=>{window.location.href='seller-orders.html'};
+
+// Isolated wholesale recovery; product, payment and checkout functions are unchanged.
+let mbgWrRows=[],mbgWrOffset=0,mbgWrSelectedId=null,mbgWrRequests=[];
+function mbgWrMessage(t){$('mbgWrMessage').textContent=t}
+function mbgWrRender(){
+ const host=$('mbgWrOrders');host.replaceChildren();const q=$('mbgWrSearch').value.toLowerCase().trim();
+ const rows=mbgWrRows.filter(o=>[o.id,o.customer_name,o.customer_phone,o.created_at?.slice(0,10)].some(v=>String(v||'').toLowerCase().includes(q)));
+ for(const o of rows){const card=document.createElement('div');card.className='order-card';
+ const info=document.createElement('div');info.textContent=`${o.customer_name||'Buyer'} · ${o.customer_phone||'—'} · ${new Date(o.created_at).toLocaleDateString()} · MVR ${o.total_price??'—'} · ${o.status||'—'}`;
+ const ref=document.createElement('div');ref.className='muted';ref.textContent='Order '+o.id.slice(0,8)+'…';
+ const existing=mbgWrRequests.find(r=>r.order_id===o.id&&r.status==='pending');
+ const btn=document.createElement('button');btn.type='button';btn.textContent=existing?'Recovery Pending':'Request Recovery';btn.disabled=!!existing;
+ btn.onclick=()=>{mbgWrSelectedId=o.id;$('mbgWrSelected').textContent=`Selected: ${o.customer_name||'Buyer'} · ${o.id.slice(0,8)}…`;$('mbgWrNote').focus()};
+ card.append(info,ref,btn);host.append(card)}
+ if(!rows.length)host.textContent='No matching loaded orders. Load more to find older orders.';
+}
+async function mbgWrLoad(reset=true){if(!user?.id)return;const start=reset?0:mbgWrOffset;
+ const {data,error}=await sb.from('orders').select('id,created_at,status,customer_name,customer_phone,total_price').eq('seller_id',user.id).order('created_at',{ascending:false}).range(start,start+99);
+ if(error){mbgWrMessage('Orders unavailable: '+error.message);return}
+ if(reset){mbgWrRows=[];mbgWrOffset=0}
+ mbgWrRows.push(...(data||[]));mbgWrOffset+=data?.length||0;
+ $('mbgWrMore').disabled=(data||[]).length<100;
+ const {data:req,error:re}=await sb.rpc('mbg_list_order_recovery_requests');
+ if(!re){mbgWrRequests=(req||[]).filter(r=>r.seller_id===user.id);const box=$('mbgWrRequests');box.replaceChildren();for(const r of mbgWrRequests){const div=document.createElement('div');div.className='item';div.textContent=`Order ${r.order_id.slice(0,8)}… — ${r.status} — ${new Date(r.created_at).toLocaleDateString()}`;box.append(div)}if(!mbgWrRequests.length)box.textContent='No recovery requests yet.'}
+ else mbgWrMessage('Recovery status unavailable: '+re.message);
+ mbgWrRender();
+}
+$('mbgWrSearch').addEventListener('input',mbgWrRender);
+$('mbgWrRefresh').onclick=()=>mbgWrLoad(true);
+$('mbgWrMore').onclick=()=>mbgWrLoad(false);
+$('mbgWrSubmit').onclick=async()=>{
+ const note=$('mbgWrNote').value.trim();if(!mbgWrSelectedId)return mbgWrMessage('Select an order first.');
+ if(note.length<20||note.length>2000)return mbgWrMessage('Reason must be 20–2000 characters.');
+ if(!confirm('Submit recovery request for the selected order?'))return;
+ const btn=$('mbgWrSubmit');btn.disabled=true;
+ try{const {error}=await sb.rpc('mbg_seller_request_order_recovery',{target_order:mbgWrSelectedId,verification_note:note});if(error)throw error;
+ $('mbgWrNote').value='';mbgWrSelectedId=null;$('mbgWrSelected').textContent='Select an order above.';await mbgWrLoad(true);mbgWrMessage('Request sent to MBG Admin. Buyer code has not changed.');
+ }catch(e){mbgWrMessage('Request failed: '+e.message)}finally{btn.disabled=false}
+};
+
+async function load(){const {data:b,error}=await sb.from('businesses').select('*').eq('owner_id',user.id).order('created_at',{ascending:true}).limit(1).maybeSingle();if(error)return msg('msg','Could not load business: '+error.message,'err');business=b;if(business){$('mbgWholesaleRecovery').classList.remove('hidden');mbgWrLoad(true).catch(e=>mbgWrMessage(e.message))}else $('mbgWholesaleRecovery').classList.add('hidden');if(business){$('mbgDashboard').classList.remove('hidden');refreshMbgDashboard()}else $('mbgDashboard').classList.add('hidden');if(!business){$('wholesalePaymentCard').classList.add('hidden');msg('msg','Create your business profile first from Main / Settings.','warn');$('productCard').classList.add('hidden');return}await loadCustomerPaymentSettings();const approved=await checkWholesaleAccess();$('productCard').classList.toggle('hidden',!approved);if(!approved)return;const {data:p,error:pe}=await sb.from('products').select('*').eq('business_id',business.id).order('created_at',{ascending:false});if(pe)return msg('msg','Could not load products: '+pe.message,'err');products=(p||[]).filter(x=>['retail','wholesale','both'].includes(x.listing_type));if(editingProductId&&!products.some(x=>x.id===editingProductId))cancelEditProduct();const {data:sub,error:subError}=await sb.from('mbg_wholesale_subscriptions').select('status,product_limit,expires_at').eq('business_id',business.id).maybeSingle();if(subError){msg('msg','Could not verify wholesale subscription: '+subError.message,'err');$('productForm').classList.add('hidden');return;}const subscribed=sub?.status==='active'&&sub?.expires_at&&new Date(sub.expires_at)>new Date();const limit=sub?.product_limit??100;const count=(p||[]).length;const at=count>=limit; $('limitWarning').textContent=!subscribed?'Wholesale subscription is inactive or expired. Publishing is locked.':`Product limit reached (${count}/${limit}).`; $('hqName').textContent='📦 '+(business.name||'My Store');$('hqApproval').textContent=(business.status||'pending').toUpperCase();$('hqPlan').textContent=(business.plan||'free').toUpperCase()+' PLAN';$('hqProducts').textContent=`${count} / ${limit} products`;$('limitWarning').classList.toggle('hidden',subscribed&&!at);$('productForm').classList.toggle('hidden',!subscribed||at);$('hqPlan').textContent=subscribed?'WHOLESALE MVR 300 · ACTIVE':'WHOLESALE SUBSCRIPTION INACTIVE';renderProducts()}
+const MAX_VIDEO_BYTES=10*1024*1024;
+function checkVideo(file){
+ if(!file)return Promise.resolve(null);
+ if(file.size>MAX_VIDEO_BYTES)return Promise.reject(Error('Video exceeds 10 MB.'));
+ if(file.type!=='video/mp4'||!file.name.toLowerCase().endsWith('.mp4'))return Promise.reject(Error('Only MP4 video is allowed.'));
+ return new Promise((resolve,reject)=>{
+  const v=document.createElement('video');v.preload='metadata';v.muted=true;
+  const u=URL.createObjectURL(file);let done=false;
+  const finish=(err)=>{if(done)return;done=true;URL.revokeObjectURL(u);v.removeAttribute('src');v.load();err?reject(err):resolve(file)};
+  v.onloadedmetadata=()=>finish(!Number.isFinite(v.duration)||v.duration<=0||v.duration>60?Error('Video must be 60 seconds or shorter.'):null);
+  v.onerror=()=>finish(Error('Could not read MP4 duration. Choose another video.'));
+  v.src=u;
+ });
+}
+async function uploadProductVideo(file,productId){
+ const path=`${user.id}/${productId}/${crypto.randomUUID()}.mp4`;
+ const {error}=await sb.storage.from('mbg-product-videos').upload(path,file,{contentType:'video/mp4',upsert:false});
+ if(error)throw Error('Video upload failed: '+error.message);
+ const {error:dbError}=await sb.from('mbg_product_videos').insert({product_id:productId,owner_id:user.id,storage_path:path});
+ if(dbError){await sb.storage.from('mbg-product-videos').remove([path]);throw Error('Video record failed: '+dbError.message)}
+}
+$('productVideo').onchange=async()=>{
+ const file=$('productVideo').files[0];
+ if(!file){$('videoCheck').textContent='No video selected.';return}
+ $('videoCheck').textContent='Checking MP4 duration…';
+ try{await checkVideo(file);$('videoCheck').textContent=`Ready: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`}
+ catch(e){$('productVideo').value='';$('videoCheck').textContent=e.message;msg('msg',e.message,'err')}
+};
+let productSaveInProgress=false;
+function productFeedback(text,kind){const el=$('addProductStatus');el.hidden=false;msg('addProductStatus',text,kind);}
+async function addProduct(){
+ if(productSaveInProgress)return;
+ productSaveInProgress=true;
+ const saveButton=$('addProduct');saveButton.disabled=true;saveButton.textContent='⏳ Saving product…';
+ productFeedback('Saving product. Please wait and do not tap again…','warn');
+ let createdProduct=null;try{if(!business)throw Error('Save your business first.');const title=$('title').value.trim();if(!title)throw Error('Please enter a product title.');if(!$('productImage1').files[0])throw Error('Please choose Image 1. It is the main product image.');const deliveryMode=$('productDeliveryMode').value;const customFee=deliveryMode==='custom'&&$('productDeliveryFee').value.trim()!==''?Number($('productDeliveryFee').value):0;if(!['default','free','custom'].includes(deliveryMode))throw Error('Invalid delivery option.');if(!Number.isFinite(customFee)||customFee<0)throw Error('Custom delivery fee must be 0 or a positive amount.');const wholesale=wholesalePayload();const packaged=wholesale.listing_type!=='retail'&&customPackageSelected();const packageRows=packaged?validatedPackages():[];const retailRaw=$('price').value.trim();const retailPrice=retailRaw===''?null:Number(retailRaw);if(wholesale.listing_type!=='wholesale'&&(retailPrice===null||!Number.isFinite(retailPrice)||retailPrice<=0))throw Error('Enter a retail price greater than zero.');const videoFile=$('productVideo').files[0];if(videoFile)await checkVideo(videoFile);const urls=[];for(let i=1;i<=5;i++){const file=$('productImage'+i).files[0];if(file)urls.push({position:i,url:await upload(file,'product')})}const main=urls.find(x=>x.position===1)?.url;const {data:created,error}=await sb.from('products').insert({business_id:business.id,owner_id:user.id,title,...wholesale,description:$('productDescription').value.trim(),price:wholesale.listing_type==='wholesale'?null:retailPrice,delivery_fee_mode:deliveryMode,delivery_fee:Math.round(customFee*100)/100,image_url:main,active:!packaged}).select('id').single();if(error)throw error;createdProduct=created;if(packaged)await savePackages(created.id,packageRows);const galleryRows=urls.map(x=>({product_id:created.id,owner_id:user.id,image_url:x.url,position:x.position}));const {error:galleryError}=await sb.from('product_images').insert(galleryRows);if(galleryError)throw galleryError;if(videoFile)await uploadProductVideo(videoFile,created.id);$('productVideo').value='';$('videoCheck').textContent='No video selected.';packageDesign=[{unit:'piece',contents:1,contentUnit:'piece',price:'',minimum:2,maximum:''}];renderPackageDesigner();$('title').value='';$('productDescription').value='';$('price').value='';$('listingType').value='wholesale';$('wholesaleMoq').value='10';$('wholesalePrice').value='';toggleWholesale();$('productDeliveryMode').value='default';$('productDeliveryFee').value='';$('customDeliveryWrap').classList.add('hidden');for(let i=1;i<=5;i++)$('productImage'+i).value='';await load();productFeedback(packaged?`✓ Product saved successfully! Package options saved. This product is OUT OF STOCK until checkout is tested. Product ID: ${created.id}`:`✓ Product saved successfully with ${galleryRows.length} image${galleryRows.length===1?'':'s'}${videoFile?' and 1 video':''}. Product ID: ${created.id}`,'ok')}catch(e){if(createdProduct?.id)await sb.from('products').delete().eq('id',createdProduct.id);productFeedback('Could not add product: '+e.message,'err')}finally{productSaveInProgress=false;saveButton.disabled=false;saveButton.textContent='📦 Add Product'}}
+async function removeProduct(id){if(!confirm('Delete this product?'))return;const {error}=await sb.from('products').delete().eq('id',id);if(error)return msg('msg','Delete failed: '+error.message,'err');await load()}
+toggleWholesale();toggleWholesale('edit');
+$('productDeliveryMode').onchange=()=>{$('customDeliveryWrap').classList.toggle('hidden',$('productDeliveryMode').value!=='custom')};$('addProduct').onclick=addProduct;$('productSearch').oninput=renderProducts;$('productFilter').onchange=renderProducts;$('toggleProducts').onclick=()=>{const box=$('products'),hidden=box.classList.toggle('hidden');$('productTools').classList.toggle('hidden',hidden);$('toggleProducts').textContent=hidden?'📦 Show Products':'🙈 Hide Products'};
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');sb=createClient(SUPABASE_URL,KEY);
+$('login').onclick=async()=>{msg('authMsg','Signing in…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)msg('authMsg','Login failed: '+error.message,'err')};
+$('logout').onclick=()=>sb.auth.signOut();
+async function enter(s){user=s?.user;if(!user){$('authBox').classList.remove('hidden');$('app').classList.add('hidden');return}$('authBox').classList.add('hidden');$('app').classList.remove('hidden');$('who').textContent=user.email;await load()}
+sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>enter(s),0));const {data:{session}}=await sb.auth.getSession();await enter(session);
+
+</script></body></html>
