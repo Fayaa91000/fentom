@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MBG Admin — ad-wholesale.html</title><style>
+:root{--navy:#062b55;--blue:#0874a6;--green:#137a3d;--red:#b42318;--gold:#8a6100;--bg:#f4f8fb;--line:#d9e5ec;--muted:#667b8c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17324a}header{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:20px}
+.wrap{max-width:1080px;margin:20px auto;padding:0 14px}.card,.item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:14px;box-shadow:0 7px 22px #062b550b}
+h2,h3{color:var(--navy)}input,textarea{width:100%;padding:12px;border:1px solid #cbdbe5;border-radius:10px;margin:6px 0 12px;font:inherit}
+button{border:0;border-radius:999px;padding:11px 15px;margin:3px;background:var(--blue);color:#fff;font-weight:bold;cursor:pointer}.green{background:var(--green)}.red{background:var(--red)}.secondary{background:#eaf3f7;color:var(--navy)}
+.hidden{display:none}.msg{padding:12px;border-radius:10px;background:#edf6f8;margin:12px 0;white-space:pre-wrap}.ok{background:#e8f8ed;color:#176b38}.err{background:#ffe9e9;color:#8a2020}.warn{background:#fff5dc;color:#765300}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.muted{font-size:13px;color:var(--muted)}.pill{padding:6px 10px;border-radius:999px;background:#eef4f7;font-size:12px;font-weight:bold}
+.pending{background:#fff2c7;color:#765300}.verified{background:#e4f7e9;color:#176b38}.rejected{background:#ffe6e6;color:#8a2020}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:13px 0}.stat{background:#f7fafc;border-radius:11px;padding:11px}.stat b{display:block;margin-top:4px}
+.paygrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.paybox{background:#f7fafc;border-radius:10px;padding:10px}.products{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.product{border:1px solid var(--line);border-radius:11px;padding:9px}.product img{width:100%;height:95px;object-fit:cover;border-radius:8px}
+.identity-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.identity-note{font-size:13px;color:var(--muted);margin-top:7px}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.products{grid-template-columns:1fr 1fr}}@media(max-width:430px){.products,.paygrid{grid-template-columns:1fr}}
+
+.promo-info{background:#f0f7ff;border:1px solid #cbdff4;padding:12px;border-radius:12px;margin:12px 0}.wholesale-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.wholesale-item{border-left:4px solid #0874a6}.wholesale-note{margin-top:10px}</style></head><body><header><div class="wrap" style="margin:0 auto;padding:0"><b style="font-size:22px">Maldives Business Gateway</b><div>Secure Administration</div></div></header><main class="wrap"><section id="loginBox" class="card"><h2>Administrator Login</h2><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button id="login">Admin Login</button><div id="loginMsg" class="msg">Ready.</div></section><section id="dash" class="hidden"><div class="card"><div class="top"><div><h2 style="margin:0">MBG Admin Dashboard</h2><div id="who" class="muted"></div></div><button id="logout" class="secondary">Logout</button></div><div id="msg" class="msg">Ready.</div></div><nav class="card" style="display:flex;flex-wrap:wrap;gap:8px"><a href="ad-admin.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">🏠 Dashboard</a><a href="ad-businesses.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">🏢 Businesses</a><a href="ad-identity.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">🪪 Identity</a><a href="ad-payments.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">💳 Payments</a><a href="ad-disputes.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">🚨 Disputes</a><a href="ad-wholesale.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">📦 Wholesale</a><a href="ad-recovery.html" style="padding:10px;background:#eaf3f7;border-radius:9px;color:#062b55;text-decoration:none;font-weight:bold">🔐 Recovery</a></nav><div class="card"><div class="top"><div><h2 style="margin:0">📦 Wholesale Seller Verification</h2><div class="muted">Government registration review • Wholesale-only access</div></div><button class="secondary" id="refreshWholesale">Refresh</button></div><div class="msg" id="wholesaleMsg">Loading wholesale applications…</div><div class="promo-info"><b>🎁 Free Wholesale Access</b><p class="muted">For approved government-registered wholesalers only. Grants provide 100 listings for 3 or 6 months and are not payments. Use the button on an approved application.</p><button type="button" class="secondary" id="retryWholesaleGrant">↻ Activate Recorded Grant ID</button></div><div id="wholesaleApplications"></div></div></section></main><script type="module">const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=x=>document.getElementById(x),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let sb,user,businessMap={};
+function message(id,t,c=''){let e=$(id);if(!e)return;e.textContent=t;e.className='msg '+c}
+function dt(v){return v?new Date(v).toLocaleString():'—'} function d(v){return v?new Date(v).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—'}
+async function loadBusinessMap(){const {data,error}=await sb.from('businesses').select('*');if(error){message('msg','Business information: '+error.message,'err');return}businessMap=Object.fromEntries((data||[]).map(b=>[b.id,b]))}
+function sellerBusiness(sellerId){return Object.values(businessMap).find(b=>String(b.owner_id)===String(sellerId))||{}}
+async function enter(session){user=session?.user;if(!user){$('loginBox').classList.remove('hidden');$('dash').classList.add('hidden');return}const {data,error}=await sb.from('mbg_admins').select('user_id').eq('user_id',user.id).maybeSingle();if(error||!data){await sb.auth.signOut();message('loginMsg','Access denied. This account is not an MBG administrator.','err');return}$('loginBox').classList.add('hidden');$('dash').classList.remove('hidden');$('who').textContent=user.email;await loadAll()}
+
+
+async function loadWholesale(){
+  message('wholesaleMsg','Loading wholesale applications…');
+  const {data,error}=await sb.rpc('mbg_admin_list_wholesale_applications');
+  if(error){message('wholesaleMsg','Cannot load wholesale applications: '+error.message+'\nRun the accompanying wholesale admin SQL first.','err');$('wholesaleApplications').innerHTML='';return}
+  const rows=data||[];
+  message('wholesaleMsg',`${rows.length} wholesale application(s) found. Verify government registration independently before approval.`,'ok');
+  $('wholesaleApplications').innerHTML=rows.map(r=>{
+    const status=String(r.status||'pending');
+    const hasCertificate=!!r.certificate_path;
+    const actions=hasCertificate&&(status==='pending'||status==='rejected'||status==='suspended')
+      ? `<button class="green" data-w-action="approved" data-w-id="${esc(r.business_id)}">✓ Approve</button>`:'';
+    const reject=status!=='rejected'?`<button class="red" data-w-action="rejected" data-w-id="${esc(r.business_id)}">Reject</button>`:'';
+    const suspend=status==='approved'?`<button class="red" data-w-action="suspended" data-w-id="${esc(r.business_id)}">Suspend</button>`:'';
+    return `<div class="item wholesale-item"><div class="top"><div><h3 style="margin:0 0 5px">${esc(r.legal_business_name)}</h3><div class="muted">MBG business: ${esc(r.business_name||'—')} • Business status: ${esc(r.business_status||'—')}</div></div><span class="pill ${esc(status)}">${esc(status.toUpperCase())}</span></div>
+    <p><b>Registration number:</b> ${esc(r.registration_number)}</p>
+    <p>${hasCertificate?`<button class="secondary" data-w-certificate="${esc(r.certificate_path)}">📄 View private registration certificate</button>`:`<span class="pill pending">Certificate missing — approval blocked</span>`}</p>
+    <div class="muted">Applied: ${dt(r.applied_at)} • Reviewed: ${dt(r.reviewed_at)}<br>Business ID: ${esc(r.business_id)}</div>
+    ${r.review_note?`<p><b>Admin note:</b> ${esc(r.review_note)}</p>`:''}
+    <div class="wholesale-actions">${actions}${reject}${suspend}${status==='approved' && r.business_status==='approved'?`<button class="green" type="button" data-w-promo="${esc(r.business_id)}">🎁 Free Wholesale 3 / 6 Months</button>`:''}</div></div>`
+  }).join('')||'<div class="msg">No wholesale applications yet.</div>';
+  document.querySelectorAll('[data-w-action]').forEach(btn=>btn.onclick=()=>reviewWholesale(btn.dataset.wId,btn.dataset.wAction));
+  document.querySelectorAll('[data-w-promo]').forEach(btn=>btn.onclick=()=>grantWholesalePromo(btn.dataset.wPromo,btn));
+  document.querySelectorAll('[data-w-certificate]').forEach(btn=>btn.onclick=()=>viewWholesaleCertificate(btn.dataset.wCertificate));
+}
+// Recovery Phase 1: use protected RPCs; never read the private recovery tables directly.
+let recoveryRows=[];
+
+async function viewWholesaleCertificate(path){
+ const {data,error}=await sb.storage.from('mbg-registration-certificates').createSignedUrl(path,60);
+ if(error||!data?.signedUrl)return message('wholesaleMsg','Cannot open certificate: '+(error?.message||'No signed URL'),'err');
+ window.open(data.signedUrl,'_blank','noopener,noreferrer');
+}
+
+async function reviewWholesale(businessId,status){
+  const notes={approved:'Approve this business for wholesale publishing? Only proceed after independently checking its genuine government registration.',rejected:'Reject this wholesale application?',suspended:'Suspend wholesale publishing for this business?'};
+  if(!confirm(notes[status]||'Confirm wholesale status change?'))return;
+  const note=prompt(status==='approved'?'Enter verification evidence / registry reference (required):':'Enter the reason for this decision (required):');
+  if(note===null)return;
+  if(note.trim().length<5)return message('wholesaleMsg','Please provide a meaningful verification reference or reason (at least 5 characters).','warn');
+  const {error}=await sb.rpc('mbg_admin_review_wholesale_application',{target_business:businessId,new_status:status,admin_note:note.trim()});
+  if(error)return message('wholesaleMsg','Wholesale review failed: '+error.message,'err');
+  await loadWholesale();message('wholesaleMsg','Wholesale application updated to '+status+'.','ok');
+}
+async function grantWholesalePromo(businessId,btn){
+  const b=businessMap[businessId];
+  if(!b||b.status!=='approved')return message('wholesaleMsg','Business approval required.','err');
+  const durationRaw=prompt('FREE WHOLESALE PROMOTION for '+b.name+'\nEnter 3 or 6 months:','3');
+  if(durationRaw===null)return;
+  if(!['3','6'].includes(durationRaw.trim()))return message('wholesaleMsg','Choose 3 or 6 months only.','warn');
+  const duration=Number(durationRaw.trim());
+  const reason=prompt('Enter promotion reason (invitation, sponsorship or trial):');
+  if(reason===null)return;
+  if(reason.trim().length<5)return message('wholesaleMsg','Reason must contain at least 5 characters.','warn');
+  if(!confirm('Grant '+duration+' months FREE WHOLESALE access to '+b.name+'? No money will be recorded as revenue.'))return;
+  btn.disabled=true;
+  try{
+    const {data:id,error}=await sb.rpc('mbg_admin_record_promotion',{p_business_id:businessId,p_plan_type:'wholesale',p_duration_months:duration,p_reason:reason.trim()});
+    if(error)throw error;
+    const {data:result,error:activationError}=await sb.rpc('mbg_admin_activate_promotion',{p_grant_id:Number(id)});
+    if(activationError){message('wholesaleMsg','Grant #'+id+' was RECORDED but NOT activated: '+activationError.message+'. Use the retry button below with grant ID '+id+'. Do not create another grant.','err');return}
+    message('wholesaleMsg',String(result)+' — FREE grant #'+id+'. MVR 0 received.','ok');
+    await loadWholesale();
+  }catch(e){message('wholesaleMsg','Free wholesale grant failed: '+e.message,'err')}
+  finally{btn.disabled=false}
+}
+async function retryWholesalePromo(){
+  const raw=prompt('Enter existing recorded grant ID to activate:');
+  if(raw===null)return;
+  const id=Number(raw);
+  if(!Number.isSafeInteger(id)||id<1)return message('wholesaleMsg','Invalid grant ID.','warn');
+  if(!confirm('Activate recorded grant #'+id+'?'))return;
+  const {data,error}=await sb.rpc('mbg_admin_activate_promotion',{p_grant_id:id});
+  if(error)return message('wholesaleMsg','Activation failed: '+error.message,'err');
+  message('wholesaleMsg',String(data),'ok');
+  await loadWholesale();
+}
+async function loadAll(){await loadBusinessMap();await loadWholesale();}
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');sb=createClient(URL,KEY);
+$('login').onclick=async()=>{message('loginMsg','Signing in…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)message('loginMsg','Login failed: '+error.message,'err')};
+$('logout').onclick=()=>sb.auth.signOut();
+$('refreshWholesale').onclick=loadWholesale;$('retryWholesaleGrant').onclick=retryWholesalePromo;
+sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>enter(s),0));const {data:{session}}=await sb.auth.getSession();await enter(session);if(!session)message('loginMsg','Ready for secure administrator login.','ok');</script></body></html>
