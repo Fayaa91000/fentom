@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#062b55">
+<title>MBG — Verification Badge Control Center</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--green:#147747;--muted:#587083;--line:#d7e7ef;--bg:#f3f8fc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#18354b;font-family:Arial,Helvetica,sans-serif}
+header{background:linear-gradient(115deg,#052243,#075d98 62%,#079998);color:#fff;padding:21px 16px}
+.wrap{max-width:1050px;margin:auto;padding:0 16px}
+header .wrap{display:flex;align-items:center;gap:12px}
+.logo{display:grid;place-items:center;width:54px;height:54px;border:1px solid #ffffff6d;background:#ffffff1b;border-radius:15px;font-size:18px;font-weight:900}
+header h1{font-size:19px;margin:0}header p{font-size:12px;margin:5px 0 0;opacity:.8}
+main{padding-top:24px;padding-bottom:35px}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 9px 26px #062b550b}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap}
+h2{margin:0 0 10px;font-size:21px;color:var(--navy)}h3{color:var(--navy)}
+p{line-height:1.6}.muted{font-size:13px;color:var(--muted)}
+input{font:inherit;width:100%;padding:12px 14px;border:1px solid #cbdce5;border-radius:11px;min-width:0}
+button,.btn{font:inherit;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;text-decoration:none;gap:6px;border:none;background:#0874a6;color:#fff;border-radius:11px;padding:11px 15px;font-weight:800;font-size:13px}
+.btn.secondary,button.secondary{background:#e9f4fa;color:#064c7e;border:1px solid #cbe4f0}
+button:disabled{opacity:.5;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #11b5ba;outline-offset:3px}
+.hidden{display:none!important}.msg{padding:13px 15px;border-radius:12px;background:#edf5fa;border:1px solid #d8e9ef;font-size:13px;line-height:1.6;margin-top:12px;white-space:pre-wrap}.err{background:#fff0ef;border-color:#f2cfca;color:#912820}.ok{background:#e9f8f0;border-color:#c7e9d5;color:#175b3b}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.stat{background:#f4f9fc;border:1px solid #e0ecf1;border-radius:14px;padding:17px}
+.stat strong{display:block;font-size:25px;color:var(--navy);margin:6px 0}
+.stat small{font-size:12px;color:var(--muted)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.legend article{background:#f7fbfd;border:1px solid var(--line);border-radius:13px;padding:13px}
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;border:1px solid #b9ddeb;background:#e9f6ff;color:#075787;font-weight:800;font-size:11px;padding:7px 10px;line-height:1.3}
+.tag.gov{border-color:#b8e0c8;background:#e9f9ef;color:#136b3a}.tag.no{background:#f1f4f6;border-color:#dae2e7;color:#607183}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:13px 0}
+.toolbar input{flex:2;min-width:160px}.toolbar select{flex:1;min-width:160px;padding:12px;border:1px solid #cbdce5;border-radius:11px;background:white;font:inherit}
+.list{display:grid;gap:13px}
+.business{border:1px solid #dce9f0;background:linear-gradient(125deg,#fff,#f9fcfe);border-radius:16px;padding:17px}
+.business h3{margin:0 0 5px;font-size:17px;overflow-wrap:anywhere}
+.business .flags{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.business .details{display:flex;gap:8px 22px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:7px}
+.business .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.business .links .btn{padding:9px 12px;font-size:12px}
+.foot{font-size:12px;color:var(--muted);margin:15px 0}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.legend{grid-template-columns:1fr}.card{padding:16px}.toolbar input,.toolbar select{flex-basis:100%}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="logo">MBG</div><div><h1>Verification Badge Control Center</h1><p>Maldives Business Gateway · Secure Administration</p></div></div></header>
+<main class="wrap">
+  <section class="card" id="loginBox">
+    <h2>Administrator Login</h2>
+    <p class="muted">Sign in with an existing MBG administrator account. This page does not approve or modify any records.</p>
+    <form id="loginForm">
+      <label for="email" class="muted">Admin email</label><input id="email" type="email" autocomplete="username" required>
+      <label for="password" class="muted">Password</label><input id="password" type="password" autocomplete="current-password" required style="margin-top:10px">
+      <div style="margin-top:12px"><button type="submit" id="loginBtn">Secure Admin Login</button></div>
+    </form>
+    <div class="msg" id="loginMsg" role="status">Checking your session…</div>
+  </section>
+  <section id="adminArea" class="hidden">
+    <div class="card top"><div><h2 style="margin:0">🛡️ Business Badge Eligibility</h2><p class="muted" style="margin:7px 0 0" id="who"></p></div><button class="secondary" id="logoutBtn">Log Out</button></div>
+    <nav class="nav" aria-label="Admin navigation"><a class="btn secondary" href="ad-admin.html">🏠 Admin Dashboard</a><a class="btn secondary" href="ad-identity.html">🪪 Identity Review</a><a class="btn secondary" href="ad-wholesale.html">🏛️ Wholesale Verification</a></nav>
+    <section class="card">
+      <h2>Verified Means Verified</h2>
+      <div class="legend">
+        <article><span class="tag">✔ MBG Verified Seller</span><p class="muted">Only for an approved business whose seller identity verification record has status <b>approved</b>.</p></article>
+        <article><span class="tag gov">✔ Government Registration Verified by MBG</span><p class="muted">Only for an approved business with an <b>approved</b> wholesale registration application and recorded certificate.</p></article>
+      </div>
+      <p class="muted"><b>Important:</b> These badges represent checks carried out by MBG. They do not guarantee delivery, product quality, payment or refunds; the government does not issue or endorse these MBG badges.</p>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><small>Approved businesses</small><strong id="total">—</strong><small>Eligible marketplace businesses</small></div>
+        <div class="stat"><small>Identity verified</small><strong id="verified">—</strong><small>Approved identity records</small></div>
+        <div class="stat"><small>Registration verified</small><strong id="government">—</strong><small>Approved wholesale certificates</small></div>
+      </div>
+      <div class="top"><p class="muted" id="lastUpdate">Not loaded yet.</p><button type="button" id="refreshBtn">↻ Refresh Verification Status</button></div>
+      <div id="status" class="msg" role="status">Waiting to check verification records…</div>
+    </section>
+    <section class="card">
+      <div class="top"><div><h2>Businesses &amp; Badge Preview</h2><p class="muted">The preview updates from existing approval records when refreshed. No manual badge override is available.</p></div></div>
+      <div class="toolbar"><input type="search" id="search" aria-label="Search businesses" placeholder="Search business name…"><select id="filter" aria-label="Filter badge status"><option value="all">All businesses</option><option value="verified">Identity verified</option><option value="government">Government registration verified</option><option value="none">No badge eligible</option></select></div>
+      <div id="businessList" class="list" aria-live="polite"></div>
+      <p class="foot">Private IDs, selfies and certificate images are not displayed here. Use the existing secure review pages to assess evidence.</p>
+    </section>
+    <section class="card"><h2>🔐 Safe Launch Stage</h2><p class="muted"><b>This page is an admin-only eligibility dashboard and preview.</b> It does not yet publish badges on customer-facing product cards or storefronts. That next stage requires a narrow, privacy-safe public status endpoint and a separately tested storefront update. No SQL, subscriptions, order logic, payments or security policies are changed by this file.</p></section>
+  </section>
+</main>
+<script type="module">
+const SUPABASE_URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const SUPABASE_KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id);
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=x=>String(x??'').trim().toLowerCase();
+let sb,currentUser=null,rows=[],loadId=0;
+function notice(message,isError=false){$('status').textContent=message;$('status').className='msg '+(isError?'err':'ok');}
+function clearView(){rows=[];$('businessList').replaceChildren();for(const id of ['total','verified','government'])$(id).textContent='—';}
+function draw(){
+ const search=norm($('search').value),filter=$('filter').value;
+ const filtered=rows.filter(b=>norm(b.name).includes(search)&&(filter==='all'||(filter==='verified'&&b.identity)||(filter==='government'&&b.gov)||(filter==='none'&&!b.identity&&!b.gov)));
+ $('businessList').innerHTML=filtered.length?filtered.map(b=>`<article class="business">
+  <h3>${esc(b.name||'Unnamed business')}</h3>
+  <div class="details"><span>Business: ${esc(b.status)}</span><span>Identity: ${esc(b.identityStatus||'not submitted')}</span><span>Registration: ${esc(b.govStatus||'not submitted')}</span></div>
+  <div class="flags">${b.identity?'<span class="tag">✔ MBG Verified Seller</span>':'<span class="tag no">Identity badge unavailable</span>'}${b.gov?'<span class="tag gov">✔ Registration Verified by MBG</span>':'<span class="tag no">Registration badge unavailable</span>'}</div>
+  <div class="links"><a class="btn secondary" href="ad-identity.html">Review Identity →</a><a class="btn secondary" href="ad-wholesale.html">Review Registration →</a></div>
+ </article>`).join(''):'<div class="msg">No businesses match this filter.</div>';
+}
+async function getAll(table,fields){
+ // Keep page sizes bounded and detect truncation instead of silently reporting incorrect badge status.
+ const acc=[];
+ for(let offset=0;offset<10000;offset+=1000){
+   const {data,error}=await sb.from(table).select(fields).range(offset,offset+999);
+   if(error)throw Error(table+': '+error.message);
+   const chunk=data||[];acc.push(...chunk);
+   if(chunk.length<1000)return acc;
+ }
+ throw Error(table+': more than 10,000 records; dashboard needs pagination before displaying reliable statuses.');
+}
+async function load(){
+ if(!currentUser)return;
+ const own=++loadId;
+ $('refreshBtn').disabled=true;$('status').textContent='Checking approved businesses and verification records…';$('status').className='msg';
+ try{
+  const [businesses,identities,wholesale]=await Promise.all([
+   getAll('businesses','id,name,status'),
+   getAll('mbg_seller_identity_verifications','business_id,status'),
+   getAll('mbg_wholesale_applications','business_id,status,certificate_path')
+  ]);
+  if(own!==loadId||!currentUser)return;
+  const identityMap=new Map(identities.map(r=>[String(r.business_id),r]));
+  const governmentMap=new Map(wholesale.map(r=>[String(r.business_id),r]));
+  rows=businesses.map(b=>{
+    const identityRecord=identityMap.get(String(b.id));
+    const governmentRecord=governmentMap.get(String(b.id));
+    const eligible=norm(b.status)==='approved';
+    return {id:b.id,name:b.name,status:b.status,
+      identityStatus:identityRecord?.status??'',govStatus:governmentRecord?.status??'',
+      identity:eligible&&norm(identityRecord?.status)==='approved',
+      gov:eligible&&norm(governmentRecord?.status)==='approved'&&Boolean(String(governmentRecord?.certificate_path??'').trim())};
+  }).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||'')));
+  $('total').textContent=rows.filter(x=>norm(x.status)==='approved').length;
+  $('verified').textContent=rows.filter(x=>x.identity).length;
+  $('government').textContent=rows.filter(x=>x.gov).length;
+  $('lastUpdate').textContent='Last checked '+new Date().toLocaleString();
+  notice('Eligibility preview refreshed successfully. No database changes made.');draw();
+ }catch(e){if(own===loadId){clearView();notice('Verification data could not be fully checked. No badges should be granted on the basis of this incomplete preview. '+e.message,true);}}
+ finally{if(own===loadId)$('refreshBtn').disabled=false;}
+}
+async function enter(session){
+ const user=session?.user||null;
+ if(!user){currentUser=null;loadId++;clearView();$('adminArea').classList.add('hidden');$('loginBox').classList.remove('hidden');$('loginMsg').textContent='Sign in using an MBG administrator account.';return;}
+ const {data,error}=await sb.from('mbg_admins').select('user_id').eq('user_id',user.id).maybeSingle();
+ if(error||!data){currentUser=null;loadId++;clearView();$('adminArea').classList.add('hidden');$('loginBox').classList.remove('hidden');$('loginMsg').textContent='Access denied: this is not an authorized MBG administrator.';$('loginMsg').className='msg err';return;}
+ currentUser=user;$('who').textContent='Signed in as '+(user.email||'authorized administrator');$('loginBox').classList.add('hidden');$('adminArea').classList.remove('hidden');await load();
+}
+$('search').addEventListener('input',draw);
+$('filter').addEventListener('change',draw);
+$('refreshBtn').addEventListener('click',load);
+$('loginForm').addEventListener('submit',async event=>{
+ event.preventDefault();$('loginBtn').disabled=true;$('loginMsg').textContent='Signing in…';
+ try{const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;}
+ catch(e){$('loginMsg').textContent='Login failed: '+e.message;$('loginMsg').className='msg err';}
+ finally{$('loginBtn').disabled=false;}
+});
+$('logoutBtn').addEventListener('click',()=>sb.auth.signOut());
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+ sb.auth.onAuthStateChange((_event,session)=>setTimeout(()=>enter(session).catch(e=>{currentUser=null;$('adminArea').classList.add('hidden');$('loginBox').classList.remove('hidden');$('loginMsg').textContent=e.message;}),0));
+ const {data:{session}}=await sb.auth.getSession();await enter(session);
+}catch(e){$('loginMsg').textContent='Could not start secure admin login: '+e.message;$('loginMsg').className='msg err';}
+</script>
+</body>
+</html>
