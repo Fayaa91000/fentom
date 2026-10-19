@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>MBG Admin | Verified Customer Reviews</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--teal:#0b9b9d;--green:#167344;--red:#ad3526;--ink:#17324a;--muted:#60798c;--line:#d9e6ed;--bg:#f3f8fb;--gold:#c58b16}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Arial,Helvetica,sans-serif}
+header{background:linear-gradient(115deg,#041f3d,#086ca0 70%,#08a19c);color:#fff;padding:25px 0}
+.wrap{width:min(1040px,calc(100% - 30px));margin:auto}
+.brand{display:flex;gap:15px;align-items:center}.brandLogo{display:grid;place-items:center;width:64px;height:64px;border:1px solid #ffffff66;background:#ffffff1c;border-radius:16px;font-size:22px;font-weight:900}.brand h1{margin:0;font-size:clamp(20px,4vw,29px);line-height:1.2;color:#fff}.brand p{margin:5px 0 0;color:#e1f4fa;font-size:13px}
+main{padding:24px 0 44px}.card{background:#fff;border:1px solid var(--line);border-radius:19px;padding:20px;margin-bottom:16px;box-shadow:0 9px 30px #062b550c}
+h2,h3{color:var(--navy)}h2{font-size:22px;margin:0 0 8px}h3{font-size:18px;margin:0 0 5px}p{margin:7px 0 12px}a{color:#07638a}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #20b7cb;outline-offset:2px}
+.muted{color:var(--muted)}.small{font-size:12px}.hidden,[hidden]{display:none!important}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.links{display:flex;gap:8px;flex-wrap:wrap}.links a{display:inline-block;padding:9px 12px;background:#eaf5f9;border:1px solid #d0e5ef;color:#07547f;text-decoration:none;font-size:13px;font-weight:bold;border-radius:11px}
+input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid #c7dbe5;border-radius:11px;padding:11px 12px;width:100%}label{display:block;font-size:13px;font-weight:800;color:#34536c;margin:11px 0 5px}textarea{min-height:95px;resize:vertical}
+button{font:inherit;font-size:13px;font-weight:bold;border:0;border-radius:11px;cursor:pointer;padding:11px 16px;background:var(--blue);color:white}button:hover:not(:disabled){filter:brightness(.94)}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#e9f3f8;color:var(--navy);border:1px solid #d2e4ed}.danger{background:var(--red)}.good{background:var(--green)}.warningBtn{background:#8a6519}
+.msg{padding:13px 15px;border:1px solid #cce2ed;border-radius:12px;background:#ecf7fb;margin:12px 0;white-space:pre-wrap;overflow-wrap:anywhere}.msg.error{background:#fff0ef;color:#92231b;border-color:#f3cccc}.msg.success{background:#e9f8ef;color:#126a3b;border-color:#bfe4cc}.msg.warning{background:#fff8e7;color:#77520d;border-color:#ecd69b}
+.policy{background:#f1f8fc;border:1px solid #d8e9f1;border-radius:13px;padding:14px;margin-top:12px}.policy strong{color:#0c527b}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.stat{background:#f3f8fb;border:1px solid #ddeaf0;border-radius:13px;padding:14px}.stat strong{display:block;font-size:29px;line-height:1.2;color:var(--navy)}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.filters{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:end}.filters label{margin-top:0}.filters button{min-height:45px}
+.review{border:1px solid #dce8ee;border-radius:16px;margin:13px 0;padding:17px;background:#fdfefe}.reviewTop{display:flex;justify-content:space-between;gap:12px;align-items:start;flex-wrap:wrap}.stars{color:#bb850e;font-size:19px;letter-spacing:1px;font-weight:900}.starOff{color:#c1cbd0}.pill{display:inline-block;border:1px solid #d1e3ea;background:#eff6fa;color:#31566a;font-size:11px;font-weight:900;border-radius:999px;padding:5px 10px;white-space:nowrap}.pill.pending{background:#fff4d9;color:#805710;border-color:#ebd59a}.pill.published{background:#e6f7ec;color:#14683a;border-color:#b7dfc7}.pill.hiddenReview{background:#ffeded;color:#922b24;border-color:#efc9c9}.meta{color:var(--muted);font-size:12px;margin-top:5px;overflow-wrap:anywhere}.comment{padding:13px;background:#f3f8fb;border:1px solid #e0ebef;border-radius:11px;margin:11px 0;white-space:pre-wrap;overflow-wrap:anywhere}.noComment{color:#738896;font-style:italic}.reviewActions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.reviewActions button{padding:10px 12px}.id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;color:var(--muted)}
+.selected{border:2px solid #0e86a9;box-shadow:0 12px 30px #0e86a91c}.confirmation{border-top:4px solid #0874a6}.reviewDecision{font-weight:800;color:var(--navy);margin:7px 0}.foot{font-size:12px;color:var(--muted);padding-top:10px;text-align:center}.loginWidth{max-width:520px;margin:0 auto}.empty{padding:26px;border:1px dashed #c8dde7;border-radius:13px;text-align:center;color:var(--muted)}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:1fr 1fr}.filters .find{grid-column:1/-1}.filters button{grid-column:1/-1}}
+@media(max-width:490px){.brandLogo{width:50px;height:50px;font-size:17px;flex:none}.card{padding:15px}.stats{gap:8px}.stat{padding:11px}.stat strong{font-size:25px}.filters{grid-template-columns:1fr}.filters .find,.filters button{grid-column:auto}.review{padding:13px}.reviewActions button{flex:1 1 130px}}
+</style>
+</head>
+<body>
+<header><div class="wrap brand"><div class="brandLogo" aria-hidden="true">MBG</div><div><h1>Verified Customer Reviews</h1><p>Maldives Business Gateway · Secure Administration</p></div></div></header>
+<main class="wrap">
+<section id="loginPanel" class="card loginWidth">
+<h2>🔐 Administrator Login</h2><p class="muted">Only authorized MBG administrators can view and moderate submitted customer reviews.</p>
+<form id="loginForm"><label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required placeholder="Admin email"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Password"><button type="submit" id="loginBtn">Log In</button></form>
+<div id="loginMsg" class="msg" role="status">Checking your session…</div>
+</section>
+<section id="adminPanel" hidden>
+<div class="card"><div class="top"><div><h2>🛡️ MBG Review Moderation Center</h2><div id="who" class="muted small"></div></div><button id="logoutBtn" type="button" class="secondary">Log Out</button></div>
+<nav class="links" aria-label="MBG admin navigation"><a href="ad-admin.html">🏠 Admin Dashboard</a><a href="ad-badges.html">✅ Verification Badges</a><a href="ad-disputes.html">⚠️ Disputes</a></nav>
+<div class="policy"><strong>Genuine feedback policy</strong><p class="small">Verified star ratings count immediately while a review is pending or published. Written comments are public only after you publish them. Hiding a review removes its stars from public averages too. Do not hide genuine criticism just because it is negative. The system records moderation decisions and reasons.</p><p class="small" style="margin-bottom:0">No buyer names, contact information, private order codes or payment slips are shown in this control center. Investigate suspected scams or personal data in comments before publication.</p></div></div>
+<div class="card"><div class="top"><h2>📊 Review Overview</h2><button type="button" class="secondary" id="refreshBtn">↻ Refresh Reviews</button></div><div class="stats"><div class="stat"><strong id="countAll">—</strong><span>Reviews loaded</span></div><div class="stat"><strong id="countPending">—</strong><span>Pending comments</span></div><div class="stat"><strong id="countPublished">—</strong><span>Published</span></div><div class="stat"><strong id="countHidden">—</strong><span>Hidden</span></div></div><div id="statusMsg" class="msg" role="status">Ready to load customer reviews.</div><p class="muted small">Displays up to the 300 most recent reviews. Counts above represent the retrieved records, not necessarily all historical reviews.</p></div>
+<div id="decisionPanel" class="card confirmation" hidden><div class="top"><h2>Confirm Moderation</h2><button type="button" id="cancelDecision" class="secondary">Cancel</button></div><p class="reviewDecision" id="decisionLabel"></p><p class="muted small" id="decisionExplanation"></p><label for="moderationReason">Reason <span id="reasonRequirement"></span></label><textarea id="moderationReason" maxlength="1000" placeholder="Enter reason (required when hiding a review)."></textarea><div class="reviewActions"><button id="applyDecision" type="button">Confirm Decision</button></div><div id="decisionMsg" class="msg" hidden role="status"></div></div>
+<div class="card"><h2>📝 Customer Reviews</h2><div class="filters"><div class="find"><label for="reviewSearch">Search business, product or comment</label><input id="reviewSearch" placeholder="Search reviews…" type="search"></div><div><label for="reviewStatus">Status</label><select id="reviewStatus"><option value="all">All reviews</option><option value="pending_comment">Pending comments</option><option value="pending">All pending</option><option value="published">Published</option><option value="hidden">Hidden</option><option value="stars_only">Star-only (no comment)</option></select></div><div><label for="starFilter">Stars</label><select id="starFilter"><option value="all">All ratings</option><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select></div><button type="button" id="clearFilters" class="secondary">Clear Filters</button></div><div id="reviews" aria-live="polite"><div class="empty">Loading reviews…</div></div><div id="listNote" class="muted small"></div></div>
+<div class="foot">MBG — Moderation is restricted to administrators. No existing seller, checkout, or order page is changed.</div>
+</section>
+</main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+const sb=createClient(URL,KEY);
+const $=id=>document.getElementById(id);
+let currentUser=null,reviews=[],selectedDecision=null,loading=false,actionBusy=false,sessionCheck=0;
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shortDate=value=>{if(!value)return '—';const d=new Date(value);return Number.isNaN(d.getTime())?'—':d.toLocaleString();};
+const statusText=s=>s==='published'?'Published':s==='hidden'?'Hidden':'Pending';
+function message(id,txt,kind=''){const e=$(id);e.textContent=txt;e.className='msg '+kind;e.hidden=false;}
+function showLogin(text='Log in to continue.',kind=''){$('loginPanel').hidden=false;$('adminPanel').hidden=true;message('loginMsg',text,kind);}
+async function enter(session){
+ const token=++sessionCheck;
+ const u=session?.user;
+ currentUser=null;
+ if(!u){showLogin('Enter your administrator credentials.');return;}
+ message('loginMsg','Verifying administrator access…');
+ const {data,error}=await sb.from('mbg_admins').select('user_id').eq('user_id',u.id).maybeSingle();
+ if(token!==sessionCheck)return;
+ if(error||!data){showLogin('Access denied. This account is not an MBG administrator.','error');return;}
+ currentUser=u;$('loginPanel').hidden=true;$('adminPanel').hidden=false;
+ $('who').textContent='Signed in as '+(u.email||'authorized administrator');
+ await loadReviews();
+}
+async function loadReviews(){
+ if(!currentUser||loading)return;
+ loading=true;$('refreshBtn').disabled=true;
+ message('statusMsg','Loading genuine customer reviews…');
+ try{
+  const {data,error}=await sb.rpc('mbg_admin_list_customer_reviews',{max_rows:300});
+  if(error)throw error;
+  reviews=Array.isArray(data)?data:[];
+  $('countAll').textContent=reviews.length;
+  $('countPending').textContent=reviews.filter(r=>r.moderation_status==='pending'&&String(r.review_text||'').trim()).length;
+  $('countPublished').textContent=reviews.filter(r=>r.moderation_status==='published').length;
+  $('countHidden').textContent=reviews.filter(r=>r.moderation_status==='hidden').length;
+  message('statusMsg',reviews.length?'Review data loaded. Select a review to moderate; no changes occur until you confirm.':'No customer reviews found yet.','success');
+  render();
+ }catch(e){message('statusMsg','Review loading failed: '+(e.message||String(e)),'error');$('reviews').replaceChildren();const x=document.createElement('div');x.className='empty';x.textContent='Could not load reviews. Check the error above; no changes have been made.';$('reviews').append(x);}
+ finally{loading=false;$('refreshBtn').disabled=false;}
+}
+function render(){
+ const search=$('reviewSearch').value.trim().toLowerCase();
+ const filter=$('reviewStatus').value, stars=$('starFilter').value;
+ const data=reviews.filter(r=>{
+  const s=r.moderation_status, txt=String(r.review_text||'').trim();
+  if(filter==='pending_comment'&&!(s==='pending'&&txt))return false;
+  if(filter==='pending'&&s!=='pending')return false;
+  if(filter==='published'&&s!=='published')return false;
+  if(filter==='hidden'&&s!=='hidden')return false;
+  if(filter==='stars_only'&&txt)return false;
+  if(stars!=='all'&&Number(r.rating)!==Number(stars))return false;
+  return !search||[r.business_name,r.product_title,r.review_text,r.review_id].some(x=>String(x||'').toLowerCase().includes(search));
+ });
+ $('reviews').innerHTML=data.map(r=>{
+  const status=r.moderation_status||'pending';
+  const n=Math.max(0,Math.min(5,Number(r.rating)||0));
+  const comment=String(r.review_text||'').trim();
+  const buttons=[];
+  if(status!=='published'&&comment)buttons.push(`<button type="button" class="good" data-action="published" data-review="${safe(r.review_id)}">✅ Publish Comment</button>`);
+  if(status!=='hidden')buttons.push(`<button type="button" class="danger" data-action="hidden" data-review="${safe(r.review_id)}">🚫 Hide Review</button>`);
+  if(status!=='pending')buttons.push(`<button type="button" class="secondary" data-action="pending" data-review="${safe(r.review_id)}">↶ Return to Pending</button>`);
+  const pill=status==='hidden'?'hiddenReview':status;
+  return `<article class="review" data-review-card="${safe(r.review_id)}"><div class="reviewTop"><div><h3>${safe(r.business_name||'Unknown business')}</h3><div class="muted small">Product: ${safe(r.product_title||'Unknown product')}</div></div><span class="pill ${pill}">${safe(statusText(status))}</span></div><div class="stars" aria-label="${n} of 5 stars">${'★'.repeat(n)}<span class="starOff">${'★'.repeat(5-n)}</span> <span class="small muted">${n}/5</span></div><div class="meta">Submitted ${safe(shortDate(r.created_at))} · <span class="id">Review ${safe(String(r.review_id).slice(0,8))}…</span></div><div class="comment ${comment?'':'noComment'}">${comment?safe(comment):'No written comment — star rating only.'}</div>${status==='hidden'&&r.moderation_reason?`<div class="msg warning small"><strong>Moderation reason:</strong> ${safe(r.moderation_reason)}</div>`:''}<div class="reviewActions">${buttons.join('')||'<span class="muted small">No action needed.</span>'}</div></article>`;
+ }).join('')||'<div class="empty">No reviews match these filters.</div>';
+ $('listNote').textContent=`Showing ${data.length} of ${reviews.length} loaded review(s).`;
+ $('reviews').querySelectorAll('[data-review][data-action]').forEach(b=>b.addEventListener('click',()=>beginDecision(b.dataset.review,b.dataset.action)));
+}
+function beginDecision(id,status){
+ if(actionBusy)return;
+ const r=reviews.find(x=>x.review_id===id);
+ if(!r||!['pending','published','hidden'].includes(status)||r.moderation_status===status)return;
+ selectedDecision={id,status};
+ const verb=status==='published'?'Publish comment':status==='hidden'?'Hide review':'Return review to pending';
+ $('decisionLabel').textContent=`${verb}: ${r.business_name||'Business'} — ${r.product_title||'Product'} (${r.rating}/5 stars)`;
+ $('decisionExplanation').textContent=status==='hidden'?'Hiding removes this review’s star rating from public product and business averages and hides its comment. A clear reason is required.':status==='published'?'Publishing makes this written comment visible publicly. Check for abusive content and personal information first.':'Returning to pending hides the public comment while retaining its verified star rating in public averages.';
+ $('reasonRequirement').textContent=status==='hidden'?'(required, at least 5 characters)':'(optional)';
+ $('moderationReason').value='';$('decisionPanel').hidden=false;$('decisionMsg').hidden=true;
+ document.querySelectorAll('[data-review-card]').forEach(el=>el.classList.toggle('selected',el.dataset.reviewCard===id));
+ $('decisionPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeDecision(){$('decisionPanel').hidden=true;selectedDecision=null;document.querySelectorAll('[data-review-card]').forEach(el=>el.classList.remove('selected'));}
+async function applyDecision(){
+ if(!selectedDecision||actionBusy||!currentUser)return;
+ const {id,status}=selectedDecision;
+ const reason=$('moderationReason').value.trim();
+ if(status==='hidden'&&reason.length<5){message('decisionMsg','Please enter a reason of at least 5 characters before hiding a review.','error');return;}
+ if(reason.length>1000){message('decisionMsg','The reason must be 1,000 characters or fewer.','error');return;}
+ const r=reviews.find(x=>x.review_id===id);
+ if(!r)return;
+ const label=status==='published'?'publish this comment':status==='hidden'?'hide this review and remove its stars from public ratings':'return this review to pending';
+ if(!confirm(`Confirm: ${label}?\n\nBusiness: ${r.business_name||'—'}\nProduct: ${r.product_title||'—'}\nRating: ${r.rating}/5 stars`))return;
+ actionBusy=true;$('applyDecision').disabled=true;$('cancelDecision').disabled=true;
+ message('decisionMsg','Saving moderation decision…');
+ try{
+  const {error}=await sb.rpc('mbg_admin_moderate_customer_review',{target_review:id,new_status:status,reason});
+  if(error)throw error;
+  closeDecision();
+  await loadReviews();
+  message('statusMsg','Moderation saved successfully. The change is recorded by Supabase.','success');
+ }catch(e){message('decisionMsg','Moderation failed: '+(e.message||String(e)),'error');}
+ finally{actionBusy=false;$('applyDecision').disabled=false;$('cancelDecision').disabled=false;}
+}
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('loginBtn').disabled=true;message('loginMsg','Signing in…');
+ try{const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;}
+ catch(err){message('loginMsg','Login failed: '+(err.message||String(err)),'error');}
+ finally{$('loginBtn').disabled=false;}
+});
+$('logoutBtn').addEventListener('click',async()=>{await sb.auth.signOut();reviews=[];closeDecision();showLogin('Signed out.');});
+$('refreshBtn').addEventListener('click',loadReviews);
+$('reviewSearch').addEventListener('input',render);
+$('reviewStatus').addEventListener('change',render);
+$('starFilter').addEventListener('change',render);
+$('clearFilters').addEventListener('click',()=>{$('reviewSearch').value='';$('reviewStatus').value='all';$('starFilter').value='all';render();});
+$('cancelDecision').addEventListener('click',closeDecision);
+$('applyDecision').addEventListener('click',applyDecision);
+sb.auth.onAuthStateChange((_event,session)=>setTimeout(()=>enter(session),0));
+const {data:{session}}=await sb.auth.getSession();await enter(session);
+</script>
+</body>
+</html>
