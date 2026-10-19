@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MBG Easy Business Starter</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(145deg,#e9f7fc,#f8fcff);
+  color:#17324a;
+}
+header{
+  padding:22px;
+  text-align:center;
+  color:white;
+  background:linear-gradient(120deg,#062b55,#0874a6,#13a3a0);
+}
+header h2{margin:0}
+header p{margin:6px 0;font-size:12px;letter-spacing:2px}
+main{max-width:680px;margin:35px auto;padding:15px}
+.intro{text-align:center;margin-bottom:25px}
+.intro h1{color:#062b55;font-size:30px}
+.intro p{color:#667b8c;line-height:1.6}
+.card{
+  background:white;
+  padding:25px;
+  border-radius:22px;
+  box-shadow:0 12px 40px #062b5520;
+}
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  color:#667b8c;
+  font-size:13px;
+}
+.free{
+  padding:8px 12px;
+  border-radius:30px;
+  background:#e5f8ed;
+  color:#137a3d;
+  font-weight:bold;
+}
+.progress{display:flex;gap:7px;margin:23px 0}
+.bar{flex:1;height:7px;border-radius:20px;background:#e1eaf0}
+.bar.active{background:#13a3a0}
+.stepBox{
+  background:#f3f9fc;
+  border:1px solid #dceaf0;
+  border-radius:17px;
+  padding:25px;
+  min-height:240px;
+}
+.icon{font-size:40px}
+.stepBox h2{color:#062b55}
+.stepBox p{line-height:1.6;color:#607889}
+.tip{
+  margin-top:18px;
+  padding:13px;
+  background:white;
+  border-radius:12px;
+  font-size:14px;
+  line-height:1.6;
+}
+.example{
+  background:white;
+  border-radius:12px;
+  margin-top:12px;
+  padding:13px;
+  display:none;
+}
+.actions{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:22px;
+}
+button{
+  border:0;
+  padding:13px 22px;
+  border-radius:13px;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:14px;
+}
+#back{background:#eaf3f7;color:#062b55}
+#next{
+  background:linear-gradient(120deg,#0874a6,#13a3a0);
+  color:white;
+}
+button:disabled{opacity:.35;cursor:not-allowed}
+.notice{
+  padding:16px;
+  background:#eaf6fa;
+  border-radius:13px;
+  font-size:13px;
+  line-height:1.7;
+  margin-top:20px;
+}
+footer{text-align:center;padding:25px;color:#607889;font-size:13px}
+@media(max-width:520px){
+  main{margin:15px auto}
+  .card{padding:17px}
+  .stepBox{padding:18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h2>MBG</h2>
+  <strong>Maldives Business Gateway</strong>
+  <p>YOUR BUSINESS GATEWAY</p>
+</header>
+
+<main>
+  <div class="intro">
+    <h1>Welcome to MBG!</h1>
+    <p>Your first business starts here.<br>
+    Follow five simple steps to learn how to start selling.</p>
+  </div>
+
+  <section class="card">
+    <div class="top">
+      <strong id="counter">Step 1 of 5</strong>
+      <span class="free">Free Starter Plan</span>
+    </div>
+
+    <div class="progress" id="progress"></div>
+
+    <div class="stepBox" aria-live="polite">
+      <div class="icon" id="icon">🏪</div>
+      <h2 id="title">Create Business</h2>
+      <p id="description"></p>
+      <div class="tip" id="tip"></div>
+      <div class="example" id="example">
+        <strong>Example Product</strong>
+        <p>Homemade Coconut Oil</p>
+        <strong>MVR 120</strong>
+        <p>The seller decides the actual price.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="back" onclick="previousStep()">← Back</button>
+      <button id="next" onclick="nextStep()">Next Step →</button>
+    </div>
+  </section>
+
+  <div class="notice">
+    <strong>Important:</strong> This is a learning guide.
+    Actual selling requires MBG seller registration,
+    identity verification, business approval,
+    and payment setup.
+    The 10-product Free Plan has no subscription expiry,
+    subject to MBG marketplace rules.
+  </div>
+</main>
+
+<footer>
+  <strong>MBG — Your Business Gateway</strong>
+  <p>Helping newcomers build their business 🇲🇻</p>
+</footer>
+
+<script>
+const steps=[
+  {
+    icon:"🏪",
+    title:"Create Business",
+    description:"Enter your business and contact details.",
+    tip:"Choose your business name and complete the MBG seller registration."
+  },
+  {
+    icon:"🛡️",
+    title:"Verify Identity",
+    description:"Submit your ID and selfie. Wait for MBG approval.",
+    tip:"MBG verifies sellers to help protect customers and honest businesses."
+  },
+  {
+    icon:"💳",
+    title:"Set Up Payments",
+    description:"Add your bank account or supported payment link.",
+    tip:"Customers pay you directly. Always verify payment in your account before accepting an order."
+  },
+  {
+    icon:"📦",
+    title:"Add First Product",
+    description:"Upload a product photo, title, description and price.",
+    tip:"Use a clear picture and honest description. The Free Plan allows 10 product listings."
+  },
+  {
+    icon:"🚀",
+    title:"Start Selling",
+    description:"After approval, publish your listing and receive orders.",
+    tip:"Review orders, verify payments, arrange delivery and follow MBG's order and dispute rules."
+  }
+];
+
+let current=0;
+
+function showStep(){
+  const s=steps[current];
+
+  document.getElementById("icon").textContent=s.icon;
+  document.getElementById("title").textContent=s.title;
+  document.getElementById("description").textContent=s.description;
+  document.getElementById("tip").textContent=s.tip;
+  document.getElementById("counter").textContent=
+    "Step "+(current+1)+" of "+steps.length;
+
+  document.getElementById("example").style.display=
+    current===3?"block":"none";
+
+  document.getElementById("back").disabled=current===0;
+
+  document.getElementById("next").textContent=
+    current===steps.length-1?"↻ Start Again":"Next Step →";
+
+  document.getElementById("progress").innerHTML=
+    steps.map((_,i)=>
+      '<div class="bar '+(i<=current?'active':'')+'"></div>'
+    ).join("");
+}
+
+function nextStep(){
+  current=current===steps.length-1?0:current+1;
+  showStep();
+}
+
+function previousStep(){
+  if(current>0)current--;
+  showStep();
+}
+
+showStep();
+</script>
+</body>
+</html>
