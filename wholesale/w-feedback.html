@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#062b55"><title>Wholesale Seller Feedback | Maldives Business Gateway</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--teal:#13a3a0;--muted:#637d8e;--line:#d9e5ec}
+*{box-sizing:border-box}body{margin:0;background:#f2f7fa;color:#19374f;font-family:system-ui,-apple-system,Arial,sans-serif}
+header{background:linear-gradient(115deg,#062b55,#0874a6,#13a3a0);color:white;padding:21px 16px}header .inner,.wrap{max-width:1030px;margin:auto}header strong{font-size:20px}header small{display:block;opacity:.85;margin-top:5px}
+.wrap{padding:20px 15px 55px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.pageTitle{font-size:clamp(26px,4vw,36px);color:var(--navy);margin:5px 0}.lead{color:var(--muted);line-height:1.6;margin:0 0 20px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px;margin:0 0 16px;box-shadow:0 8px 30px #062b550c}.panel h2{color:var(--navy)}
+a.btn,button{display:inline-block;background:var(--blue);color:white;text-decoration:none;border:0;border-radius:12px;font:inherit;font-weight:750;cursor:pointer;padding:11px 15px}a.secondary,button.secondary{color:var(--navy);background:#eaf3f7;border:1px solid #d6e5ec}button:disabled{opacity:.6;cursor:wait}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+label{display:block;font-size:13px;font-weight:750;color:var(--navy);margin:0 0 5px}input,select{font:inherit;width:100%;padding:12px;border:1px solid #cbdbe5;border-radius:11px;background:#fff;color:inherit}
+.login{display:grid;grid-template-columns:1fr 1fr;gap:11px}.msg{border-radius:12px;background:#eaf3f7;padding:12px 14px;margin:13px 0 0;line-height:1.5;font-size:14px}.msg.ok{background:#e4f6e9;color:#155b33}.msg.err{background:#ffeaea;color:#8a2020}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 8px}.stat{background:#f4f8fb;border:1px solid #e3edf0;border-radius:14px;padding:15px}.stat span{font-size:12px;color:var(--muted)}.stat b{font-size:24px;color:var(--navy);display:block;margin-top:8px}
+.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px;margin:15px 0}.review{border:1px solid var(--line);border-radius:15px;padding:16px;margin:12px 0;background:#fff}.review h3{margin:0 0 5px;color:var(--navy);font-size:18px;overflow-wrap:anywhere}.stars{font-size:23px;letter-spacing:1px;color:#bf8400;font-weight:900}.chip{border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}.published{background:#e1f6e9;color:#126239}.pending{background:#fff4d9;color:#79550d}.hiddenReview{background:#e9eef2;color:#586b79}.quote{background:#f6f9fa;border-left:4px solid var(--teal);padding:13px;border-radius:10px;margin-top:13px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}.empty{text-align:center;color:var(--muted);border:1px dashed #a2c6d3;background:#f8fbfc;padding:25px;border-radius:13px;margin:14px 0}
+[hidden]{display:none!important}footer{text-align:center;padding:12px;color:var(--muted);font-size:12px}
+@media(max-width:760px){.toolbar{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.panel{padding:15px}.toolbar,.login{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat b{font-size:22px}}
+</style>
+</head>
+<body>
+<header><div class="inner"><strong>MBG · Maldives Business Gateway</strong><small>Wholesale Seller • Customer Feedback</small></div></header>
+<main class="wrap">
+<div class="top"><h1 class="pageTitle">⭐ Wholesale Customer Feedback</h1><a class="btn secondary" href="w-main.html">← Back to Dashboard</a></div>
+<p class="lead">A dedicated, private space for genuine customer feedback. Keep your main seller dashboard simple.</p>
+<section class="panel" id="authBox">
+<h2 style="margin:0 0 8px">Seller Login</h2><p class="muted">If you're already signed in to MBG, your session should be recognized automatically.</p>
+<form id="loginForm"><div class="login"><div><label for="email">Email</label><input id="email" type="email" autocomplete="username" required></div><div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div></div><button id="login" type="submit" style="margin-top:12px">Login</button></form>
+<div id="authMsg" class="msg" role="status">Checking your session…</div>
+</section>
+<section id="app" hidden>
+<div class="panel"><div class="top"><div><h2 style="margin:0 0 5px">Customer Review Center</h2><div class="muted" id="who"></div></div><div class="top"><button id="refresh" class="secondary" type="button">↻ Refresh</button><button id="logout" class="secondary" type="button">Log Out</button></div></div>
+<div id="status" class="msg" role="status">Loading customer reviews…</div>
+<div class="stats"><div class="stat"><span>Public average rating</span><b id="average">—</b></div><div class="stat"><span>Verified reviews loaded</span><b id="total">—</b></div><div class="stat"><span>Published comments</span><b id="published">—</b></div><div class="stat"><span>Awaiting moderation</span><b id="pending">—</b></div></div><p id="averageNote" class="muted">Public averages include only eligible ratings.</p></div>
+<div class="panel"><h2 style="margin:0">Customer Feedback</h2><div class="toolbar"><div><label for="search">Search</label><input type="search" id="search" placeholder="Product, business, comment…"></div><div><label for="businessFilter">Business</label><select id="businessFilter"><option value="">All my businesses</option></select></div><div><label for="starsFilter">Stars</label><select id="starsFilter"><option value="">All ratings</option><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select></div><div><label for="statusFilter">Status</label><select id="statusFilter"><option value="">All statuses</option><option value="published">Published</option><option value="pending">Pending</option><option value="hidden">Hidden</option></select></div></div>
+<div class="top"><span class="muted" id="count">No reviews loaded</span><div><label for="sort" style="display:inline">Sort:</label> <select id="sort" style="width:auto"><option value="new">Newest</option><option value="old">Oldest</option><option value="high">Highest stars</option><option value="low">Lowest stars</option></select></div></div>
+<div id="reviewList" aria-live="polite"></div><p class="muted">Only completed verified purchase reviews are eligible for public ratings. Written comments appear publicly only after MBG approval. Sellers cannot change or delete customer reviews.</p><p class="muted">This screen loads up to 200 recent records; its displayed counts may not represent your entire history. More pagination can be added when needed.</p></div>
+</section></main>
+<footer>MBG — Your Business Gateway · Wholesale Seller • Customer Feedback</footer>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co', KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+const sb=createClient(URL,KEY),$=id=>document.getElementById(id);
+const wholesaleMode=true;
+let reviews=[],businesses=[],ratings=[],seq=0,uid=null;
+function el(tag,className,text){const x=document.createElement(tag);if(className)x.className=className;if(text!==undefined)x.textContent=text;return x}
+function message(text,type=''){const x=$('status');x.textContent=text;x.className='msg'+(type?' '+type:'')}
+function showApp(on){$('authBox').hidden=on;$('app').hidden=!on}
+function formatDate(v){if(!v)return 'Unknown date';const d=new Date(v);return Number.isNaN(d.getTime())?'Unknown date':d.toLocaleString()}
+function render(){
+ const q=$('search').value.trim().toLowerCase(),bid=$('businessFilter').value,s=$('starsFilter').value,st=$('statusFilter').value;
+ const out=reviews.filter(r=>(!bid||String(r.business_id)===bid)&&(!s||Number(r.rating)===Number(s))&&(!st||r.moderation_status===st)&&(!q||[r.business_name,r.product_title,r.review_text,String(r.rating)].some(z=>String(z||'').toLowerCase().includes(q))));
+ const sort=$('sort').value;
+ out.sort((a,b)=>sort==='high'?Number(b.rating)-Number(a.rating):sort==='low'?Number(a.rating)-Number(b.rating):sort==='old'?new Date(a.created_at)-new Date(b.created_at):new Date(b.created_at)-new Date(a.created_at));
+ $('count').textContent=`Showing ${out.length} of ${reviews.length} loaded review(s)`;
+ const box=$('reviewList');box.replaceChildren();
+ if(!out.length){box.append(el('div','empty',reviews.length?'No reviews match these filters.':'No customer reviews yet. Feedback from verified completed orders will appear here.'));return}
+ for(const r of out){
+  const card=el('article','review');card.append(el('h3','',r.product_title||'Product'));
+  card.append(el('div','muted',`Business: ${r.business_name||'My business'} · ${formatDate(r.created_at)}`));
+  const top=el('div','top');const n=Math.max(1,Math.min(5,Number(r.rating)||1));const stars=el('div','stars','★'.repeat(n)+'☆'.repeat(5-n));stars.setAttribute('aria-label',`${n} out of 5 stars`);top.append(stars);
+  const status=r.moderation_status==='published'?'Published':r.moderation_status==='hidden'?'Hidden by MBG':'Awaiting MBG Review';top.append(el('span','chip '+(r.moderation_status==='published'?'published':r.moderation_status==='hidden'?'hiddenReview':'pending'),status));card.append(top);
+  if(r.moderation_status==='published'&&String(r.review_text||'').trim())card.append(el('div','quote',r.review_text));
+  else card.append(el('p','muted',r.moderation_status==='hidden'?'Hidden from public ratings.':'Written comment not public yet, or customer left stars only.'));
+  box.append(card);
+ }
+}
+function summary(){
+ $('total').textContent=String(reviews.length);
+ $('published').textContent=String(reviews.filter(r=>r.moderation_status==='published'&&String(r.review_text||'').trim()).length);
+ $('pending').textContent=String(reviews.filter(r=>r.moderation_status==='pending').length);
+ const eligible=new Set(businesses.map(b=>String(b.id)));
+ const ownRatings=ratings.filter(r=>eligible.has(String(r.business_id))&&Number(r.review_count)>0);
+ const count=ownRatings.reduce((a,r)=>a+Number(r.review_count),0);
+ if(count){const weighted=ownRatings.reduce((a,r)=>a+Number(r.average_rating)*Number(r.review_count),0)/count;$('average').textContent=weighted.toFixed(1)+'/5';$('averageNote').textContent=`Public ratings: ${count} verified review(s) across ${ownRatings.length} rated business(es).`}
+ else{$('average').textContent='No ratings';$('averageNote').textContent='No eligible public ratings yet.'}
+}
+function populate(){const sel=$('businessFilter'),old=sel.value;sel.replaceChildren();const all=el('option','','All my businesses');all.value='';sel.append(all);for(const b of businesses){const x=el('option','',b.name||'My business');x.value=b.id;sel.append(x)}sel.value=businesses.some(b=>String(b.id)===old)?old:''}
+async function load(){
+ const run=++seq;$('refresh').disabled=true;message('Loading genuine reviews…');
+ try{
+  const {data:{user},error:ue}=await sb.auth.getUser();if(ue||!user||user.id!==uid)throw Error('Please sign in to your MBG seller account.');
+  const {data:rows,error:be}=await sb.from('businesses').select('id,name').eq('owner_id',user.id).order('name');if(be)throw Error('Business ownership check failed: '+be.message);
+  let eligible=(rows||[]).map(x=>({id:String(x.id),name:x.name}));
+  if(wholesaleMode&&eligible.length){const {data:approved,error:we}=await sb.from('mbg_wholesale_applications').select('business_id,status').in('business_id',eligible.map(x=>x.id));if(we)throw Error('Wholesale verification check failed: '+we.message);const ok=new Set((approved||[]).filter(x=>x.status==='approved').map(x=>String(x.business_id)));eligible=eligible.filter(x=>ok.has(x.id))}
+  const {data:rr,error:re}=await sb.rpc('mbg_seller_review_dashboard',{max_rows:200});if(re)throw Error('Review retrieval failed: '+re.message);
+  const {data:pr,error:pe}=await sb.rpc('mbg_public_business_ratings');if(pe)throw Error('Rating retrieval failed: '+pe.message);
+  if(run!==seq)return;
+  businesses=eligible;const ids=new Set(eligible.map(x=>x.id));reviews=(rr||[]).filter(x=>ids.has(String(x.business_id)));ratings=pr||[];
+  populate();summary();render();
+  if(wholesaleMode&&!eligible.length)message('This account has no approved wholesale business. Wholesale feedback requires MBG wholesale approval.','err');
+  else if(!eligible.length)message('No business found for this account. Create your business profile first.');
+  else message(`Loaded ${reviews.length} customer review(s).`,'ok');
+ }catch(e){if(run!==seq)return;reviews=[];businesses=[];ratings=[];for(const id of ['average','total','published','pending'])$(id).textContent='—';$('reviewList').replaceChildren(el('div','empty','Reviews could not be loaded. Check the error message.'));message(e.message||String(e),'err')}
+ finally{if(run===seq)$('refresh').disabled=false}
+}
+async function enter(){const {data:{user},error}=await sb.auth.getUser();if(error||!user){seq++;uid=null;showApp(false);$('authMsg').textContent='Sign in to see your customer feedback.';return}
+ if(uid!==user.id){uid=user.id;$('who').textContent='Signed in as '+(user.email||'MBG seller');showApp(true);await load()}
+}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();$('login').disabled=true;$('authMsg').textContent='Signing in…';const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('login').disabled=false;if(error){$('authMsg').textContent='Login failed: '+error.message;return}$('password').value='';uid=null;await enter()});
+$('logout').onclick=async()=>{const {error}=await sb.auth.signOut();if(error){message('Could not log out: '+error.message,'err');return}uid=null;showApp(false);$('authMsg').textContent='Signed out.'};
+$('refresh').onclick=load;
+for(const name of ['search','businessFilter','starsFilter','statusFilter','sort'])$(name).addEventListener(name==='search'?'input':'change',render);
+sb.auth.onAuthStateChange(e=>{if(['SIGNED_IN','SIGNED_OUT','INITIAL_SESSION'].includes(e))setTimeout(()=>enter().catch(err=>{$('authMsg').textContent='Login check failed: '+err.message}),0)});
+await enter();
+</script>
+</body></html>
