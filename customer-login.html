@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>MEG Customer ID | MBG Marketplace Login</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#12304a;background:#f2f6fa}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;flex-direction:column}
+    a{color:#0b709f}
+    .top{background:#0b2d51;color:white;padding:18px 20px;font-weight:750;font-size:16px;letter-spacing:.2px}
+    main{width:min(520px,calc(100% - 32px));margin:auto; padding:35px 0 42px}
+    .panel{background:#fff;border:1px solid #dce7ee;box-shadow:0 8px 28px #17375a12;border-radius:24px;padding:clamp(24px,6vw,36px)}
+    .mark{background:#e8f3fa;color:#0b719b;display:grid;place-items:center;width:66px;height:66px;border-radius:20px;margin:auto auto 15px;font-size:30px}
+    h1{margin:0 0 9px;text-align:center;font-size:clamp(24px,5vw,30px);line-height:1.25}
+    .sub{text-align:center;color:#5c7283;line-height:1.6;margin:0 0 25px}
+    button{appearance:none;font:inherit;cursor:pointer;border-radius:13px;padding:14px 16px;font-weight:700;width:100%;border:1px solid #cadae3;min-height:54px;transition:background .15s}
+    button:focus-visible,a:focus-visible{outline:3px solid #46b2ea;outline-offset:3px}
+    button:disabled{opacity:.6;cursor:wait}
+    .google{background:#fff;color:#172e42;display:flex;align-items:center;justify-content:center;gap:12px;font-size:17px}
+    .google:hover{background:#f4f8fb}
+    .g{font-weight:850;font-size:24px;background:conic-gradient(#4285f4 0 85deg,#34a853 85deg 165deg,#fbbc05 165deg 225deg,#ea4335 225deg 285deg,#4285f4 285deg);background-clip:text;color:transparent;-webkit-background-clip:text}
+    .secondary{background:#f0f6fa;color:#133f5a;margin-top:12px}
+    .secondary:hover{background:#e1eff6}
+    .notice{border-radius:12px;padding:13px 15px;margin:18px 0 0;background:#eef7fc;color:#225575;line-height:1.5;overflow-wrap:anywhere}
+    .notice.error{background:#fff0ec;color:#a23928}
+    .notice.ok{background:#e9f8ed;color:#176440}
+    .profile{display:grid;gap:12px;margin-top:18px}
+    .detail{background:#f5f8fb;border-radius:12px;padding:13px 15px}
+    .detail small{display:block;color:#6c8191;margin-bottom:4px}
+    .detail strong{font-size:15px;overflow-wrap:anywhere}
+    .foot{font-size:13px;line-height:1.6;color:#6e7f90;text-align:center;margin:18px 0 0}
+    .customer-code{font-size:clamp(20px,5vw,26px)!important;letter-spacing:1.2px;color:#0b5d86}
+    .id-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .copy-id{width:auto;min-height:40px;padding:8px 13px;border:1px solid #bfd4e0;background:white;font-size:13px}
+    .detail .help{font-size:12px;line-height:1.5;color:#60788a;margin:7px 0 0}
+    [hidden]{display:none!important}
+  </style>
+</head>
+<body>
+  <header class="top">MBG · Maldives Business Gateway</header>
+  <main>
+    <section class="panel" aria-label="Customer Google sign in">
+      <div class="mark" aria-hidden="true">🛍️</div>
+      <h1>Welcome to MBG</h1>
+      <p class="sub">Sign in securely with Google and view your permanent MEG Customer ID.</p>
+
+      <div id="loginView" hidden>
+        <button class="google" id="googleLogin" type="button"><span class="g" aria-hidden="true">G</span> Continue with Google</button>
+        <a class="secondary" style="display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:13px;padding:15px;margin-top:12px" href="./stores/stores.html">Browse marketplace as guest</a>
+      </div>
+
+      <div id="accountView" hidden>
+        <div class="notice ok">✓ Google sign-in successful! Your account is authenticated with Supabase.</div>
+        <div class="profile">
+          <div class="detail"><small>Customer name</small><strong id="customerName">—</strong></div>
+          <div class="detail"><small>Google email</small><strong id="customerEmail">—</strong></div>
+          <div class="detail">
+            <small>Your unique MEG Customer ID</small>
+            <div class="id-row"><strong id="megCustomerId" class="customer-code" aria-live="polite">Preparing…</strong><button id="copyMegId" class="copy-id" type="button" hidden>Copy ID</button></div>
+            <p class="help">Example: MEG-7K42P9. This is your customer reference, not a password, wallet, or private order access code.</p>
+          </div>
+        </div>
+        <a class="secondary" style="display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:13px;padding:15px;margin-top:14px" href="./stores/stores.html">Browse marketplace</a>
+        <button class="secondary" id="signOut" type="button">Sign out of customer login</button>
+      </div>
+
+      <div class="notice" id="status" role="status" aria-live="polite">Checking Google login…</div>
+      <p class="foot">Your MEG ID is stored securely in Supabase. No money is held in this account. Existing seller logins, order access codes and guest checkout remain unchanged.</p>
+    </section>
+  </main>
+  <script type="module">
+    const SUPABASE_URL = 'https://ehavxdqegpoggrkoxypm.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+    const RETURN_TO = 'https://fayaa91000.github.io/fentom/customer-login.html';
+    const $ = (id) => document.getElementById(id);
+    const status = (message, kind = '') => {
+      const el = $('status');
+      el.textContent = message;
+      el.className = 'notice' + (kind ? ' ' + kind : '');
+    };
+    let sb;
+    let initializing = true;
+    let activeUserId = null;
+    let currentMegId = null;
+    let idLoading = false;
+    let idError = false;
+    let idRequestVersion = 0;
+
+    const showSignedOut = () => {
+      activeUserId = null;
+      currentMegId = null;
+      idLoading = false;
+      idError = false;
+      idRequestVersion++;
+      $('loginView').hidden = false;
+      $('accountView').hidden = true;
+      $('megCustomerId').textContent = '—';
+      $('copyMegId').hidden = true;
+      if (!initializing) status('You can sign in with Google or continue shopping as a guest.');
+    };
+
+    const loadMegId = async (userId, version) => {
+      try {
+        const { data, error } = await sb.rpc('meg_customer_get_or_create_id');
+        if (error) throw error;
+        if (typeof data !== 'string' || !/^MEG-[A-HJ-NP-Z2-9]{6}$/.test(data)) {
+          throw new Error('Unexpected MEG Customer ID format.');
+        }
+        if (activeUserId !== userId || idRequestVersion !== version) return;
+        currentMegId = data;
+        $('megCustomerId').textContent = data;
+        $('copyMegId').hidden = false;
+        status('Google login and permanent MEG Customer ID are working.', 'ok');
+      } catch (err) {
+        if (activeUserId !== userId || idRequestVersion !== version) return;
+        idError = true;
+        $('megCustomerId').textContent = 'Unable to load';
+        $('copyMegId').hidden = true;
+        status('Signed in, but MEG Customer ID could not load: ' + (err?.message || String(err)) + '. Confirm the MEG Customer ID SQL has been run, then reload this page.', 'error');
+      } finally {
+        if (activeUserId === userId && idRequestVersion === version) idLoading = false;
+      }
+    };
+
+    const render = (user) => {
+      if (!user) {
+        showSignedOut();
+        return;
+      }
+      $('loginView').hidden = true;
+      $('accountView').hidden = false;
+      const meta = user.user_metadata || {};
+      $('customerName').textContent = String(meta.full_name || meta.name || 'MBG customer');
+      $('customerEmail').textContent = String(user.email || 'Not available');
+
+      if (activeUserId !== user.id) {
+        activeUserId = user.id;
+        currentMegId = null;
+        idLoading = false;
+        idError = false;
+        idRequestVersion++;
+      }
+
+      if (currentMegId) {
+        $('megCustomerId').textContent = currentMegId;
+        $('copyMegId').hidden = false;
+        status('Google login and permanent MEG Customer ID are working.', 'ok');
+      } else if (idLoading) {
+        $('megCustomerId').textContent = 'Preparing…';
+      } else if (!idError) {
+        $('megCustomerId').textContent = 'Preparing…';
+        $('copyMegId').hidden = true;
+        status('Signed in successfully. Loading your permanent MEG Customer ID…');
+        idLoading = true;
+        const version = idRequestVersion;
+        // Schedule the database request outside Supabase's auth callback.
+        setTimeout(() => { void loadMegId(user.id, version); }, 0);
+      }
+    };
+
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      // Keep customer sessions separate from existing seller login storage.
+      // Preserve this exact key: customers who already logged in remain signed in.
+      sb = createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          storageKey: 'mbg-customer-login-test-v1',
+          persistSession: true,
+          detectSessionInUrl: true,
+          autoRefreshToken: true,
+          flowType: 'pkce'
+        }
+      });
+
+      const url = new URL(window.location.href);
+      const errorDescription = url.searchParams.get('error_description') ||
+        new URLSearchParams(url.hash.startsWith('#') ? url.hash.slice(1) : '').get('error_description');
+
+      const { data, error } = await sb.auth.getSession();
+      initializing = false;
+      if (error) throw error;
+      render(data.session?.user || null);
+      if (errorDescription) status('Google sign-in was not completed: ' + errorDescription, 'error');
+
+      sb.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
+          render(session?.user || null);
+        }
+      });
+
+      $('copyMegId').onclick = async () => {
+        if (!currentMegId) return;
+        try {
+          await navigator.clipboard.writeText(currentMegId);
+          status('MEG Customer ID copied.', 'ok');
+        } catch (_) {
+          window.prompt('Copy your MEG Customer ID:', currentMegId);
+        }
+      };
+
+      $('googleLogin').onclick = async () => {
+        const button = $('googleLogin');
+        button.disabled = true;
+        status('Opening Google…');
+        try {
+          const { error: loginError } = await sb.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: RETURN_TO }
+          });
+          if (loginError) throw loginError;
+        } catch (err) {
+          status('Unable to open Google sign-in: ' + (err?.message || String(err)), 'error');
+          button.disabled = false;
+        }
+      };
+
+      $('signOut').onclick = async () => {
+        const button = $('signOut');
+        button.disabled = true;
+        try {
+          const { error: logoutError } = await sb.auth.signOut();
+          if (logoutError) throw logoutError;
+          render(null);
+          status('Signed out of your customer account.', 'ok');
+        } catch (err) {
+          status('Could not sign out: ' + (err?.message || String(err)), 'error');
+        } finally {
+          button.disabled = false;
+        }
+      };
+    } catch (err) {
+      initializing = false;
+      $('loginView').hidden = false;
+      status('Customer login could not initialize: ' + (err?.message || String(err)), 'error');
+    }
+  </script>
+</body>
+</html>
