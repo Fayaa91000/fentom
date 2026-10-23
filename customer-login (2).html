@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>MEG Customer Profile | MBG Marketplace</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#12304a;background:#f2f6fa}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;flex-direction:column}
+    a{color:#0b709f}
+    .top{background:#0b2d51;color:white;padding:18px 20px;font-weight:750;font-size:16px;letter-spacing:.2px}
+    main{width:min(520px,calc(100% - 32px));margin:auto; padding:35px 0 42px}
+    .panel{background:#fff;border:1px solid #dce7ee;box-shadow:0 8px 28px #17375a12;border-radius:24px;padding:clamp(24px,6vw,36px)}
+    .mark{background:#e8f3fa;color:#0b719b;display:grid;place-items:center;width:66px;height:66px;border-radius:20px;margin:auto auto 15px;font-size:30px}
+    h1{margin:0 0 9px;text-align:center;font-size:clamp(24px,5vw,30px);line-height:1.25}
+    .sub{text-align:center;color:#5c7283;line-height:1.6;margin:0 0 25px}
+    button{appearance:none;font:inherit;cursor:pointer;border-radius:13px;padding:14px 16px;font-weight:700;width:100%;border:1px solid #cadae3;min-height:54px;transition:background .15s}
+    button:focus-visible,a:focus-visible{outline:3px solid #46b2ea;outline-offset:3px}
+    button:disabled{opacity:.6;cursor:wait}
+    .google{background:#fff;color:#172e42;display:flex;align-items:center;justify-content:center;gap:12px;font-size:17px}
+    .google:hover{background:#f4f8fb}
+    .g{font-weight:850;font-size:24px;background:conic-gradient(#4285f4 0 85deg,#34a853 85deg 165deg,#fbbc05 165deg 225deg,#ea4335 225deg 285deg,#4285f4 285deg);background-clip:text;color:transparent;-webkit-background-clip:text}
+    .secondary{background:#f0f6fa;color:#133f5a;margin-top:12px}
+    .secondary:hover{background:#e1eff6}
+    .notice{border-radius:12px;padding:13px 15px;margin:18px 0 0;background:#eef7fc;color:#225575;line-height:1.5;overflow-wrap:anywhere}
+    .notice.error{background:#fff0ec;color:#a23928}
+    .notice.ok{background:#e9f8ed;color:#176440}
+    .profile{display:grid;gap:12px;margin-top:18px}
+    .detail{background:#f5f8fb;border-radius:12px;padding:13px 15px}
+    .detail small{display:block;color:#6c8191;margin-bottom:4px}
+    .detail strong{font-size:15px;overflow-wrap:anywhere}
+    .foot{font-size:13px;line-height:1.6;color:#6e7f90;text-align:center;margin:18px 0 0}
+    .customer-code{font-size:clamp(20px,5vw,26px)!important;letter-spacing:1.2px;color:#0b5d86}
+    .id-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .copy-id{width:auto;min-height:40px;padding:8px 13px;border:1px solid #bfd4e0;background:white;font-size:13px}
+    .detail .help{font-size:12px;line-height:1.5;color:#60788a;margin:7px 0 0}
+
+    .form-card{margin-top:20px;border-top:1px solid #dce7ee;padding-top:20px}
+    .form-card h2{font-size:19px;margin:0 0 7px}
+    .form-card p.intro{font-size:13px;line-height:1.55;color:#587286;margin:0 0 18px}
+    .field{display:grid;gap:6px;margin-bottom:14px}
+    .field label{font-size:13px;font-weight:720;color:#233f54}
+    .field input,.field textarea{font:inherit;font-size:15px;width:100%;border:1px solid #bfcfd9;border-radius:11px;padding:12px;color:#173448;background:#fff;min-height:45px}
+    .field textarea{resize:vertical;min-height:82px}
+    .field input:focus-visible,.field textarea:focus-visible{outline:3px solid #9bd6fa;border-color:#0b719b}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:390px){.two-col{grid-template-columns:1fr}}
+    .avatar-row{display:flex;align-items:center;gap:16px;margin:10px 0 19px;flex-wrap:wrap}
+    .avatar-wrap{width:82px;height:82px;border-radius:50%;background:#e8f2f8;border:1px solid #ccdae5;display:grid;place-items:center;overflow:hidden;flex-shrink:0}
+    .avatar-wrap img{display:block;width:100%;height:100%;object-fit:cover}
+    .avatar-wrap .avatar-fallback{font-size:36px;color:#637f90}
+    .avatar-choose{display:flex;flex-direction:column;gap:7px;flex:1;min-width:175px}
+    .upload-label{display:inline-block;align-self:flex-start;padding:9px 13px;border:1px solid #c7dce7;border-radius:10px;font-size:13px;font-weight:700;background:#edf7fc;cursor:pointer}
+    #avatarFile{position:absolute;opacity:0;width:1px;height:1px;overflow:hidden}
+    #avatarFile:focus-visible + .upload-label{outline:3px solid #9bd6fa}
+    .small-muted{font-size:12px;line-height:1.45;color:#617b8d}
+    .small-link{align-self:flex-start;border:none;min-height:auto;width:auto;padding:4px 0;border-radius:0;background:transparent;text-decoration:underline;text-underline-offset:3px;font-size:12px;color:#0b709f}
+    .save-profile{background:#0b709f;color:white;border-color:#0b709f;margin-top:4px}
+    .save-profile:hover:not(:disabled){background:#07577f}
+    .save-profile.saved:disabled{background:#e6f7ed;color:#14683b;border-color:#9ad4b2;opacity:1;cursor:default}
+    .profile-note{font-size:12px;color:#698093;line-height:1.6;margin:12px 0 0}
+    [hidden]{display:none!important}
+  
+    /* MEG Customer Wishlist: separate from the existing editable customer profile. */
+    .wishCount{font-size:12px;color:#6a7f90;font-weight:600}
+    .wishItems{display:grid;gap:10px;margin-top:13px}
+    .wishItem{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid #dce8ef;border-radius:14px;background:#f8fcfe}
+    .wishItem img,.wishPlaceholder{width:73px;height:73px;object-fit:cover;border-radius:10px;flex:none;background:#e8f2f8;display:grid;place-items:center}
+    .wishInfo{flex:1;min-width:0;overflow-wrap:anywhere}
+    .wishInfo strong{display:block;color:#153d5b;font-size:14px}
+    .wishInfo p{font-size:12px;color:#637d90;line-height:1.5;margin:5px 0}
+    .wishButtons{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+    .wishButtons a,.wishButtons button{display:inline-block;width:auto;min-height:35px;padding:8px 12px;font:inherit;font-size:12px;font-weight:750;text-decoration:none;border-radius:9px}
+    .wishButtons a{background:#0b709f;color:#fff;border:1px solid #0b709f}
+    .wishButtons button{background:#fff0f3;color:#923751;border-color:#eccbd3}
+    .wishButtons button:disabled{opacity:.5}
+    @media(max-width:380px){.wishItem{align-items:flex-start}.wishItem img,.wishPlaceholder{width:58px;height:58px}}
+</style>
+</head>
+<body>
+  <header class="top">MBG · Maldives Business Gateway</header>
+  <main>
+    <section class="panel" aria-label="Customer Google sign in">
+      <div class="mark" aria-hidden="true">🛍️</div>
+      <h1>Welcome to MBG</h1>
+      <p class="sub">Sign in securely with Google, view your MEG Customer ID, and manage your delivery profile.</p>
+
+      <div id="loginView" hidden>
+        <button class="google" id="googleLogin" type="button"><span class="g" aria-hidden="true">G</span> Continue with Google</button>
+        <a class="secondary" style="display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:13px;padding:15px;margin-top:12px" href="./stores/stores.html">Browse marketplace as guest</a>
+      </div>
+
+      <div id="accountView" hidden>
+        <div class="notice ok">✓ Google sign-in successful! Your account is authenticated with Supabase.</div>
+        <div class="profile">
+          <div class="detail"><small>Customer name</small><strong id="customerName">—</strong></div>
+          <div class="detail"><small>Google email</small><strong id="customerEmail">—</strong></div>
+          <div class="detail">
+            <small>Your unique MEG Customer ID</small>
+            <div class="id-row"><strong id="megCustomerId" class="customer-code" aria-live="polite">Preparing…</strong><button id="copyMegId" class="copy-id" type="button" hidden>Copy ID</button></div>
+            <p class="help">Example: MEG-7K42P9. This is your customer reference, not a password, wallet, or private order access code.</p>
+          </div>
+        </div>
+        <section class="form-card" aria-label="My customer profile">
+          <h2>My Customer Profile</h2>
+          <p class="intro">Keep delivery details ready for future orders. Only you can edit this profile. Your MEG ID stays the same.</p>
+          <form id="profileForm" autocomplete="on">
+            <div class="avatar-row">
+              <div class="avatar-wrap">
+                <img id="avatarImage" alt="My profile picture" hidden>
+                <span id="avatarFallback" class="avatar-fallback" aria-hidden="true">👤</span>
+              </div>
+              <div class="avatar-choose">
+                <input type="file" id="avatarFile" accept="image/jpeg,image/png,image/webp" aria-label="Choose a profile photo">
+                <label for="avatarFile" class="upload-label">Choose profile photo</label>
+                <span id="avatarSelected" class="small-muted">Optional · JPG, PNG, WebP · Up to 2 MB</span>
+                <button id="removeAvatar" type="button" class="small-link" hidden>Remove photo</button>
+              </div>
+            </div>
+            <div class="field"><label for="profileName">Full Name *</label><input id="profileName" name="name" maxlength="120" autocomplete="name" required placeholder="Your full name"></div>
+            <div class="field"><label for="profileMobile">Mobile Number *</label><input id="profileMobile" name="tel" type="tel" inputmode="tel" maxlength="24" autocomplete="tel" required placeholder="e.g. +960 7XXXXXX"></div>
+            <div class="two-col">
+              <div class="field"><label for="profileAtoll">Atoll *</label><input id="profileAtoll" maxlength="100" required placeholder="e.g. Kaafu"></div>
+              <div class="field"><label for="profileIsland">Island / City *</label><input id="profileIsland" maxlength="100" required placeholder="e.g. Maafushi"></div>
+            </div>
+            <div class="field"><label for="profileAddress">Delivery Address *</label><textarea id="profileAddress" maxlength="300" rows="2" autocomplete="street-address" required placeholder="House name, street and address details"></textarea></div>
+            <div class="field"><label for="profileNotes">Delivery Instructions (Optional)</label><textarea id="profileNotes" maxlength="350" rows="2" placeholder="Landmark or directions for delivery"></textarea></div>
+            <button id="saveProfile" type="submit" class="save-profile" disabled>Save My Profile</button>
+            <div id="profileStatus" class="notice" role="status" aria-live="polite">Loading profile…</div>
+          </form>
+          <p class="profile-note">Your mobile number is a contact number, not a password or a verified phone number. Profile details are not automatically sent to sellers; checkout remains unchanged.</p>
+        </section>
+        <section class="form-card" id="wishlist" aria-label="My saved products">
+          <h2>❤️ My Wishlist <span id="wishCount" class="wishCount"></span></h2>
+          <p class="intro">Save products you like in the marketplace, then find them here whenever you sign in.</p>
+          <div class="wishItems" id="wishItems" aria-live="polite">Loading saved products…</div>
+        </section>
+        <a class="secondary" style="display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:13px;padding:15px;margin-top:14px" href="./stores/stores.html">Browse marketplace</a>
+        <button class="secondary" id="signOut" type="button">Sign out of customer login</button>
+      </div>
+
+      <div class="notice" id="status" role="status" aria-live="polite">Checking Google login…</div>
+      <p class="foot">Your MEG ID is stored securely in Supabase. No money is held in this account. Existing seller logins, order access codes and guest checkout remain unchanged.</p>
+    </section>
+  </main>
+  <script type="module">
+    const SUPABASE_URL = 'https://ehavxdqegpoggrkoxypm.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+    const RETURN_TO = 'https://fayaa91000.github.io/fentom/customer-login.html';
+    const $ = (id) => document.getElementById(id);
+    const status = (message, kind = '') => {
+      const el = $('status');
+      el.textContent = message;
+      el.className = 'notice' + (kind ? ' ' + kind : '');
+    };
+    let sb;
+    let initializing = true;
+    let activeUserId = null;
+    let currentMegId = null;
+    let idLoading = false;
+    let idError = false;
+    let idRequestVersion = 0;
+    const AVATAR_BUCKET = 'meg-customer-avatars';
+    const MAX_AVATAR_SIZE = 2 * 1024 * 1024;
+    const PHOTO_TYPES = { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp' };
+    let savedAvatarPath = null;
+    let removePhoto = false;
+    let previewObjectUrl = null;
+    let profileLoading = false;
+    let profileReady = false;
+    let profileSaving = false;
+    let hasSavedProfile = false;
+    let savedProfileSnapshot = null;
+    let wishUserId = null;
+    let wishScrollDone = false;
+    let wishVersion = 0;
+    let wishEntries = [];
+    let wishDetails = new Map();
+    let wishPending = new Set();
+    const escapeWish = (value) => String(value ?? '').replace(/[&<>"']/g, ch => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[ch]));
+    const safeWishImage = (url) => typeof url === 'string' && /^https:\/\//i.test(url) ? url : '';
+    const resetWishlist = () => {
+      wishUserId = null;
+      wishVersion++;
+      wishEntries = [];
+      wishDetails = new Map();
+      wishPending = new Set();
+      $('wishCount').textContent = '';
+      $('wishItems').textContent = 'Sign in to view your saved products.';
+    };
+    const renderWishlist = () => {
+      $('wishCount').textContent = wishEntries.length ? '(' + wishEntries.length + ')' : '';
+      if (!wishEntries.length) {
+        $('wishItems').innerHTML = '<div class="notice">No saved products yet. Tap ♡ Save on a product in the marketplace to add it here.</div>';
+        return;
+      }
+      $('wishItems').innerHTML = wishEntries.map(entry => {
+        const p = wishDetails.get(entry.product_id);
+        const name = p ? escapeWish(p.title) : 'Product currently unavailable';
+        const price = p && p.price != null && (p.listing_type === 'retail' || p.listing_type === 'both' || !p.listing_type)
+          ? 'Retail MVR ' + Number(p.price).toFixed(2)
+          : ''; // Wholesale package pricing may differ; check the live product page.
+        const img = p && safeWishImage(p.image_url) ? '<img src="' + escapeWish(p.image_url) + '" alt="">' : '<span class="wishPlaceholder">♡</span>';
+        return '<article class="wishItem">' + img +
+          '<div class="wishInfo"><strong>' + name + '</strong>' +
+          (price ? '<p>' + escapeWish(price) + '</p>' : '<p>' + (p ? 'Check current price at the shop.' : 'You can remove this saved item.') + '</p>') +
+          '<div class="wishButtons">' + (p ? '<a href="./stores/stores.html#product=' + encodeURIComponent(entry.product_id) + '">View Product</a>' : '') +
+          '<button type="button" data-wish-remove="' + escapeWish(entry.product_id) + '"' + (wishPending.has(entry.product_id) ? ' disabled' : '') + '>Remove</button></div></div></article>';
+      }).join('');
+    };
+    const loadWishlist = async (userId, version) => {
+      $('wishItems').textContent = 'Loading your saved products…';
+      try {
+        const {data:entries, error} = await sb.from('meg_customer_wishlist')
+          .select('product_id,created_at').eq('user_id',userId).order('created_at',{ascending:false});
+        if(error)throw error;
+        if(wishUserId !== userId || wishVersion !== version)return;
+        wishEntries = entries || [];
+        wishDetails = new Map();
+        const ids = wishEntries.map(x=>x.product_id);
+        if(ids.length){
+          const {data:products, error:productsError} = await sb.from('products')
+            .select('id,business_id,title,image_url,price,wholesale_price,listing_type')
+            .in('id',ids).eq('active',true).is('archived_at',null);
+          if(productsError)throw productsError;
+          const businessIds = [...new Set((products||[]).map(p=>p.business_id))];
+          let approved = new Set();
+          if(businessIds.length){
+            const {data:businesses,error:businessError}=await sb.from('businesses')
+              .select('id').in('id',businessIds).eq('status','approved');
+            if(businessError)throw businessError;
+            approved = new Set((businesses||[]).map(b=>b.id));
+          }
+          if(wishUserId !== userId || wishVersion !== version)return;
+          wishDetails = new Map((products||[]).filter(p=>approved.has(p.business_id)).map(p=>[p.id,p]));
+        }
+        renderWishlist();
+      }catch(err){
+        if(wishUserId === userId && wishVersion === version){
+          $('wishItems').textContent = 'Could not load My Wishlist: ' + (err?.message||String(err)) + '. Check that the MEG Wishlist SQL was installed, then refresh.';
+        }
+      }
+    };
+    const getProfileSnapshot = () => JSON.stringify([
+      $('profileName').value.trim(), $('profileMobile').value.trim(),
+      $('profileAtoll').value.trim(), $('profileIsland').value.trim(),
+      $('profileAddress').value.trim(), $('profileNotes').value.trim()
+    ]);
+    const updateSaveButton = () => {
+      const button = $('saveProfile');
+      const changed = savedProfileSnapshot !== getProfileSnapshot() ||
+        !!$('avatarFile').files?.length || removePhoto;
+      if (!profileReady || profileLoading || profileSaving) {
+        button.disabled = true;
+        button.textContent = profileSaving ? 'Saving…' : 'Save My Profile';
+        button.classList.remove('saved');
+      } else if (hasSavedProfile && !changed) {
+        button.disabled = true;
+        button.textContent = '✓ Profile Saved';
+        button.classList.add('saved');
+      } else {
+        button.disabled = false;
+        button.textContent = hasSavedProfile ? 'Save Changes' : 'Save My Profile';
+        button.classList.remove('saved');
+      }
+      return changed;
+    };
+    const profileStatus = (message, kind = '') => {
+      const el = $('profileStatus');
+      el.textContent = message;
+      el.className = 'notice' + (kind ? ' ' + kind : '');
+    };
+    const clearPreviewUrl = () => {
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+      previewObjectUrl = null;
+    };
+    const setAvatarPreview = (src) => {
+      $('avatarImage').hidden = !src;
+      $('avatarFallback').hidden = !!src;
+      if (src) $('avatarImage').src = src;
+      else $('avatarImage').removeAttribute('src');
+    };
+    const resetProfile = () => {
+      profileLoading = false;
+      profileReady = false;
+      profileSaving = false;
+      hasSavedProfile = false;
+      savedProfileSnapshot = null;
+      savedAvatarPath = null;
+      removePhoto = false;
+      clearPreviewUrl();
+      $('profileForm').reset();
+      $('avatarSelected').textContent = 'Optional · JPG, PNG, WebP · Up to 2 MB';
+      $('removeAvatar').hidden = true;
+      $('saveProfile').disabled = true;
+      $('saveProfile').textContent = 'Save My Profile';
+      $('saveProfile').classList.remove('saved');
+      setAvatarPreview(null);
+      profileStatus('Sign in to manage your profile.');
+    };
+    const signedAvatarUrl = async (path) => {
+      if (!path) return null;
+      const {data,error} = await sb.storage.from(AVATAR_BUCKET).createSignedUrl(path, 300);
+      if (error) throw error;
+      return data.signedUrl;
+    };
+    const loadCustomerProfile = async (userId, version, displayName) => {
+      if (profileLoading) return;
+      profileLoading = true;
+      $('saveProfile').disabled = true;
+      profileStatus('Loading your saved profile…');
+      try {
+        const {data,error} = await sb.from('meg_customer_profiles')
+          .select('full_name,mobile_number,atoll,island,delivery_address,delivery_notes,avatar_path,profile_updated_at')
+          .eq('user_id', userId).single();
+        if (error) throw error;
+        if (activeUserId !== userId || idRequestVersion !== version) return;
+        $('profileName').value = data.full_name || displayName || '';
+        $('customerName').textContent = data.full_name || displayName || 'MBG customer';
+        $('profileMobile').value = data.mobile_number || '';
+        $('profileAtoll').value = data.atoll || '';
+        $('profileIsland').value = data.island || '';
+        $('profileAddress').value = data.delivery_address || '';
+        $('profileNotes').value = data.delivery_notes || '';
+        savedAvatarPath = data.avatar_path || null;
+        removePhoto = false;
+        $('removeAvatar').hidden = !savedAvatarPath;
+        if (savedAvatarPath) {
+          try {
+            const photoUrl = await signedAvatarUrl(savedAvatarPath);
+            if (activeUserId !== userId || idRequestVersion !== version) return;
+            setAvatarPreview(photoUrl);
+          } catch (_) {
+            setAvatarPreview(null);
+            profileStatus('Your details loaded, but the profile photo could not be displayed. You can select a new one.', 'error');
+          }
+        } else setAvatarPreview(null);
+        hasSavedProfile = !!data.profile_updated_at || !!(
+          data.full_name && data.mobile_number && data.atoll && data.island && data.delivery_address
+        );
+        savedProfileSnapshot = getProfileSnapshot();
+        profileReady = true;
+        updateSaveButton();
+        if (!$('profileStatus').classList.contains('error')) {
+          profileStatus(hasSavedProfile
+            ? '✓ Your saved profile is up to date. Edit any detail to enable Save Changes.'
+            : 'Profile ready. Fill in your details and tap Save My Profile.', hasSavedProfile ? 'ok' : '');
+        }
+      } catch (err) {
+        if (activeUserId !== userId || idRequestVersion !== version) return;
+        profileReady = false;
+        profileStatus('Could not load customer profile: ' + (err?.message || String(err)) + '. Run the MEG Customer Profile SQL, then refresh.', 'error');
+      } finally {
+        if (activeUserId === userId && idRequestVersion === version) {
+          profileLoading = false;
+          updateSaveButton();
+        }
+      }
+    };
+
+    const showSignedOut = () => {
+      activeUserId = null;
+      currentMegId = null;
+      idLoading = false;
+      idError = false;
+      idRequestVersion++;
+      resetProfile();
+      resetWishlist();
+      $('loginView').hidden = false;
+      $('accountView').hidden = true;
+      $('megCustomerId').textContent = '—';
+      $('copyMegId').hidden = true;
+      if (!initializing) status('You can sign in with Google or continue shopping as a guest.');
+    };
+
+    const loadMegId = async (userId, version) => {
+      try {
+        const { data, error } = await sb.rpc('meg_customer_get_or_create_id');
+        if (error) throw error;
+        if (typeof data !== 'string' || !/^MEG-[A-HJ-NP-Z2-9]{6}$/.test(data)) {
+          throw new Error('Unexpected MEG Customer ID format.');
+        }
+        if (activeUserId !== userId || idRequestVersion !== version) return;
+        currentMegId = data;
+        $('megCustomerId').textContent = data;
+        $('copyMegId').hidden = false;
+        status('Google login and permanent MEG Customer ID are working.', 'ok');
+        const signedInName = $('customerName').textContent === 'MBG customer' ? '' : $('customerName').textContent;
+        void loadCustomerProfile(userId, version, signedInName);
+      } catch (err) {
+        if (activeUserId !== userId || idRequestVersion !== version) return;
+        idError = true;
+        $('megCustomerId').textContent = 'Unable to load';
+        $('copyMegId').hidden = true;
+        status('Signed in, but MEG Customer ID could not load: ' + (err?.message || String(err)) + '. Confirm the MEG Customer ID SQL has been run, then reload this page.', 'error');
+      } finally {
+        if (activeUserId === userId && idRequestVersion === version) idLoading = false;
+      }
+    };
+
+    const render = (user) => {
+      if (!user) {
+        showSignedOut();
+        return;
+      }
+      $('loginView').hidden = true;
+      $('accountView').hidden = false;
+      const meta = user.user_metadata || {};
+      $('customerName').textContent = String(meta.full_name || meta.name || 'MBG customer');
+      $('customerEmail').textContent = String(user.email || 'Not available');
+
+      if (activeUserId !== user.id) {
+        activeUserId = user.id;
+        currentMegId = null;
+        idLoading = false;
+        idError = false;
+        idRequestVersion++;
+        resetProfile();
+        resetWishlist();
+      }
+      if(wishUserId !== user.id){
+        wishUserId = user.id;
+        const wishLoadVersion = ++wishVersion;
+        setTimeout(() => { void loadWishlist(user.id, wishLoadVersion); }, 0);
+      }
+      if(!wishScrollDone && window.location.hash === '#wishlist'){
+        wishScrollDone = true;
+        setTimeout(() => $('wishlist').scrollIntoView({block:'start',behavior:'smooth'}), 150);
+      }
+
+      if (currentMegId) {
+        $('megCustomerId').textContent = currentMegId;
+        $('copyMegId').hidden = false;
+        status('Google login and permanent MEG Customer ID are working.', 'ok');
+      } else if (idLoading) {
+        $('megCustomerId').textContent = 'Preparing…';
+      } else if (!idError) {
+        $('megCustomerId').textContent = 'Preparing…';
+        $('copyMegId').hidden = true;
+        status('Signed in successfully. Loading your permanent MEG Customer ID…');
+        idLoading = true;
+        const version = idRequestVersion;
+        // Schedule the database request outside Supabase's auth callback.
+        setTimeout(() => { void loadMegId(user.id, version); }, 0);
+      }
+    };
+
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      // Keep customer sessions separate from existing seller login storage.
+      // Preserve this exact key: customers who already logged in remain signed in.
+      sb = createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          storageKey: 'mbg-customer-login-test-v1',
+          persistSession: true,
+          detectSessionInUrl: true,
+          autoRefreshToken: true,
+          flowType: 'pkce'
+        }
+      });
+
+      const url = new URL(window.location.href);
+      const errorDescription = url.searchParams.get('error_description') ||
+        new URLSearchParams(url.hash.startsWith('#') ? url.hash.slice(1) : '').get('error_description');
+
+      const { data, error } = await sb.auth.getSession();
+      initializing = false;
+      if (error) throw error;
+      render(data.session?.user || null);
+      if (errorDescription) status('Google sign-in was not completed: ' + errorDescription, 'error');
+
+      sb.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
+          render(session?.user || null);
+        }
+      });
+
+      // Mark the profile as needing a save only after a real edit.
+      for (const fieldId of ['profileName','profileMobile','profileAtoll','profileIsland','profileAddress','profileNotes']) {
+        $(fieldId).addEventListener('input', () => {
+          if (!profileReady) return;
+          const changed = updateSaveButton();
+          if (changed && $('profileStatus').classList.contains('ok')) {
+            profileStatus('You have unsaved changes. Tap Save Changes when ready.');
+          } else if (!changed && hasSavedProfile && !$('profileStatus').classList.contains('error')) {
+            profileStatus('✓ Your profile is saved.', 'ok');
+          }
+        });
+      }
+
+      $('avatarFile').onchange = () => {
+        const file = $('avatarFile').files?.[0];
+        if (!file) return;
+        if (!PHOTO_TYPES[file.type] || file.size > MAX_AVATAR_SIZE) {
+          $('avatarFile').value = '';
+          profileStatus('Please select a JPG, PNG or WebP photo, 2 MB or smaller.', 'error');
+          return;
+        }
+        clearPreviewUrl();
+        previewObjectUrl = URL.createObjectURL(file);
+        setAvatarPreview(previewObjectUrl);
+        $('avatarSelected').textContent = file.name + ' · Uploads when you save';
+        $('removeAvatar').hidden = false;
+        removePhoto = false;
+        updateSaveButton();
+        profileStatus('Photo selected. Tap Save Changes to upload it.');
+      };
+
+      $('removeAvatar').onclick = () => {
+        $('avatarFile').value = '';
+        clearPreviewUrl();
+        removePhoto = !!savedAvatarPath;
+        setAvatarPreview(null);
+        $('removeAvatar').hidden = true;
+        $('avatarSelected').textContent = 'Photo will be removed when you save.';
+        updateSaveButton();
+        profileStatus('Tap Save Changes to remove the saved photo.');
+      };
+
+      $('profileForm').onsubmit = async (event) => {
+        event.preventDefault();
+        if (!activeUserId || !currentMegId || !profileReady || profileSaving) return;
+        const name = $('profileName').value.trim();
+        const mobile = $('profileMobile').value.trim();
+        const atoll = $('profileAtoll').value.trim();
+        const island = $('profileIsland').value.trim();
+        const address = $('profileAddress').value.trim();
+        const notes = $('profileNotes').value.trim();
+        if (name.length < 2 || name.length > 120) return profileStatus('Enter your full name (2–120 characters).', 'error');
+        if (!/^\+?[0-9 ()-]{7,24}$/.test(mobile)) return profileStatus('Enter a valid mobile number using digits and optional +, spaces or hyphens.', 'error');
+        if (atoll.length < 2 || atoll.length > 100 || island.length < 2 || island.length > 100) return profileStatus('Enter your atoll and island/city.', 'error');
+        if (address.length < 5 || address.length > 300) return profileStatus('Enter your delivery address (5–300 characters).', 'error');
+        if (notes.length > 350) return profileStatus('Delivery instructions must be 350 characters or less.', 'error');
+
+        const userId = activeUserId;
+        const version = idRequestVersion;
+        const previousAvatarPath = savedAvatarPath;
+        const chosenFile = $('avatarFile').files?.[0] || null;
+        let uploadedPath = null;
+        let nextAvatarPath = removePhoto ? null : savedAvatarPath;
+        profileSaving = true;
+        updateSaveButton();
+        profileStatus('Saving your profile…');
+        try {
+          if (chosenFile) {
+            if (!PHOTO_TYPES[chosenFile.type] || chosenFile.size > MAX_AVATAR_SIZE) throw new Error('Photo must be JPG, PNG or WebP and no larger than 2 MB.');
+            uploadedPath = userId + '/avatar-' + crypto.randomUUID() + '.' + PHOTO_TYPES[chosenFile.type];
+            const {error:uploadError} = await sb.storage.from(AVATAR_BUCKET).upload(uploadedPath, chosenFile, {
+              contentType: chosenFile.type, cacheControl: '3600', upsert: false
+            });
+            if (uploadError) throw uploadError;
+            nextAvatarPath = uploadedPath;
+          }
+          const updates = {
+            full_name:name, mobile_number:mobile, atoll, island,
+            delivery_address:address, delivery_notes:notes || null,
+            avatar_path:nextAvatarPath, profile_updated_at:new Date().toISOString()
+          };
+          const {data:updated,error:saveError} = await sb.from('meg_customer_profiles')
+            .update(updates).eq('user_id',userId).select('user_id').single();
+          if (saveError) throw saveError;
+          if (!updated || updated.user_id !== userId) throw new Error('Profile update was not confirmed.');
+          if (activeUserId !== userId || idRequestVersion !== version) return;
+          savedAvatarPath = nextAvatarPath;
+          $('customerName').textContent = name;
+          removePhoto = false;
+          $('avatarFile').value = '';
+          clearPreviewUrl();
+          $('avatarSelected').textContent = 'Optional · JPG, PNG, WebP · Up to 2 MB';
+          $('removeAvatar').hidden = !savedAvatarPath;
+          if (savedAvatarPath) {
+            try { setAvatarPreview(await signedAvatarUrl(savedAvatarPath)); }
+            catch (_) { setAvatarPreview(null); }
+          } else setAvatarPreview(null);
+          if (previousAvatarPath && previousAvatarPath !== savedAvatarPath) {
+            // Previous file cleanup is best-effort. Never fail the saved profile.
+            void sb.storage.from(AVATAR_BUCKET).remove([previousAvatarPath]).then(() => {}, () => {});
+          }
+          hasSavedProfile = true;
+          savedProfileSnapshot = JSON.stringify([name,mobile,atoll,island,address,notes]);
+          profileStatus('✓ Customer profile saved successfully!', 'ok');
+        } catch (err) {
+          if (uploadedPath) {
+            try { await sb.storage.from(AVATAR_BUCKET).remove([uploadedPath]); } catch (_) {}
+          }
+          if (activeUserId === userId && idRequestVersion === version) {
+            profileStatus('Profile could not be saved: ' + (err?.message || String(err)), 'error');
+          }
+        } finally {
+          if (activeUserId === userId && idRequestVersion === version) {
+            profileSaving = false;
+            updateSaveButton();
+          }
+        }
+      };
+
+      $('wishItems').addEventListener('click',async event => {
+        const button = event.target.closest('[data-wish-remove]');
+        if(!button || !wishUserId)return;
+        const productId = button.dataset.wishRemove;
+        if(wishPending.has(productId))return;
+        const userId = wishUserId;
+        const version = wishVersion;
+        wishPending.add(productId);
+        renderWishlist();
+        try {
+          const {error} = await sb.from('meg_customer_wishlist').delete()
+            .eq('user_id',userId).eq('product_id',productId);
+          if(error)throw error;
+          if(wishUserId === userId && wishVersion === version){
+            wishEntries = wishEntries.filter(x=>x.product_id!==productId);
+            wishDetails.delete(productId);
+          }
+        }catch(err){
+          if(wishUserId === userId && wishVersion === version)
+            window.alert('Could not remove favorite: ' + (err?.message||String(err)));
+        }finally{
+          wishPending.delete(productId);
+          if(wishUserId === userId && wishVersion === version)renderWishlist();
+        }
+      });
+
+      $('copyMegId').onclick = async () => {
+        if (!currentMegId) return;
+        try {
+          await navigator.clipboard.writeText(currentMegId);
+          status('MEG Customer ID copied.', 'ok');
+        } catch (_) {
+          window.prompt('Copy your MEG Customer ID:', currentMegId);
+        }
+      };
+
+      $('googleLogin').onclick = async () => {
+        const button = $('googleLogin');
+        button.disabled = true;
+        status('Opening Google…');
+        try {
+          const { error: loginError } = await sb.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: RETURN_TO }
+          });
+          if (loginError) throw loginError;
+        } catch (err) {
+          status('Unable to open Google sign-in: ' + (err?.message || String(err)), 'error');
+          button.disabled = false;
+        }
+      };
+
+      $('signOut').onclick = async () => {
+        const button = $('signOut');
+        button.disabled = true;
+        try {
+          const { error: logoutError } = await sb.auth.signOut();
+          if (logoutError) throw logoutError;
+          render(null);
+          status('Signed out of your customer account.', 'ok');
+        } catch (err) {
+          status('Could not sign out: ' + (err?.message || String(err)), 'error');
+        } finally {
+          button.disabled = false;
+        }
+      };
+    } catch (err) {
+      initializing = false;
+      $('loginView').hidden = false;
+      status('Customer login could not initialize: ' + (err?.message || String(err)), 'error');
+    }
+  </script>
+</body>
+</html>
