@@ -1,0 +1,38 @@
+
+{
+  "id": "./",
+  "name": "MEG — Maldives Entrepreneurs Gateway",
+  "short_name": "MEG",
+  "description": "Install the Maldives marketplace preview. Discover businesses, shop products and follow orders.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f8fb",
+  "theme_color": "#08345b",
+  "categories": [
+    "shopping",
+    "business"
+  ],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./meg-icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./meg-icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./meg-icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
