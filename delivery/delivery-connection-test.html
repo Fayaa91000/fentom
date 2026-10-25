@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>MEG Delivery — Supabase Connection Test</title>
+<style>:root{font-family:system-ui,-apple-system,Arial,sans-serif;color:#132f48;background:#eff5f9}*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(110deg,#081f40,#0874a6);color:#fff;padding:26px 16px}header>div,main{max-width:760px;margin:auto}h1{font-size:26px;margin:7px 0}header p{margin:3px 0;color:#d5ecf5}main{padding:18px 14px 32px}.card{background:#fff;border:1px solid #d6e3ed;border-radius:18px;padding:21px;margin-bottom:15px;box-shadow:0 8px 26px #062b550b}h2{font-size:18px;margin:0 0 11px}label{font-size:13px;font-weight:700;display:block;margin:12px 0 4px}input{width:100%;padding:13px;border:1px solid #b9cedd;border-radius:10px;font:inherit}button{font:inherit;border:0;border-radius:10px;padding:12px 15px;background:#0874a6;color:#fff;font-weight:700;margin:9px 7px 0 0;cursor:pointer}button:disabled{opacity:.5;cursor:default}.alt{background:#e7f1f8;color:#0b456c}#log{font-size:14px;background:#f1f6fa;padding:14px;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}.notice{background:#fff7df;border:1px solid #e9d6a8;border-radius:11px;padding:13px;line-height:1.55;font-size:14px}small{color:#5c7284}a{color:#0678a6}</style></head>
+<body><header><div><small style="color:#c5e7ed">MEG Delivery · Phase 2</small><h1>Supabase Connection Test</h1><p>Read-only authentication and permissions check</p></div></header><main>
+<div class="notice"><b>TEST MODE ONLY:</b> This page does not submit applications, upload documents or accept money. Use your existing authorized test account. Do not enter any identity card, bank, or other sensitive personal data. Delete this test page from public hosting when testing is complete.</div>
+<section class="card"><h2>1. Sign in</h2><div id="session">Checking current session…</div><label for="email">Existing Supabase test account email</label><input type="email" id="email" autocomplete="username" placeholder="test@example.com"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Password"><button id="signin">Sign in</button><button id="signout" class="alt">Sign out</button></section>
+<section class="card"><h2>2. Read-only permission check</h2><p><small>Checks the Delivery Partner table and document inventory using the signed-in user's existing RLS permissions. No data values are displayed.</small></p><button id="check">Run tests</button><div id="log" role="status">Tests have not been run.</div></section>
+<p><small>No existing marketplace files are changed. <a href="delivery-register.html">Back to registration preview</a></small></p>
+</main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id);
+let sb;
+const log=t=>$('log').textContent=t;
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ sb=createClient(URL,KEY);
+ const update=async()=>{const {data:{user},error}=await sb.auth.getUser();$('session').textContent=user?('Signed in: '+user.email):('Not signed in'+(error?' ('+error.message+')':''));};
+ await update();
+ $('signin').onclick=async()=>{log('Signing in…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('password').value='';if(error)log('Sign-in failed: '+error.message);else {log('Signed in. Choose Run tests.');await update();}};
+ $('signout').onclick=async()=>{const {error}=await sb.auth.signOut();log(error?error.message:'Signed out.');await update()};
+ $('check').onclick=async()=>{log('Checking…');const {data:{user},error:authError}=await sb.auth.getUser();if(authError||!user){log('SIGN IN REQUIRED. No account is logged in.');return;}
+ const rows=[];
+ for(const table of ['meg_delivery_partners','meg_delivery_documents']){
+   const {count,error}=await sb.from(table).select('id',{count:'exact',head:true});
+   rows.push(table+': '+(error?'ERROR — '+error.message:'READ ALLOWED — '+count+' visible row(s)'));
+ }
+ // Do not show PII, bank details, or private document URLs.
+ rows.push('No data was written or uploaded.');
+ rows.push('Note: an admin can see all records. Separate applicant accounts are still needed to prove isolation.');
+ log(rows.join('\n'));
+ };
+}catch(e){log('Supabase library could not load: '+String(e?.message||e));}
+</script></body></html>
