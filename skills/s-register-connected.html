@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Register as a Freelancer | MEG Skills</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#18283b;background:#f5f8fc}*{box-sizing:border-box}body{margin:0}.top{background:#123156;color:white;padding:18px 5%}.top a{color:#fff;text-decoration:none}.wrap{max-width:840px;margin:32px auto;padding:0 16px}.card{background:white;border:1px solid #dae4ee;border-radius:18px;padding:24px;box-shadow:0 8px 30px #1936570c}h1{margin:0 0 8px;font-size:1.8rem}.sub{color:#526579;line-height:1.5}h2{font-size:1.1rem;border-top:1px solid #e1e9f2;padding-top:23px;margin-top:28px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px;margin:0 0 13px}label{font-weight:600;font-size:.9rem}input,select,textarea{font:inherit;border:1px solid #bfccd9;border-radius:9px;padding:12px;min-width:0;width:100%;background:white}textarea{min-height:100px;resize:vertical}.note{background:#ecf4ff;border-left:4px solid #2562a1;padding:13px;border-radius:6px;color:#254766}.muted{font-size:.82rem;color:#617087}.actions{margin-top:22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}button{padding:12px 20px;background:#145a97;color:white;border:0;border-radius:9px;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}@media(max-width:640px){.grid{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head><body>
+<header class="top"><a href="skills.html">← MEG Skills</a></header>
+<main class="wrap"><section class="card">
+<h1>Become a MEG Skills Freelancer</h1>
+<p class="sub">Create your professional profile, share your skills and showcase your work. Basic registration is free. MEG's proposed service commission is <strong>12% of each successfully completed order</strong>.</p>
+<p class="note"><strong>TEST MODE ONLY:</strong> The form now connects securely to Supabase and saves applications in the Skills database. Use fictional test information only. No real registrations, customer orders or payments are authorized at this stage.</p>
+<section class="note" style="margin-bottom:16px"><strong>Test account sign-in</strong>
+<div class="grid" style="margin-top:12px"><div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username"></div><div class="field"><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div></div>
+<div class="actions"><button id="loginBtn" type="button">Sign in</button><button id="logoutBtn" type="button">Sign out</button></div>
+<p id="session" class="muted" aria-live="polite">Checking session…</p></section>
+<form id="registration" autocomplete="off">
+<h2>1. Your profile</h2>
+<div class="grid"><div class="field"><label for="name">Full name</label><input id="name" placeholder="Your full name"></div><div class="field"><label for="display">Public display name</label><input id="display" placeholder="e.g. Island Creative Studio"></div><div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com"></div><div class="field"><label for="phone">Contact number</label><input id="phone" type="tel" placeholder="Mobile number"></div><div class="field"><label for="island">Island / city</label><input id="island" placeholder="e.g. Malé"></div><div class="field"><label for="contact">Preferred customer contact</label><select id="contact"><option value="">Choose</option><option value="meg_messages">MEG messages (planned)</option><option value="email">Email</option><option value="whatsapp_viber">WhatsApp / Viber</option></select></div></div>
+<h2>2. Your skills</h2>
+<div class="field"><label for="category">Primary service category</label><select id="category"><option value="">Choose a category</option><option>Graphic Design</option><option>Website & IT</option><option>Video & Audio Editing</option><option>Writing & Translation</option><option>Photography</option><option>Online Tutoring</option><option>Business Services</option><option>Other</option></select></div>
+<div class="field"><label for="title">Service title</label><input id="title" placeholder="I will design a professional logo for your business"></div><div class="field"><label for="description">About your services</label><textarea id="description" placeholder="Explain what you can provide, your experience and what customers receive"></textarea></div>
+<div class="grid"><div class="field"><label for="starting">Starting price (MVR)</label><input id="starting" type="number" min="0" step="1" placeholder="e.g. 150"></div><div class="field"><label for="delivery">Typical completion time</label><select id="delivery"><option value="">Choose</option><option>1 day</option><option>2–3 days</option><option>4–7 days</option><option>By agreement</option></select></div></div>
+<div class="field"><label for="portfolio">Portfolio link (optional)</label><input id="portfolio" type="url" placeholder="https://example.com/my-work"></div>
+<h2>3. Verification and safety</h2><p class="muted">This stage tests secure account login and pending freelancer applications. Identity verification, document uploads and Super Admin approval controls are not active on this page. Do not submit real personal information.</p>
+<div class="field"><label><input type="checkbox" id="testConsent" style="width:auto;min-width:18px;margin-right:8px">I confirm this application contains fictional test details only.</label></div>
+<div class="actions"><button type="submit" id="submitBtn">Submit Test Application</button><button type="button" id="checkBtn">Check My Application</button></div>
+<p class="note" id="result" role="status" aria-live="polite">Sign in using a test account to submit an application.</p>
+</form>
+</section></main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $ = id => document.getElementById(id);
+const msg = t => { $('result').textContent=t; };
+let sb=null, user=null;
+const field = id => $(id).value.trim();
+function setButtons(busy=false) {
+ $('submitBtn').disabled=busy||!user;
+ $('checkBtn').disabled=busy||!user;
+ $('session').textContent=user?'Signed in: '+user.email:'Not signed in — use a fictional test account.';
+}
+try {
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ sb=createClient(URL,KEY);
+ async function refresh(){
+   const {data,error}=await sb.auth.getUser();
+   user=error?null:data.user;
+   setButtons();
+ }
+ $('loginBtn').onclick=async()=>{
+   const {error}=await sb.auth.signInWithPassword({email:field('loginEmail'),password:field('loginPassword')});
+   $('loginPassword').value='';
+   msg(error?'Sign-in failed: '+error.message:'Signed in. Enter FICTIONAL test details only.');
+   await refresh();
+ };
+ $('logoutBtn').onclick=async()=>{await sb.auth.signOut();user=null;setButtons();msg('Signed out.')};
+ $('checkBtn').onclick=async()=>{
+   await refresh();if(!user)return msg('Sign in first.');
+   const {data,error}=await sb.from('meg_skills_freelancers').select('id,status,display_name,created_at').eq('user_id',user.id).maybeSingle();
+   msg(error?'Read failed: '+error.message:data?'Your application: '+data.display_name+' | Status: '+data.status:'No application found for your account.');
+ };
+ $('registration').addEventListener('submit',async e=>{
+   e.preventDefault();
+   await refresh();
+   if(!user)return msg('Sign in with a test account first.');
+   if(!$('testConsent').checked)return msg('Confirm this is fictional test information.');
+   const payload={
+     user_id:user.id,full_name:field('name'),display_name:field('display'),
+     email:field('email'),mobile:field('phone'),island:field('island'),
+     preferred_contact:field('contact'),category:field('category'),
+     service_title:field('title'),service_description:field('description'),
+     starting_price_mvr:Number(field('starting')),completion_time:field('delivery'),
+     portfolio_url:field('portfolio')||null
+   };
+   if(!payload.full_name||!payload.display_name||!payload.email||!payload.mobile||!payload.island||
+      !payload.preferred_contact||!payload.category||!payload.service_title||
+      !payload.service_description||!field('starting')||!payload.completion_time)
+     return msg('Complete all required fields.');
+   if(payload.portfolio_url && !payload.portfolio_url.startsWith('https://'))
+     return msg('Portfolio URL must begin with https://');
+   if(!confirm('Submit one FICTIONAL Skills application to Supabase? Do not use real details.'))return;
+   setButtons(true);
+   msg('Submitting fictional application…');
+   const {error}=await sb.from('meg_skills_freelancers').insert(payload);
+   msg(error?(error.code==='23505'?'This account already has an application. Click Check My Application.':'Submission failed: '+error.message):
+       'FICTIONAL TEST APPLICATION SAVED. Status: pending. Super Admin approval is not yet implemented.');
+   setButtons();
+ });
+ await refresh();
+} catch(e) {
+ msg('Could not connect to Supabase: '+e.message);
+ $('session').textContent='Connection unavailable.';
+}
+</script>
+</body></html>
