@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071e37">
+<title>MEG Super Admin — Skills &amp; Services</title>
+<style>
+:root{--ink:#17324a;--muted:#667b8c;--line:#d9e5ec;--navy:#071e37;--blue:#0874a6}
+*{box-sizing:border-box}body{margin:0;background:#f3f8fb;color:var(--ink);font:15px/1.6 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{background:#071e37;color:#fff;padding:17px 20px}.header-inner{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}header strong{font-size:19px}header small{display:block;color:#b9d1df;font-size:12px}header a{color:#e0f7fb;text-decoration:none;font-size:13px}
+main{max-width:1050px;margin:28px auto;padding:0 17px}.hero{background:linear-gradient(125deg,#082b4c,#096b7c);color:#fff;padding:29px 25px;border-radius:20px}.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:11px;color:#abedf0;font-weight:800}h1{margin:8px 0;font-size:clamp(25px,4vw,36px);line-height:1.2}.hero p{margin:0;color:#e0edf5}.icon{font-size:34px;margin-bottom:5px}
+.status{display:inline-flex;gap:8px;align-items:center;padding:5px 12px;margin-top:15px;background:#ffffff1c;border:1px solid #ffffff66;color:#fff;border-radius:99px;font-size:12px;font-weight:700}
+.panel{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:17px;padding:22px;box-shadow:0 5px 20px #062b550b}.panel h2{font-size:19px;margin:0 0 6px;color:#0b3555}.panel p{margin:7px 0;color:#547084}.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:17px}.tile{padding:16px;border:1px solid #dae7ec;border-radius:13px;background:#f8fbfd}.tile-symbol{color:#078698;font-weight:850;font-size:13px}.tile h3{font-size:14px;margin:8px 0 4px}.tile p{font-size:13px;line-height:1.6;margin:0}.media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:12px 0}.media-item{background:white;padding:10px;border:1px solid #cbdce6;border-radius:12px;overflow:hidden}.media-item img,.media-item video{width:100%;max-height:170px;object-fit:cover;border-radius:8px}.media-item p{overflow-wrap:anywhere;font-size:12px}.reviewbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.reviewbar button{padding:10px 13px;border:0;border-radius:9px;background:#0874a6;color:white;font-weight:700;cursor:pointer}.reviewbar button.warn{background:#9e354b}.reviewbar button:disabled{opacity:.5}.review-note{width:100%;min-height:75px;padding:10px;border:1px solid #cbdce6;border-radius:9px}.notice{padding:13px 15px;border-left:4px solid #dd9c31;background:#fff9ed;color:#775721;border-radius:8px;margin-top:17px;font-size:13px}
+.link{display:inline-block;margin:10px 0 0;border-radius:9px;padding:11px 15px;background:#0874a6;color:#fff;text-decoration:none;font-weight:750}.muted{font-size:13px;color:var(--muted)}#page{display:none}.verify{max-width:520px;margin:75px auto;padding:22px;border-radius:15px;border:1px solid var(--line);background:white;text-align:center}.verify h2{margin:0 0 6px}@media(max-width:650px){.tiles{grid-template-columns:1fr}main{margin:12px auto}.hero{padding:23px 19px}.panel{padding:17px}}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><div><strong>🛡️ MEG Super Admin</strong><small>Maldives Entrepreneurs Gateway · Skills Applications</small></div><a href="ad-admin.html">← Super Admin Dashboard</a></div></header>
+<div id="verify" class="verify" role="status" aria-live="polite"><h2>🔒 Checking administrator access</h2><p id="verifyMessage" class="muted">Using your existing MBG admin session.</p><a href="ad-admin.html" class="link">Go to Admin Login</a></div>
+<main id="page">
+ <section class="hero"><div class="icon">🛡️</div><div class="eyebrow">MEG Skills</div><h1>Freelancer Applications</h1><p>Review professional profiles, private media and applicant decisions securely.</p><span class="status">Test environment · Administrator review</span></section>
+ <section class="panel"><h2>Applications</h2><p>Private applications and work samples are visible only to authorized administrators. Approval never automatically publishes media. TEST applications only.</p><button class="link" id="reload" type="button" style="border:0;cursor:pointer">Refresh applications</button><p id="status" role="status">Checking access…</p><div id="applications"></div></section>
+ <section class="panel"><a class="link" href="ad-admin.html">← Back to Super Admin</a></section>
+</main>
+<script type="module">
+const url='https://ehavxdqegpoggrkoxypm.supabase.co';
+const key='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const message=document.getElementById('verifyMessage');
+const $=id=>document.getElementById(id);
+const node=(tag,content)=>{const el=document.createElement(tag);el.textContent=String(content??'');return el};
+try {
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ const sb=createClient(url,key);
+ const {data:auth,error:authError}=await sb.auth.getUser();
+ if(authError||!auth?.user)throw new Error('Please sign in through Super Admin first.');
+ const {data:isAdmin,error:adminError}=await sb.rpc('meg_skills_is_admin');
+ if(adminError||isAdmin!==true)throw new Error('Super Admin access required.');
+ $('verify').style.display='none';$('page').style.display='block';
+ async function signedPreview(path){
+  const {data,error}=await sb.storage.from('meg-skills-showcase').createSignedUrl(path,120);
+  return error?null:data.signedUrl;
+ }
+ async function load(){
+  const list=$('applications');list.replaceChildren();$('status').textContent='Loading Skills applications…';
+  const {data,error}=await sb.from('meg_skills_freelancers').select('id,user_id,display_name,full_name,email,mobile,island,category,service_title,service_description,starting_price_mvr,completion_time,portfolio_url,status,admin_notes,created_at,public_tagline,public_bio,profile_theme,accent_color,name_style').order('created_at',{ascending:false}).limit(100);
+  if(error){$('status').textContent='Error: '+error.message;return;}
+  $('status').textContent=`${data.length} application(s) found · newest 100`;
+  for(const r of data){
+   const card=document.createElement('article');card.className='tile';card.style.margin='14px 0';
+   card.append(node('h3',`${r.display_name} — ${r.status.toUpperCase()}`));
+   for(const [k,v] of [['Legal name',r.full_name],['Contact',r.email+' · '+r.mobile],['Island',r.island],['Category',r.category],['Service',r.service_title],['Description',r.service_description],['Starting price','MVR '+r.starting_price_mvr],['Completion',r.completion_time],['Tagline',r.public_tagline||'—'],['Biography',r.public_bio||'—'],['Profile styling',[r.profile_theme,r.accent_color,r.name_style].join(' / ')],['Submitted',new Date(r.created_at).toLocaleString()],['Admin notes',r.admin_notes||'—']]){
+    const p=node('p',`${k}: ${v}`);p.style.margin='5px 0';p.style.overflowWrap='anywhere';card.append(p);
+   }
+   if(r.portfolio_url?.startsWith('https://')){const l=node('a','Portfolio link');l.href=r.portfolio_url;l.target='_blank';l.rel='noopener noreferrer';card.append(l)}
+   const mediaTitle=node('h3','Private media for review');card.append(mediaTitle);
+   const mediaBox=document.createElement('div');mediaBox.className='media-grid';card.append(mediaBox);
+   const {data:media,error:mediaError}=await sb.from('meg_skills_media').select('id,media_type,storage_path,mime_type,title,review_status,created_at').eq('freelancer_id',r.id).order('created_at',{ascending:true}).limit(30);
+   if(mediaError){mediaBox.append(node('p','Media unavailable: '+mediaError.message));}
+   else if(!media?.length){mediaBox.append(node('p','No uploaded media recorded.'));}
+   else for(const m of media){
+     const item=document.createElement('section');item.className='media-item';
+     item.append(node('strong',`${m.media_type.replaceAll('_',' ')} · ${m.review_status}`));
+     const signed=await signedPreview(m.storage_path);
+     if(signed){
+       let preview;
+       if(m.mime_type.startsWith('image/')){preview=document.createElement('img');preview.src=signed;preview.alt=m.title||m.media_type;preview.loading='lazy'}
+       else if(m.mime_type==='video/mp4'){preview=document.createElement('video');preview.controls=true;preview.preload='none';preview.src=signed}
+       else{preview=node('a','Open sample file');preview.href=signed;preview.target='_blank';preview.rel='noopener noreferrer'}
+       item.append(preview);
+     }else item.append(node('p','Preview unavailable'));
+     if(m.title)item.append(node('p',m.title));
+     const controls=document.createElement('div');controls.className='reviewbar';
+     for(const [label,choice] of [['Approve sample','approved'],['Reject sample','rejected']]){
+       const b=node('button',label);b.className=choice==='rejected'?'warn':'';b.disabled=m.review_status===choice;
+       b.onclick=async()=>{
+         if(!confirm(`${label} (${m.media_type})?`))return;
+         b.disabled=true;
+         const {error:e}=await sb.rpc('meg_skills_review_media',{p_media_id:m.id,p_decision:choice});
+         if(e)alert('Could not review sample: '+e.message+'\nEnsure review SQL is installed.');
+         else await load();b.disabled=false;
+       };controls.append(b);
+     }
+     item.append(controls);mediaBox.append(item);
+   }
+   const note=document.createElement('textarea');note.className='review-note';note.placeholder='Admin decision note (reason for rejection, verification notes, etc.)';note.value=r.admin_notes||'';card.append(note);
+   const actions=document.createElement('div');actions.className='reviewbar';
+   for(const [label,decision] of [['Approve freelancer','approved'],['Reject','rejected'],['Suspend','suspended'],['Return to pending','pending']]){
+     const b=node('button',label);if(decision==='rejected'||decision==='suspended')b.className='warn';b.disabled=r.status===decision;
+     b.onclick=async()=>{
+       if((decision==='rejected'||decision==='suspended')&&!note.value.trim()){alert('Enter a reason first.');return;}
+       if(!confirm(`${label} for ${r.display_name}? This updates the application status.`))return;
+       b.disabled=true;
+       const {error:e}=await sb.rpc('meg_skills_review_freelancer',{p_freelancer_id:r.id,p_decision:decision,p_admin_notes:note.value.trim()});
+       if(e){alert('Review failed: '+e.message+'\nIf function missing, run provided SQL first.');b.disabled=false;return}
+       await load();
+     };actions.append(b);
+   }card.append(actions);list.append(card);
+  }
+ }
+ $('reload').onclick=load;await load();
+}catch(err){message.textContent=err?.message||'Could not confirm access.'}
+</script>
+</body></html>
