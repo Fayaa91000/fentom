@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071b31"><title>MEG Skills | Explore Professionals</title>
+<style>
+:root{--navy:#081c31;--deep:#0c2e49;--teal:#17baaa;--ink:#142b41;--muted:#65788a;--line:#dce7ef;--bg:#f0f5fb}
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg)}
+a{text-decoration:none;color:inherit}button,input,select{font:inherit}button{cursor:pointer}
+.wrap{max-width:1200px;margin:auto;padding:0 22px}
+header{background:#07182c;color:white}.bar{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:80px}
+.brand{font-size:24px;font-weight:850;letter-spacing:-.7px}.brand em{font-style:normal;color:#63e3d2}
+nav{display:flex;gap:20px;align-items:center;flex-wrap:wrap;font-size:14px;color:#d1e1ee}
+.hero{background:radial-gradient(ellipse at 85% 30%,#11998e65,transparent 40%),linear-gradient(130deg,#07182c,#0b3d5b 65%,#0b676b);color:white;padding:64px 0 80px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:410px;height:410px;border:2px solid #ffffff13;border-radius:50%;right:-145px;bottom:-260px;box-shadow:0 0 0 50px #ffffff08,0 0 0 110px #ffffff05;pointer-events:none}
+.hero h1{font-size:clamp(38px,6vw,62px);line-height:1.08;letter-spacing:-2px;margin:12px 0 18px;max-width:730px}
+.hero p{color:#d2e9ee;max-width:650px;font-size:17px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.17em;color:#85efe0;font-weight:800}
+.pill{display:inline-block;border:1px solid #ffffff75;border-radius:80px;padding:7px 13px;font-size:12px;background:#ffffff17;font-weight:750}
+.main{margin-top:-35px;position:relative;padding-bottom:65px}.panel{background:white;border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 45px #0c375017}
+.controls{padding:20px;display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:12px;align-items:end}.field label{display:block;margin-bottom:7px;font-size:12px;font-weight:800;color:#526b80}
+input,select{display:block;width:100%;border:1px solid #ccdae5;border-radius:12px;background:#f9fcfe;padding:13px 12px;color:#172b41;outline:none;min-height:48px}input:focus,select:focus{border-color:#10aa9c;box-shadow:0 0 0 3px #10aa9c26}
+.btn{border:0;border-radius:12px;padding:12px 17px;min-height:48px;background:#0b7899;color:white;font-weight:800;display:inline-grid;place-items:center;box-shadow:0 5px 13px #09527224}.btn:hover{background:#075b76}.btn.alt{background:#e7f3f6;color:#16425a;box-shadow:none}.btn[disabled]{opacity:.5;cursor:not-allowed}
+.notice{padding:14px 17px;margin-top:22px;background:#fff7e7;color:#6a4c1e;border:1px solid #ebd6a8;border-radius:15px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:38px 0 17px}.sectionhead h2{font-size:29px;letter-spacing:-.8px;margin:0}.sectionhead p{margin:5px 0 0;color:var(--muted)}
+#count{color:var(--muted);font-size:13px;font-weight:800}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.card{overflow:hidden;border-radius:22px;background:white;border:1px solid var(--line);box-shadow:0 14px 40px #113b5612;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-4px);box-shadow:0 25px 45px #113b5624}
+.cover{height:175px;position:relative;background:radial-gradient(circle at 75% 25%,#1edbc97a,transparent 50%),linear-gradient(130deg,#102a45,#0a8385);overflow:hidden}
+.cover img{height:100%;width:100%;object-fit:cover}.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0d203c35,transparent 65%);pointer-events:none}
+.owner{padding:0 20px 20px}.av{height:85px;width:85px;margin-top:-45px;border:5px solid white;border-radius:21px;background:linear-gradient(145deg,#073850,#17adad);display:grid;place-items:center;font-weight:900;color:white;position:relative;z-index:1;font-size:26px;box-shadow:0 10px 20px #0002;overflow:hidden}.av img{width:100%;height:100%;object-fit:cover}
+.name{font-size:23px;line-height:1.25;margin:14px 0 7px;overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:7px}.chip{border-radius:50px;background:#e8f9f6;color:#0c6863;padding:5px 10px;font-size:11px;font-weight:800}.chip.ok{background:#e3f7e8;color:#186638}
+.desc{margin:12px 0 16px;color:#50687c;min-height:46px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.line{border-top:1px solid #e5ecf2;padding-top:15px;margin-top:12px;display:flex;justify-content:space-between;gap:10px;align-items:center}.price{font-size:23px;color:#103e5a;font-weight:900}.sub{display:block;font-size:11px;color:#72879b;font-weight:750}
+.card .btn{font-size:13px;padding:9px 12px}
+.empty{grid-column:1/-1;border:1px dashed #b8cfdd;border-radius:18px;padding:32px;background:#ffffffad;text-align:center;color:#52687d}
+.login{padding:18px 20px;margin-top:18px}.login h3{margin:0 0 7px}.login p{margin:4px 0 12px;color:var(--muted)}.loginfields{display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px}.status{margin:10px 0 0;color:#526b81;font-size:13px}
+.bottom{margin-top:36px;padding:22px;background:#e6eff6;border-radius:20px;color:#425d75}.bottom strong{color:#203d54}
+footer{padding:24px;text-align:center;background:#07182c;color:#a9c1d1;font-size:13px}
+@media(max-width:950px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr 1fr}.loginfields{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.wrap{padding:0 15px}.bar{align-items:start;flex-direction:column;padding-top:16px;padding-bottom:16px;gap:8px}nav{gap:12px;font-size:12px}.hero{padding:43px 0 72px}.hero h1{letter-spacing:-1.3px}.controls{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.loginfields{grid-template-columns:1fr}.sectionhead h2{font-size:24px}}
+</style></head>
+<body><header><div class="wrap bar"><a href="../index.html" class="brand">✦ MEG <em>SKILLS</em></a><nav><a href="../index.html">Homepage</a><a href="s-register.html">Freelancer registration (test)</a><a href="s-profile.html">My test profile</a></nav></div></header>
+<section class="hero"><div class="wrap"><span class="eyebrow">Discover creative talent in the Maldives</span><h1>Find the right skill.<br>Build something great.</h1><p>Browse professional profiles and explore portfolios, specialties and transparent starting prices.</p><span class="pill">DEVELOPMENT PREVIEW • No real orders or payments</span></div></section>
+<main class="wrap main">
+ <div class="panel controls">
+ <div class="field"><label for="search">Search services or studios</label><input id="search" placeholder="Web design, Creative Studio…" autocomplete="off"></div>
+ <div class="field"><label for="category">Category</label><select id="category"><option value="">All categories</option></select></div>
+ <div class="field"><label for="sort">Sort listings</label><select id="sort"><option value="new">Newest first</option><option value="low">Lowest starting price</option><option value="high">Highest starting price</option><option value="az">Name A–Z</option></select></div>
+ <button class="btn alt" id="clear" type="button">Clear</button>
+ </div>
+ <div class="notice"><strong>Private TEST marketplace.</strong> Profiles are shown here only to their owners or authorized MEG admins under existing database permissions. No public freelancer discovery, contacting, orders, payments or commercial launch is enabled. Approving a profile does not automatically publish it publicly.</div>
+ <section class="panel login"><h3>Access approved test profiles</h3><p>Use your existing MEG test session or sign in with a test account. Super Admin can view all approved applications. A freelancer can view their own approved application.</p><div class="loginfields"><input id="email" type="email" placeholder="Test account email" autocomplete="username"><input id="password" type="password" placeholder="Password" autocomplete="current-password"><button class="btn" id="signin" type="button">Sign in</button><button class="btn alt" id="signout" type="button">Sign out</button></div><p class="status" id="status" role="status">Checking existing session…</p></section>
+ <div class="sectionhead"><div><h2>Explore professionals</h2><p>Only approved Skills applications and media appear in this test preview.</p></div><div id="count">Loading…</div></div>
+ <div class="cards" id="cards"><div class="empty">Checking Supabase session…</div></div>
+ <div class="bottom"><strong>For skilled professionals:</strong> Free freelancer registration is under testing. MEG's proposed fee is 12% of successfully completed service orders after commercial launch, subject to final terms. There are no active orders on this page.</div>
+</main><footer>MEG Skills · Maldives Entrepreneurs Gateway · Test preview 2026</footer>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id), status=t=>$('status').textContent=t;
+let sb,profiles=[],images=new Map(), current=null;
+function el(tag,cls,content){const node=document.createElement(tag);if(cls)node.className=cls;if(content!==undefined)node.textContent=String(content);return node}
+function nicePrice(num){const n=Number(num);return Number.isFinite(n)?'MVR '+n.toLocaleString('en-US',{maximumFractionDigits:2}):'Ask price'}
+function filter(){
+ const term=$('search').value.trim().toLowerCase(),cat=$('category').value,sort=$('sort').value;
+ let arr=profiles.filter(p=>(!cat||p.category===cat)&&(!term||[p.display_name,p.service_title,p.service_description,p.category,p.island,p.public_tagline].some(v=>String(v||'').toLowerCase().includes(term))));
+ arr.sort((a,b)=>sort==='low'?Number(a.starting_price_mvr)-Number(b.starting_price_mvr):sort==='high'?Number(b.starting_price_mvr)-Number(a.starting_price_mvr):sort==='az'?a.display_name.localeCompare(b.display_name):new Date(b.created_at)-new Date(a.created_at));
+ $('cards').replaceChildren();$('count').textContent=arr.length+' profile'+(arr.length===1?'':'s');
+ if(!arr.length){$('cards').append(el('div','empty',current?'No matching approved test profiles available.':'Sign in to view accessible approved test profiles.'));return}
+ for(const p of arr){
+ const card=el('article','card'),cover=el('div','cover');
+ const media=images.get(p.id)||{};
+ if(media.cover_image){const img=el('img');img.src=media.cover_image;img.alt='';img.loading='lazy';cover.append(img)}
+ const owner=el('div','owner'),av=el('div','av',p.display_name.slice(0,1).toUpperCase());
+ if(media.profile_image){av.replaceChildren();const im=el('img');im.src=media.profile_image;im.loading='lazy';im.alt='Profile of '+p.display_name;av.append(im)}
+ const name=el('h3','name',p.display_name);const tags=el('div','tags');
+ [p.category,p.island].filter(Boolean).forEach(v=>tags.append(el('span','chip',v)));
+ tags.append(el('span','chip ok','✓ Approved test'));
+ const desc=el('p','desc',p.service_title||p.public_tagline||'Professional services');
+ const line=el('div','line'),pr=el('div'),small=el('span','sub','Starting at'),price=el('div','price',nicePrice(p.starting_price_mvr)),link=el('a','btn','View test profile');
+ // Only authorized users may use this link; the destination independently checks Supabase permissions.
+ link.href='s-profile.html?id='+encodeURIComponent(p.id);
+ pr.append(small,price);line.append(pr,link);
+ owner.append(av,name,tags,desc,line);card.append(cover,owner);$('cards').append(card)
+ }
+}
+async function load(){
+ $('cards').replaceChildren(el('div','empty','Loading approved profiles…'));
+ const {data:{user},error:ue}=await sb.auth.getUser();
+ if(ue||!user){current=null;profiles=[];images.clear();status('Not signed in. Please use a test account.');filter();return}
+ current=user;status('Signed in as '+user.email+' · Loading approved test profiles…');
+ const {data,error}=await sb.from('meg_skills_freelancers').select('id,display_name,category,island,service_title,service_description,public_tagline,starting_price_mvr,created_at,status').eq('status','approved').order('created_at',{ascending:false}).limit(100);
+ if(error){profiles=[];status('Could not load profiles: '+error.message);filter();return}
+ profiles=data||[];images.clear();
+ const categories=[...new Set(profiles.map(p=>p.category).filter(Boolean))].sort(), selected=$('category').value;
+ $('category').replaceChildren(new Option('All categories',''),...categories.map(c=>new Option(c,c)));$('category').value=categories.includes(selected)?selected:'';
+ // Preview media URLs are short-lived and never exposed to anonymous visitors.
+ for(const p of profiles){
+   const {data:ms,error:me}=await sb.from('meg_skills_media').select('media_type,storage_path').eq('freelancer_id',p.id).eq('review_status','approved').in('media_type',['cover_image','profile_image']).limit(2);
+   if(me)continue;const obj={};
+   for(const m of ms||[]){const {data:sign,error:se}=await sb.storage.from('meg-skills-showcase').createSignedUrl(m.storage_path,120);if(!se&&sign?.signedUrl)obj[m.media_type]=sign.signedUrl}
+   images.set(p.id,obj)
+ }
+ status('Signed in as '+user.email+' · '+profiles.length+' approved profile(s) accessible.');
+ filter()
+}
+for(const id of ['search','category','sort'])$(id).addEventListener(id==='search'?'input':'change',filter);
+$('clear').onclick=()=>{$('search').value='';$('category').value='';$('sort').value='new';filter()};
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');sb=createClient(URL,KEY);
+ $('signin').onclick=async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||!password)return status('Enter test email and password.');const {error}=await sb.auth.signInWithPassword({email,password});$('password').value='';if(error)return status('Sign-in failed: '+error.message);await load()};
+ $('signout').onclick=async()=>{await sb.auth.signOut();profiles=[];images.clear();current=null;status('Signed out.');filter()};
+ await load()
+}catch(e){status('Connection error: '+e.message);$('cards').replaceChildren(el('div','empty','Could not connect to Supabase.'))}
+</script></body></html>
