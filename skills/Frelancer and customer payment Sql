@@ -1,0 +1,782 @@
+
+-- =====================================================
+-- MEG SKILLS | FREELANCER & CUSTOMER PAYMENTS
+-- CONSOLIDATED FOUNDATION - TEST MODE ONLY
+-- =====================================================
+-- Does not process real payments.
+-- Preserves historical orders and commission invoices.
+-- Requires existing MEG Skills tables and admin function.
+
+BEGIN;
+
+-- 1. FREELANCER PAYMENT SETTINGS
+
+CREATE TABLE IF NOT EXISTS
+public.meg_skills_freelancer_payments (
+  freelancer_id uuid PRIMARY KEY
+    REFERENCES public.meg_skills_freelancers(id),
+
+  bank_transfer_enabled boolean NOT NULL DEFAULT false,
+  bank_name text,
+  bank_account_name text,
+  bank_account_number text,
+
+  online_payment_enabled boolean NOT NULL DEFAULT false,
+  gateway_name text,
+  gateway_url text,
+
+  updated_at timestamptz NOT NULL DEFAULT now(),
+
+  CONSTRAINT meg_skills_bank_details_check CHECK (
+    NOT bank_transfer_enabled OR (
+      length(btrim(coalesce(bank_name,''))) BETWEEN 2 AND 120
+      AND length(btrim(coalesce(bank_account_name,''))) BETWEEN 2 AND 160
+      AND length(btrim(coalesce(bank_account_number,''))) BETWEEN 4 AND 100
+    )
+  ),
+
+  CONSTRAINT meg_skills_online_details_check CHECK (
+    NOT online_payment_enabled OR (
+      length(btrim(coalesce(gateway_name,''))) BETWEEN 2 AND 120
+      AND length(coalesce(gateway_url,'')) <= 1000
+      AND gateway_url ~* '^https://[^[:space:]]+$'
+    )
+  )
+);
+
+ALTER TABLE public.meg_skills_freelancer_payments
+ENABLE ROW LEVEL SECURITY;
+
+REVOKE ALL ON public.meg_skills_freelancer_payments
+FROM PUBLIC, anon, authenticated;
+
+
+-- Save freelancer payment settings.
+
+CREATE OR REPLACE FUNCTION
+public.meg_skills_save_freelancer_payment(
+  p_bank_enabled boolean,
+  p_bank_name text,
+  p_account_name text,
+  p_account_number text,
+  p_online_enabled boolean,
+  p_gateway_name text,
+  p_gateway_url text
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  v_freelancer uuid;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Sign in required';
+  END IF;
+
+  SELECT id INTO v_freelancer
+  FROM public.meg_skills_freelancers
+  WHERE user_id = auth.uid()
+    AND status = 'approved';
+
+  IF v_freelancer IS NULL THEN
+    RAISE EXCEPTION 'Approved freelancer account required';
+  END IF;
+
+  IF p_bank_enabled IS NULL OR p_online_enabled IS NULL THEN
+    RAISE EXCEPTION 'Choose enabled payment methods';
+  END IF;
+
+  IF p_bank_enabled AND (
+    length(btrim(coalesce(p_bank_name,''))) NOT BETWEEN 2 AND 120
+    OR length(btrim(coalesce(p_account_name,''))) NOT BETWEEN 2 AND 160
+    OR length(btrim(coalesce(p_account_number,''))) NOT BETWEEN 4 AND 100
+  ) THEN
+    RAISE EXCEPTION 'Valid bank details required';
+  END IF;
+
+  IF p_online_enabled AND (
+    length(btrim(coalesce(p_gateway_name,''))) NOT BETWEEN 2 AND 120
+    OR length(coalesce(p_gateway_url,'')) > 1000
+    OR coalesce(p_gateway_url,'') !~* '^https://[^[:space:]]+$'
+  ) THEN
+    RAISE EXCEPTION 'Valid HTTPS gateway URL required';
+  END IF;
+
+  INSERT INTO public.meg_skills_freelancer_payments (
+    freelancer_id,
+    bank_transfer_enabled,
+    bank_name,
+    bank_account_name,
+    bank_account_number,
+    online_payment_enabled,
+    gateway_name,
+    gateway_url,
+    updated_at
+  )
+  VALUES (
+    v_freelancer,
+    p_bank_enabled,
+    nullif(btrim(p_bank_name),''),
+    nullif(btrim(p_account_name),''),
+    nullif(btrim(p_account_number),''),
+    p_online_enabled,
+    nullif(btrim(p_gateway_name),''),
+    nullif(btrim(p_gateway_url),''),
+    now()
+  )
+  ON CONFLICT (freelancer_id) DO UPDATE SET
+    bank_transfer_enabled = EXCLUDED.bank_transfer_enabled,
+    bank_name = EXCLUDED.bank_name,
+    bank_account_name = EXCLUDED.bank_account_name,
+    bank_account_number = EXCLUDED.bank_account_number,
+    online_payment_enabled = EXCLUDED.online_payment_enabled,
+    gateway_name = EXCLUDED.gateway_name,
+    gateway_url = EXCLUDED.gateway_url,
+    updated_at = now();
+END;
+$$;
+
+REVOKE ALL ON FUNCTION
+public.meg_skills_save_freelancer_payment(
+  boolean,text,text,text,boolean,text,text
+)
+FROM PUBLIC, anon;
+
+GRANT EXECUTE ON FUNCTION
+public.meg_skills_save_freelancer_payment(
+  boolean,text,text,text,boolean,text,text
+)
+TO authenticated;
+
+
+-- Read own freelancer payment settings.
+
+CREATE OR REPLACE FUNCTION
+public.meg_skills_get_freelancer_payment()
+RETURNS SETOF public.meg_skills_freelancer_payments
+LANGUAGE plpgsql
+STABLE
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Sign in required';
+  END IF;
+
+  RETURN QUERY
+  SELECT p.*
+  FROM public.meg_skills_freelancer_payments p
+  JOIN public.meg_skills_freelancers f
+    ON f.id = p.freelancer_id
+  WHERE f.user_id = auth.uid();
+END;
+$$;
+
+REVOKE ALL ON FUNCTION
+public.meg_skills_get_freelancer_payment()
+FROM PUBLIC, anon;
+
+GRANT EXECUTE ON FUNCTION
+public.meg_skills_get_freelancer_payment()
+TO authenticated;
+
+
+-- 2. CUSTOMER PAYMENT RECORDS
+-- Snapshot freelancer bank/gateway information
+-- when an order is accepted.
+
+CREATE TABLE IF NOT EXISTS
+public.meg_skills_customer_payments (
+  order_id uuid PRIMARY KEY
+    REFERENCES public.meg_skills_orders(id),
+
+  customer_id uuid NOT NULL
+    REFERENCES auth.users(id),
+
+  freelancer_user_id uuid NOT NULL
+    REFERENCES auth.users(id),
+
+  amount_mvr numeric(12,2) NOT NULL
+    CHECK (amount_mvr > 0),
+
+  bank_transfer_enabled boolean NOT NULL,
+  bank_name text,
+  bank_account_name text,
+  bank_account_number text,
+
+  online_payment_enabled boolean NOT NULL,
+  gateway_name text,
+  gateway_url text,
+
+  status text NOT NULL DEFAULT 'unpaid'
+    CHECK (
+      status IN (
+        'unpaid',
+        'under_review',
+        'verified'
+      )
+    ),
+
+  verified_at timestamptz,
+  verified_by uuid REFERENCES auth.users(id),
+
+  test_only boolean NOT NULL DEFAULT true
+    CHECK (test_only = true),
+
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.meg_skills_customer_payments
+ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS
+meg_skills_customer_payment_read
+ON public.meg_skills_customer_payments;
+
+CREATE POLICY meg_skills_customer_payment_read
+ON public.meg_skills_customer_payments
+FOR SELECT TO authenticated
+USING (
+  customer_id = (SELECT auth.uid())
+  OR freelancer_user_id = (SELECT auth.uid())
+  OR (SELECT public.meg_skills_is_admin())
+);
+
+REVOKE ALL ON public.meg_skills_customer_payments
+FROM PUBLIC, anon, authenticated;
+
+GRANT SELECT ON public.meg_skills_customer_payments
+TO authenticated;
+
+
+-- Automatically snapshot instructions when accepted.
+
+CREATE OR REPLACE FUNCTION
+public.meg_skills_capture_payment_instructions()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  v_settings public.meg_skills_freelancer_payments%ROWTYPE;
+  v_owner uuid;
+BEGIN
+
+  IF NEW.status <> 'accepted'
+     OR OLD.status = 'accepted' THEN
+    RETURN NEW;
+  END IF;
+
+  SELECT f.user_id INTO v_owner
+  FROM public.meg_skills_freelancers f
+  WHERE f.id = NEW.freelancer_id;
+
+  SELECT * INTO v_settings
+  FROM public.meg_skills_freelancer_payments
+  WHERE freelancer_id = NEW.freelancer_id;
+
+  IF NOT FOUND OR (
+    NOT v_settings.bank_transfer_enabled
+    AND NOT v_settings.online_payment_enabled
+  ) THEN
+    RAISE EXCEPTION
+      'Freelancer must configure a payment method before accepting new orders';
+  END IF;
+
+  INSERT INTO public.meg_skills_customer_payments (
+    order_id,
+    customer_id,
+    freelancer_user_id,
+    amount_mvr,
+    bank_transfer_enabled,
+    bank_name,
+    bank_account_name,
+    bank_account_number,
+    online_payment_enabled,
+    gateway_name,
+    gateway_url
+  )
+  VALUES (
+    NEW.id,
+    NEW.customer_id,
+    v_owner,
+    NEW.agreed_price_mvr,
+    v_settings.bank_transfer_enabled,
+    v_settings.bank_name,
+    v_settings.bank_account_name,
+    v_settings.bank_account_number,
+    v_settings.online_payment_enabled,
+    v_settings.gateway_name,
+    v_settings.gateway_url
+  )
+  ON CONFLICT (order_id) DO NOTHING;
+
+  RETURN NEW;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION
+public.meg_skills_capture_payment_instructions()
+FROM PUBLIC, anon, authenticated;
+
+DROP TRIGGER IF EXISTS
+meg_skills_capture_payment_on_acceptance
+ON public.meg_skills_orders;
+
+CREATE TRIGGER meg_skills_capture_payment_on_acceptance
+AFTER UPDATE OF status
+ON public.meg_skills_orders
+FOR EACH ROW
+WHEN (
+  NEW.status = 'accepted'
+  AND OLD.status IS DISTINCT FROM NEW.status
+)
+EXECUTE FUNCTION
+public.meg_skills_capture_payment_instructions();
+
+
+-- 3. PRIVATE CUSTOMER RECEIPT METADATA
+
+CREATE TABLE IF NOT EXISTS
+public.meg_skills_customer_receipts (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  order_id uuid NOT NULL
+    REFERENCES public.meg_skills_customer_payments(order_id),
+
+  uploaded_by uuid NOT NULL
+    REFERENCES auth.users(id),
+
+  payment_method text NOT NULL
+    CHECK (payment_method IN ('bank_transfer','online')),
+
+  payment_reference text,
+
+  storage_path text NOT NULL UNIQUE,
+
+  status text NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending','approved','rejected')),
+
+  review_note text,
+  reviewed_by uuid REFERENCES auth.users(id),
+  reviewed_at timestamptz,
+
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS
+meg_skills_one_pending_customer_receipt
+ON public.meg_skills_customer_receipts(order_id)
+WHERE status = 'pending';
+
+ALTER TABLE public.meg_skills_customer_receipts
+ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS
+meg_skills_customer_receipts_read
+ON public.meg_skills_customer_receipts;
+
+CREATE POLICY meg_skills_customer_receipts_read
+ON public.meg_skills_customer_receipts
+FOR SELECT TO authenticated
+USING (
+  EXISTS (
+    SELECT 1
+    FROM public.meg_skills_customer_payments p
+    WHERE p.order_id =
+      meg_skills_customer_receipts.order_id
+      AND (
+        p.customer_id = (SELECT auth.uid())
+        OR p.freelancer_user_id =
+          (SELECT auth.uid())
+        OR (SELECT public.meg_skills_is_admin())
+      )
+  )
+);
+
+REVOKE ALL ON public.meg_skills_customer_receipts
+FROM PUBLIC, anon, authenticated;
+
+GRANT SELECT ON public.meg_skills_customer_receipts
+TO authenticated;
+
+
+-- 4. PRIVATE CUSTOMER RECEIPT STORAGE
+
+INSERT INTO storage.buckets (
+  id,
+  name,
+  public,
+  file_size_limit,
+  allowed_mime_types
+)
+VALUES (
+  'meg-skills-customer-receipts',
+  'meg-skills-customer-receipts',
+  false,
+  10485760,
+  ARRAY[
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'application/pdf'
+  ]::text[]
+)
+ON CONFLICT (id) DO UPDATE SET
+  public = false,
+  file_size_limit = EXCLUDED.file_size_limit,
+  allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+-- File path:
+-- ORDER_ID/CUSTOMER_USER_ID/FILENAME
+
+DROP POLICY IF EXISTS
+meg_skills_customer_receipt_upload
+ON storage.objects;
+
+CREATE POLICY meg_skills_customer_receipt_upload
+ON storage.objects
+FOR INSERT TO authenticated
+WITH CHECK (
+  bucket_id = 'meg-skills-customer-receipts'
+  AND (storage.foldername(name))[2] =
+    (SELECT auth.uid())::text
+  AND EXISTS (
+    SELECT 1
+    FROM public.meg_skills_customer_payments p
+    WHERE p.order_id::text =
+      (storage.foldername(name))[1]
+      AND p.customer_id = (SELECT auth.uid())
+      AND p.status = 'unpaid'
+  )
+);
+
+DROP POLICY IF EXISTS
+meg_skills_customer_receipt_read
+ON storage.objects;
+
+CREATE POLICY meg_skills_customer_receipt_read
+ON storage.objects
+FOR SELECT TO authenticated
+USING (
+  bucket_id = 'meg-skills-customer-receipts'
+  AND EXISTS (
+    SELECT 1
+    FROM public.meg_skills_customer_payments p
+    WHERE p.order_id::text =
+      (storage.foldername(name))[1]
+      AND p.customer_id::text =
+      (storage.foldername(name))[2]
+      AND (
+        p.customer_id = (SELECT auth.uid())
+        OR p.freelancer_user_id =
+          (SELECT auth.uid())
+        OR (SELECT public.meg_skills_is_admin())
+      )
+  )
+);
+
+
+-- 5. CUSTOMER PAYMENT AUDIT HISTORY
+
+CREATE TABLE IF NOT EXISTS
+public.meg_skills_customer_payment_events (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+  order_id uuid NOT NULL
+    REFERENCES public.meg_skills_customer_payments(order_id),
+
+  receipt_id uuid
+    REFERENCES public.meg_skills_customer_receipts(id),
+
+  actor_id uuid REFERENCES auth.users(id),
+
+  event_type text NOT NULL
+    CHECK (
+      event_type IN (
+        'receipt_submitted',
+        'receipt_approved',
+        'receipt_rejected'
+      )
+    ),
+
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.meg_skills_customer_payment_events
+ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS
+meg_skills_customer_events_read
+ON public.meg_skills_customer_payment_events;
+
+CREATE POLICY meg_skills_customer_events_read
+ON public.meg_skills_customer_payment_events
+FOR SELECT TO authenticated
+USING (
+  EXISTS (
+    SELECT 1
+    FROM public.meg_skills_customer_payments p
+    WHERE p.order_id =
+      meg_skills_customer_payment_events.order_id
+      AND (
+        p.customer_id = (SELECT auth.uid())
+        OR p.freelancer_user_id =
+          (SELECT auth.uid())
+        OR (SELECT public.meg_skills_is_admin())
+      )
+  )
+);
+
+REVOKE ALL ON public.meg_skills_customer_payment_events
+FROM PUBLIC, anon, authenticated;
+
+GRANT SELECT ON public.meg_skills_customer_payment_events
+TO authenticated;
+
+
+-- 6. CUSTOMER SUBMITS PAYMENT RECEIPT
+
+CREATE OR REPLACE FUNCTION
+public.meg_skills_submit_customer_receipt(
+  p_order_id uuid,
+  p_method text,
+  p_reference text,
+  p_storage_path text
+)
+RETURNS uuid
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  v_payment public.meg_skills_customer_payments%ROWTYPE;
+  v_receipt uuid;
+BEGIN
+
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Sign in required';
+  END IF;
+
+  SELECT * INTO v_payment
+  FROM public.meg_skills_customer_payments
+  WHERE order_id = p_order_id
+  FOR UPDATE;
+
+  IF NOT FOUND
+     OR v_payment.customer_id <> auth.uid()
+     OR v_payment.status <> 'unpaid' THEN
+    RAISE EXCEPTION 'Receipt submission denied';
+  END IF;
+
+  IF NOT (
+    (p_method = 'bank_transfer'
+      AND v_payment.bank_transfer_enabled)
+    OR
+    (p_method = 'online'
+      AND v_payment.online_payment_enabled)
+  ) THEN
+    RAISE EXCEPTION 'Payment method unavailable';
+  END IF;
+
+  IF length(coalesce(p_reference,'')) > 150 THEN
+    RAISE EXCEPTION 'Payment reference too long';
+  END IF;
+
+  IF p_storage_path IS NULL
+     OR split_part(p_storage_path,'/',1)
+       <> p_order_id::text
+     OR split_part(p_storage_path,'/',2)
+       <> auth.uid()::text
+     OR split_part(p_storage_path,'/',3) = ''
+     OR p_storage_path ~ '\.\.'
+  THEN
+    RAISE EXCEPTION 'Invalid receipt path';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1
+    FROM storage.objects obj
+    WHERE obj.bucket_id =
+      'meg-skills-customer-receipts'
+      AND obj.name = p_storage_path
+  ) THEN
+    RAISE EXCEPTION 'Uploaded receipt not found';
+  END IF;
+
+  INSERT INTO public.meg_skills_customer_receipts (
+    order_id,
+    uploaded_by,
+    payment_method,
+    payment_reference,
+    storage_path
+  )
+  VALUES (
+    p_order_id,
+    auth.uid(),
+    p_method,
+    nullif(btrim(p_reference),''),
+    p_storage_path
+  )
+  RETURNING id INTO v_receipt;
+
+  UPDATE public.meg_skills_customer_payments
+  SET status = 'under_review'
+  WHERE order_id = p_order_id;
+
+  INSERT INTO
+  public.meg_skills_customer_payment_events (
+    order_id,
+    receipt_id,
+    actor_id,
+    event_type
+  )
+  VALUES (
+    p_order_id,
+    v_receipt,
+    auth.uid(),
+    'receipt_submitted'
+  );
+
+  RETURN v_receipt;
+END;
+$$;
+
+
+-- 7. FREELANCER REVIEWS CUSTOMER RECEIPT
+
+CREATE OR REPLACE FUNCTION
+public.meg_skills_review_customer_receipt(
+  p_receipt_id uuid,
+  p_decision text,
+  p_note text,
+  p_receipt_checked boolean DEFAULT false
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  v_receipt public.meg_skills_customer_receipts%ROWTYPE;
+  v_payment public.meg_skills_customer_payments%ROWTYPE;
+BEGIN
+
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Sign in required';
+  END IF;
+
+  IF p_decision NOT IN ('approved','rejected') THEN
+    RAISE EXCEPTION 'Invalid review decision';
+  END IF;
+
+  IF length(btrim(coalesce(p_note,'')))
+     NOT BETWEEN 5 AND 2000 THEN
+    RAISE EXCEPTION
+      'Review note must be 5–2000 characters';
+  END IF;
+
+  IF p_decision = 'approved'
+     AND p_receipt_checked IS DISTINCT FROM true THEN
+    RAISE EXCEPTION
+      'Confirm actual payment receipt verification';
+  END IF;
+
+  SELECT * INTO v_receipt
+  FROM public.meg_skills_customer_receipts
+  WHERE id = p_receipt_id
+  FOR UPDATE;
+
+  IF NOT FOUND
+     OR v_receipt.status <> 'pending' THEN
+    RAISE EXCEPTION 'No pending receipt found';
+  END IF;
+
+  SELECT * INTO v_payment
+  FROM public.meg_skills_customer_payments
+  WHERE order_id = v_receipt.order_id
+  FOR UPDATE;
+
+  IF NOT FOUND
+     OR v_payment.freelancer_user_id <> auth.uid()
+     OR v_payment.status <> 'under_review' THEN
+    RAISE EXCEPTION
+      'Only the assigned freelancer can verify this receipt';
+  END IF;
+
+  UPDATE public.meg_skills_customer_receipts
+  SET status = p_decision,
+      review_note = btrim(p_note),
+      reviewed_by = auth.uid(),
+      reviewed_at = now()
+  WHERE id = p_receipt_id;
+
+  UPDATE public.meg_skills_customer_payments
+  SET status = CASE
+      WHEN p_decision = 'approved'
+      THEN 'verified'
+      ELSE 'unpaid'
+    END,
+    verified_at = CASE
+      WHEN p_decision = 'approved'
+      THEN now()
+      ELSE NULL
+    END,
+    verified_by = CASE
+      WHEN p_decision = 'approved'
+      THEN auth.uid()
+      ELSE NULL
+    END
+  WHERE order_id = v_receipt.order_id;
+
+  INSERT INTO
+  public.meg_skills_customer_payment_events (
+    order_id,
+    receipt_id,
+    actor_id,
+    event_type
+  )
+  VALUES (
+    v_receipt.order_id,
+    p_receipt_id,
+    auth.uid(),
+    CASE
+      WHEN p_decision = 'approved'
+      THEN 'receipt_approved'
+      ELSE 'receipt_rejected'
+    END
+  );
+END;
+$$;
+
+REVOKE ALL ON FUNCTION
+public.meg_skills_submit_customer_receipt(
+  uuid,text,text,text
+)
+FROM PUBLIC, anon;
+
+GRANT EXECUTE ON FUNCTION
+public.meg_skills_submit_customer_receipt(
+  uuid,text,text,text
+)
+TO authenticated;
+
+REVOKE ALL ON FUNCTION
+public.meg_skills_review_customer_receipt(
+  uuid,text,text,boolean
+)
+FROM PUBLIC, anon;
+
+GRANT EXECUTE ON FUNCTION
+public.meg_skills_review_customer_receipt(
+  uuid,text,text,boolean
+)
+TO authenticated;
+
+COMMIT;
+
+NOTIFY pgrst, 'reload schema';
