@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071e37">
+<title>MEG Skills — Freelancer Payment Settings</title>
+<style>
+:root{--navy:#071e37;--blue:#0874a6;--line:#d9e5ec;--muted:#61788a;--ink:#17324a}
+*{box-sizing:border-box}body{margin:0;background:#f3f8fb;color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Arial,sans-serif}header{background:var(--navy);color:#fff;padding:17px 20px}header .inner{max-width:840px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}header a{color:#cbeefa;text-decoration:none}main{max-width:840px;margin:22px auto;padding:0 16px}.hero{background:linear-gradient(120deg,#082b4c,#0a7781);color:#fff;padding:24px;border-radius:18px}.hero h1{font-size:clamp(23px,5vw,33px);margin:4px 0}.hero p{margin:0;color:#e4f0f8}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;margin-top:16px;padding:20px;box-shadow:0 4px 15px #00223809}.panel h2{font-size:19px;margin:0 0 6px}.muted{font-size:13px;color:var(--muted)}.notice{background:#fff7e7;border-left:4px solid #d39727;border-radius:8px;padding:11px 13px;font-size:13px;margin-top:13px}.field{margin:13px 0}.field label{display:block;font-weight:650;margin-bottom:5px}input[type=text],input[type=url]{width:100%;border:1px solid #b8cedb;border-radius:9px;padding:11px 12px;font:inherit;color:inherit}input:focus{outline:2px solid #8ac9df;outline-offset:1px}.toggle{display:flex;gap:11px;align-items:center;font-weight:750;cursor:pointer}.toggle input{width:20px;height:20px;accent-color:#0874a6;flex-shrink:0}.method{border:1px solid var(--line);border-radius:13px;padding:16px;margin:14px 0}.details{margin-top:12px}.details[hidden],#page[hidden]{display:none}button{background:var(--blue);color:white;padding:12px 20px;border:0;border-radius:10px;font:inherit;font-weight:750;cursor:pointer}button:disabled{opacity:.52;cursor:wait}.status{margin-top:12px;padding:11px 13px;border-radius:9px;background:#ecf6fa;color:#12455c;overflow-wrap:anywhere}.status.error{background:#fff0f0;color:#8b2232}.status.success{background:#edf9f2;color:#1b6341}a{color:var(--blue)}.required{font-size:12px;color:#975e15}#gate{text-align:center;margin-top:45px}@media(max-width:600px){.panel{padding:16px}.hero{padding:19px}}
+/* Production workspace refinements */
+header .inner{max-width:920px}main{max-width:920px}.topnav{display:flex;align-items:center;flex-wrap:wrap;gap:12px}.topnav a{font-weight:700;font-size:13px;color:#d4edf9;border:1px solid #ffffff42;border-radius:10px;padding:9px 12px}.topnav a:hover{background:#ffffff1c}.hero{padding:30px}.hero .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#b2f3e4;font-weight:850}.hero h1{margin:8px 0}.hero p{max-width:660px}.method{transition:border-color .15s,background .15s}.method.active{border-color:#2ca999;background:#f5fffc}.method-title{display:block;font-size:16px}.method-desc{margin:6px 0 0 31px;font-size:13px;color:var(--muted)}.methods-note{background:#edf7fb;border:1px solid #c9e7f1;border-radius:11px;padding:12px 14px;color:#27546d;font-size:13px}.form-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}.secondary-link{display:inline-flex;padding:12px 17px;background:#e7f2f7;border-radius:10px;text-decoration:none;font-weight:750;color:#144661}.identity-info{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:11px 0;color:#49697a;font-size:13px}.status{white-space:pre-wrap}.method input[type=text],.method input[type=url]{background:white}.notice{background:#f4f8fb;border:1px solid #dbe7ef;border-left:4px solid #158d9a;color:#446075}.footnote{font-size:12px;color:#60788b;margin-top:16px}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #4ab9c4;outline-offset:2px}@media(max-width:600px){header .inner{align-items:flex-start}.hero{padding:22px}.form-actions>*{width:100%;justify-content:center;text-align:center}}
+</style>
+</head>
+<body>
+<header><div class="inner"><div><strong>💼 MEG Skills</strong><div style="color:#bad3de;font-size:12px">Freelancer Payment Settings</div></div><nav class="topnav" aria-label="Freelancer navigation"><a href="s-dashboard.html">← Back to Dashboard</a><a href="skills.html">Marketplace</a></nav></div></header>
+<main>
+<section class="hero"><div class="eyebrow">Freelancer workspace / Account settings</div><h1>Payment Methods</h1><p>Choose how customers pay you for your services. Payments go directly to your selected bank account or payment provider.</p></section>
+<div class="panel" id="gate" role="status" aria-live="polite"><strong>🔒 Checking freelancer access…</strong><p id="gateText" class="muted">Please sign in through your freelancer dashboard.</p><a href="s-dashboard.html" class="secondary-link">Go to Freelancer Dashboard</a></div>
+<div id="page" hidden>
+<div class="identity-info"><span id="freelancerWelcome">Your payment account settings</span><span>🔒 Secure freelancer settings</span></div><div class="notice">Your chosen payment details are shared with your customers after you accept their service orders. Always ensure the account holder name and payment link are accurate. Previously accepted orders retain their original payment instructions.</div>
+<form id="settingsForm" class="panel">
+<h2>Choose how customers can pay you</h2><p class="methods-note">Enable <strong>at least one payment method</strong>. You can offer bank transfer, online payment or both. Your changes apply to new accepted orders.</p>
+<div class="method"><label class="toggle" for="bankEnabled"><input id="bankEnabled" type="checkbox">🏦 <span class="method-title">Bank Transfer</span></label><p class="method-desc">Customers send payment directly to your bank account.</p><div class="details" id="bankDetails" hidden>
+<div class="field"><label for="bankName">Bank name <span class="required">Required when enabled</span></label><input id="bankName" type="text" maxlength="120" autocomplete="organization" placeholder="Enter your bank name"></div>
+<div class="field"><label for="accountName">Account holder name</label><input id="accountName" type="text" maxlength="160" autocomplete="name" placeholder="Account holder as registered with the bank"></div>
+<div class="field"><label for="accountNumber">Account number</label><input id="accountNumber" type="text" maxlength="100" autocomplete="off" placeholder="Enter your account number"></div>
+</div></div>
+<div class="method"><label class="toggle" for="onlineEnabled"><input id="onlineEnabled" type="checkbox">🔗 <span class="method-title">Online Payment</span></label><p class="method-desc">Customers use your secure HTTPS payment link.</p><div class="details" id="onlineDetails" hidden>
+<div class="field"><label for="gatewayName">Gateway name</label><input id="gatewayName" type="text" maxlength="120" placeholder="Name of your payment provider"></div>
+<div class="field"><label for="gatewayUrl">Secure payment URL (HTTPS)</label><input id="gatewayUrl" type="url" maxlength="1000" inputmode="url" placeholder="https://your-provider.example/pay"></div>
+</div></div>
+<div class="form-actions"><button type="submit" id="saveBtn">Save Payment Settings</button><a href="s-dashboard.html" class="secondary-link">Back to Dashboard</a></div><div class="status" id="result" aria-live="polite">Choose at least one payment method to continue.</div>
+<p class="muted" id="updated"></p><p class="footnote">Your payment methods are controlled by your freelancer account. MEG never needs your bank login, password or payment-provider credentials.</p>
+</form>
+</div>
+</main>
+<script type="module">
+const url='https://ehavxdqegpoggrkoxypm.supabase.co';
+const key='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id);
+const result=(msg,type='')=>{$('result').textContent=msg;$('result').className='status '+type;};
+function toggle(){
+ $('bankDetails').hidden=!$('bankEnabled').checked;
+ $('onlineDetails').hidden=!$('onlineEnabled').checked;
+ for(const id of ['bankName','accountName','accountNumber'])$(id).required=$('bankEnabled').checked;
+ for(const id of ['gatewayName','gatewayUrl'])$(id).required=$('onlineEnabled').checked;
+}
+$('bankEnabled').addEventListener('change',toggle);
+$('onlineEnabled').addEventListener('change',toggle);
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ const sb=createClient(url,key);
+ const {data:auth,error:authError}=await sb.auth.getUser();
+ if(authError||!auth?.user)throw new Error('Sign in first with your approved freelancer account.');
+ const {data:freelancer,error:freelancerError}=await sb.from('meg_skills_freelancers').select('id,status,display_name').eq('user_id',auth.user.id).limit(1).maybeSingle();
+ if(freelancerError)throw freelancerError;
+ if(!freelancer||freelancer.status!=='approved')throw new Error('Payment settings are available only for approved freelancers.');
+ const {data:records,error:loadError}=await sb.rpc('meg_skills_get_freelancer_payment');
+ if(loadError)throw loadError;
+ const record=Array.isArray(records)?records[0]:null;
+ if(record){
+  $('bankEnabled').checked=!!record.bank_transfer_enabled;
+  $('bankName').value=record.bank_name||'';
+  $('accountName').value=record.bank_account_name||'';
+  $('accountNumber').value=record.bank_account_number||'';
+  $('onlineEnabled').checked=!!record.online_payment_enabled;
+  $('gatewayName').value=record.gateway_name||'';
+  $('gatewayUrl').value=record.gateway_url||'';
+  if(record.updated_at)$('updated').textContent='Last updated: '+new Date(record.updated_at).toLocaleString();
+  result('Saved settings loaded successfully.','success');
+ }
+ toggle();$('gate').hidden=true;$('page').hidden=false;
+ $('settingsForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const bank=$('bankEnabled').checked,online=$('onlineEnabled').checked;
+  if(!bank&&!online){result('Enable at least one method: bank transfer or online gateway.','error');return;}
+  const bankName=$('bankName').value.trim(),accountName=$('accountName').value.trim(),accountNumber=$('accountNumber').value.trim();
+  const gatewayName=$('gatewayName').value.trim(),gatewayUrl=$('gatewayUrl').value.trim();
+  if(bank&&(bankName.length<2||accountName.length<2||accountNumber.length<4)){result('Complete all required bank details.','error');return;}
+  if(online){try{const parsed=new URL(gatewayUrl);if(parsed.protocol!=='https:')throw Error();}catch{result('Enter a valid HTTPS payment URL.','error');return;}if(gatewayName.length<2){result('Enter the gateway name.','error');return;}}
+  $('saveBtn').disabled=true;result('Saving payment methods…');
+  try{
+   const {error}=await sb.rpc('meg_skills_save_freelancer_payment',{
+    p_bank_enabled:bank,p_bank_name:bankName,p_account_name:accountName,p_account_number:accountNumber,
+    p_online_enabled:online,p_gateway_name:gatewayName,p_gateway_url:gatewayUrl
+   });
+   if(error)throw error;
+   result('Payment methods saved. You may change them here any time.','success');
+   $('updated').textContent='Last updated: '+new Date().toLocaleString();
+  }catch(err){result('Could not save: '+(err?.message||'Unknown error'),'error');}
+  finally{$('saveBtn').disabled=false;}
+ });
+}catch(err){$('gateText').textContent=err?.message||'Unable to verify freelancer access.';}
+</script>
+</body>
+</html>
