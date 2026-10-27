@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081c30"><title>MEG Skills | Admin Dispute Center</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#17304a;background:#eef4f8}*{box-sizing:border-box}body{margin:0}button,select,input,textarea{font:inherit}a{text-decoration:none;color:inherit}header{background:#071e37;color:white;padding:16px 20px}.head{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.brand{font-weight:900;font-size:20px}.head a{color:#c8f5f1;font-size:14px}.wrap{max-width:1180px;margin:24px auto 70px;padding:0 15px}.hero{border-radius:22px;padding:29px;background:linear-gradient(120deg,#092540,#0d7881);color:#fff}.hero small{letter-spacing:.14em;text-transform:uppercase;color:#b7f5ef;font-weight:800}.hero h1{font-size:clamp(27px,4vw,40px);margin:9px 0}.hero p{max-width:770px;color:#d5f2f1;line-height:1.6}.panel{background:white;border:1px solid #d9e5ec;border-radius:18px;padding:21px;margin-top:17px;box-shadow:0 8px 25px #0a35520b}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:17px}.stat{background:#f5f9fc;border:1px solid #dce8ee;padding:16px;border-radius:14px}.stat b{display:block;font-size:27px;color:#0d536c}.stat span{font-size:12px;color:#5e7180}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar input,.toolbar select{padding:11px;border:1px solid #cadce7;border-radius:10px;background:white;min-height:43px}.toolbar input{min-width:210px;flex:1}.btn{border:0;border-radius:11px;background:#087a95;color:white;padding:11px 15px;font-weight:800;cursor:pointer;min-height:43px}.btn.alt{background:#e7f2f5;color:#12435a}.btn:disabled{opacity:.55;cursor:wait}.layout{display:grid;grid-template-columns:minmax(265px,.82fr) minmax(0,1.5fr);gap:16px;align-items:start}.orderlist{display:grid;gap:9px;max-height:70vh;overflow:auto}.order{width:100%;text-align:left;background:#f7fbfd;border:1px solid #dae7ed;border-radius:13px;padding:14px;cursor:pointer;color:#223f54}.order.selected{border:2px solid #008b83;background:#eafaf7}.order strong{display:block;font-size:15px;overflow-wrap:anywhere}.order small{display:block;color:#667f8c;line-height:1.5}.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#ffead5;color:#80501b;font-size:11px;font-weight:900;margin:6px 0}.badge.closed{background:#e6edf1;color:#455a68}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cell{background:#f6f9fb;padding:12px;border-radius:11px;overflow-wrap:anywhere}.cell small{display:block;color:#607587}.cell strong{font-size:14px}.section{margin:20px 0 0;border-top:1px solid #e2eaef;padding-top:17px}.section h3{margin:0 0 9px;font-size:18px}.record{background:#f6fafc;border:1px solid #d8e6eb;border-radius:13px;margin:10px 0;padding:14px;overflow-wrap:anywhere}.record p{white-space:pre-wrap;line-height:1.6}.record small{color:#5a7182}.note{background:#fff8e9;border:1px solid #f0dfa9;border-radius:12px;padding:12px;color:#77551e;font-size:13px}.success{background:#eaf8f0;border:1px solid #b6e7c8;color:#195d3a;border-radius:12px;padding:12px}.message{margin:12px 0;color:#335773;overflow-wrap:anywhere}label{display:block;font-weight:750;font-size:14px;margin:12px 0 6px}textarea,select.wide{width:100%;padding:12px;border:1px solid #c6d8e3;border-radius:12px;color:#16344a;background:white}textarea{min-height:125px;resize:vertical}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.auth{max-width:620px;margin:55px auto;background:white;border:1px solid #dbe5eb;border-radius:20px;text-align:center;padding:30px}.muted{color:#637987;font-size:13px}.hidden,[hidden]{display:none!important}@media(max-width:780px){.layout{grid-template-columns:1fr}.orderlist{max-height:280px}.panel{padding:16px}.grid{grid-template-columns:1fr}}@media(max-width:440px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.stat{padding:10px}.stat b{font-size:23px}.hero{padding:22px}}
+</style></head><body>
+<header><div class="head"><span class="brand">✦ MEG Skills · Dispute Center</span><nav><a href="ad-skills.html">← Skills Administration</a> &nbsp; <a href="ad-admin.html">Admin Home</a></nav></div></header>
+<div class="auth" id="gate" role="status"><h2>🔒 Verifying Super Admin</h2><p id="gateText">Checking your existing admin session…</p><a href="ad-admin.html">Return to Admin Login</a></div>
+<main class="wrap" id="app" hidden><section class="hero"><small>Restricted · Super Admin only</small><h1>⚖️ Skills Dispute Center</h1><p>Review disputed service orders, hear both parties, inspect private evidence and record an auditable recommendation. A decision here does not move money, cancel an order or mark it completed.</p><div class="stats"><div class="stat"><b id="countPending">—</b><span>Pending customer reviews</span></div><div class="stat"><b id="countDisputed">0</b><span>Open disputes</span></div><div class="stat"><b id="countEvidence">0</b><span>Evidence records (total)</span></div><div class="stat"><b id="countDecisions">0</b><span>Decisions (total)</span></div></div></section>
+<section class="panel"><div class="toolbar"><input id="search" type="search" placeholder="Search title or order ID" aria-label="Search dispute orders"><select id="statusFilter" aria-label="Filter orders"><option value="attention">Needs Admin attention</option><option value="followups">Pending customer reviews</option><option value="disputed">Disputed orders</option><option value="all">Include other order statuses</option></select><button type="button" class="btn" id="refresh">↻ Refresh</button></div><p class="muted">Up to 200 recent Skills orders are loaded. Older cases require pagination in a future update.</p><p id="topMessage" class="message" role="status"></p></section>
+<div class="layout"><section class="panel"><h2>📋 Service Cases</h2><div id="orders" class="orderlist"></div></section>
+<section class="panel" id="detail"><h2>🔎 Case Review</h2><p id="empty" class="muted">Select a case on the left to see details, evidence and decision history.</p><div id="case" hidden>
+<div class="grid" id="caseMeta"></div><section class="section"><h3>📝 Original complaint</h3><div class="record" id="complaint"></div></section>
+<section class="section"><h3>📁 Evidence from both sides</h3><p class="muted">Statements and private attachments are visible only to authorized order participants and Super Admin.</p><div id="evidenceList"></div></section>
+<section class="section"><h3>📜 Previous decisions</h3><div id="decisionsList"></div></section>
+<section class="section" id="finalRevisionSection" hidden><h3>🔁 Authorize final revision</h3><div id="finalRevisionStatus" class="note">Checking authorization and prior revisions…</div><div id="finalRevisionForm" hidden><label for="finalInstructions">Instructions to freelancer (20–3000 characters)</label><textarea id="finalInstructions" minlength="20" maxlength="3000" placeholder="Describe exactly what must be corrected in the final delivery, referring to the agreed scope and evidence."></textarea><label><input type="checkbox" id="finalAck"> I reviewed both sides. This authorizes one final revision and preserves the original dispute and customer follow-up rights.</label><div class="actions"><button class="btn" type="button" id="authorizeFinal">Authorize Final Revision</button></div></div><p id="finalRevisionMessage" class="message" role="status"></p></section>
+<section class="section" id="followupSection" hidden><h3>🛡️ Customer follow-up — original case</h3><div id="followupDetails"></div><div id="followupForm" hidden><label for="followupResponse">Super Admin response (20–3000 characters)</label><textarea id="followupResponse" minlength="20" maxlength="3000" placeholder="Explain your review and next steps. Reviewing does not trigger a refund or complete the order."></textarea><div class="actions"><button class="btn" type="button" id="reviewFollowup">Record Review</button></div></div><p class="message" id="followupMessage" role="status"></p></section>
+<section class="section" id="finalDeterminationSection" hidden><h3>⚖️ Final Determination — one per case</h3><div class="note">This records the final administrative finding. It does NOT complete or cancel the order, execute a refund, or verify a payment. The original agreement and evidence must support the finding.</div><div id="finalDeterminationExisting" class="record" hidden></div><div id="finalDeterminationForm"><label for="determinationFinding">What does the evidence establish?</label><select class="wide" id="determinationFinding"><option value="">Choose finding</option><option value="fulfilled">Agreed requirements fulfilled</option><option value="partially_fulfilled">Partially fulfilled</option><option value="not_fulfilled">Agreed requirements not fulfilled</option></select><label for="determinationResolution">Recommended outcome</label><select class="wide" id="determinationResolution"><option value="">Choose finding first</option></select><div id="determinationRefundBox" hidden><label for="determinationRefund">Recommended refund (MVR, not yet verified)</label><input type="number" id="determinationRefund" min="0.01" step="0.01" placeholder="Amount recommended"></div><label for="determinationReason">Final reasoning (30–5000 characters)</label><textarea id="determinationReason" minlength="30" maxlength="5000" placeholder="Compare the original agreed requirements with actual delivered work and both parties' evidence."></textarea><label><input type="checkbox" id="determinationAck"> I reviewed the agreement, delivery, evidence and revisions. This determination does not transfer money or force the customer to accept work.</label><div class="actions"><button type="button" class="btn" id="recordDetermination">Record Final Determination</button></div></div><p class="message" id="determinationMessage" role="status"></p></section>
+<section class="section" id="decisionSection"><h3>🛡️ Record an Admin Decision</h3><div class="note">This records an administrative recommendation only. It does not settle payments, change order status, authorize refunds or apply commission.</div><label for="decisionChoice">Decision</label><select class="wide" id="decisionChoice"><option value="">Select a decision</option><option value="refund_recommended">Recommend refund</option><option value="revision_recommended">Recommend revision</option><option value="cancel_recommended">Recommend cancellation</option><option value="no_action">No action recommended</option></select><label for="reasoning">Admin reasoning (20–5000 characters)</label><textarea id="reasoning" minlength="20" maxlength="5000" placeholder="Summarize the evidence reviewed, both sides' positions and your reasoning."></textarea><label><input type="checkbox" id="ack"> I understand this creates an audit record only and does not execute a refund or cancellation.</label><div class="actions"><button class="btn" type="button" id="saveDecision">Record Decision</button></div><p id="decisionMessage" class="message" role="status"></p></section>
+</div></section></div></main>
+<script type="module">
+const SUPABASE_URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const SUPABASE_KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id);
+const text=(tag,value)=>{const x=document.createElement(tag);x.textContent=String(value??'');return x};
+const dt=value=>value?new Date(value).toLocaleString():'—';
+const cash=value=>'MVR '+Number(value||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+let sb,orders=[],selected=null,loading=false,caseVersion=0,selectedDecisions=[],selectedFinal=null,selectedFollowup=null,pendingFollowupIds=new Set(),followupsLoadError=false;
+function message(v){$('topMessage').textContent=v}
+function meta(key,value){const d=document.createElement('div');d.className='cell';d.append(text('small',key),text('strong',value));return d}
+function makeRecord(title,body,at){const d=document.createElement('div');d.className='record';d.append(text('strong',title),text('p',body),text('small',dt(at)));return d}
+function renderList(){
+ const term=$('search').value.trim().toLowerCase(),mode=$('statusFilter').value;
+ const rows=orders.filter(o=>{
+  const pending=pendingFollowupIds.has(o.id);
+  const matches=mode==='all'||(mode==='followups'&&pending)||(mode==='disputed'&&o.status==='disputed')||(mode==='attention'&&(pending||o.status==='disputed'));
+  return matches&&(!term||(o.service_title||'').toLowerCase().includes(term)||o.id.toLowerCase().includes(term));
+ }).sort((a,b)=>Number(pendingFollowupIds.has(b.id))-Number(pendingFollowupIds.has(a.id)));
+ $('orders').replaceChildren();
+ if(!rows.length){$('orders').append(text('p',followupsLoadError?'Customer follow-ups could not be checked. Try Refresh; do not assume there are no pending reviews.':'No matching Skills orders.'));return}
+ for(const o of rows){
+  const b=document.createElement('button');b.className='order'+(o.id===selected?.id?' selected':'');b.type='button';b.append(text('strong',o.service_title||'Service order'));
+  if(pendingFollowupIds.has(o.id)){const alert=text('span','🛡️ CUSTOMER REVIEW PENDING');alert.className='badge';alert.style.background='#ffe7c0';alert.style.color='#77450b';b.append(alert)}
+  const badge=text('span',o.status.toUpperCase());badge.className='badge'+(o.status!=='disputed'?' closed':'');b.append(badge,text('small','Order '+o.id.slice(0,8)+' · '+cash(o.agreed_price_mvr)),text('small','Created '+dt(o.created_at)));
+  b.onclick=()=>selectCase(o);$('orders').append(b);
+ }
+}
+async function loadPendingFollowups(){
+ // Fetch independently: submitted orders with an open follow-up must not disappear.
+ const {data,error}=await sb.from('meg_skills_final_revision_followups').select('order_id').eq('status','open').limit(1000);
+ followupsLoadError=!!error;
+ if(error){$('countPending').textContent='—';return 'Customer follow-ups could not be loaded: '+error.message}
+ pendingFollowupIds=new Set((data||[]).map(x=>x.order_id));
+ $('countPending').textContent= data?.length===1000?'1000+':String(pendingFollowupIds.size);
+ return data?.length===1000?'Pending follow-up list reached 1000 records; pagination will be needed.':'';
+}
+async function loadTotals(){
+ const [evidence,decisions]=await Promise.all([
+  sb.from('meg_skills_dispute_evidence').select('id',{count:'exact',head:true}),
+  sb.from('meg_skills_dispute_decisions').select('id',{count:'exact',head:true})
+ ]);
+ $('countEvidence').textContent=evidence.error?'—':String(evidence.count??0);
+ $('countDecisions').textContent=decisions.error?'—':String(decisions.count??0);
+ if(evidence.error||decisions.error)message('Some dashboard totals could not load. Select a case to review its records.');
+}
+async function loadOrders(preferred){if(loading)return;loading=true;$('refresh').disabled=true;message('Loading Skills cases…');
+ try{const {data,error}=await sb.from('meg_skills_orders').select('id,service_title,requirements,status,customer_id,freelancer_id,agreed_price_mvr,deadline,dispute_reason,created_at,delivery_note').order('created_at',{ascending:false}).limit(200);if(error)throw error;orders=data||[];$('countDisputed').textContent=orders.filter(x=>x.status==='disputed').length;const followupWarning=await loadPendingFollowups();await loadTotals();renderList();const next=orders.find(o=>o.id===(preferred||selected?.id));if(next)await selectCase(next);else {++caseVersion;selected=null;selectedDecisions=[];$('case').hidden=true;$('empty').hidden=false;}message('Loaded '+orders.length+' recent Skills orders. '+(followupWarning|| (pendingFollowupIds.size?'Pending customer reviews are highlighted first.':'')));}
+ catch(e){message('Could not load Skills orders: '+e.message)}finally{loading=false;$('refresh').disabled=false}
+}
+async function selectCase(o){const version=++caseVersion;selected=o;selectedDecisions=[];selectedFinal=null;selectedFollowup=null;renderList();$('empty').hidden=true;$('case').hidden=false;
+ $('caseMeta').replaceChildren(meta('Order ID',o.id),meta('Status',o.status.toUpperCase()),meta('Service',o.service_title),meta('Agreed fee',cash(o.agreed_price_mvr)),meta('Deadline',o.deadline||'—'),meta('Created',dt(o.created_at)));
+ $('complaint').replaceChildren(text('p',o.dispute_reason||'No dispute statement recorded on the order.'));
+ $('evidenceList').replaceChildren(text('p','Loading statements…'));$('decisionsList').replaceChildren(text('p','Loading decisions…'));
+ $('decisionSection').hidden=o.status!=='disputed';$('decisionMessage').textContent='';$('ack').checked=false;
+ $('finalDeterminationSection').hidden=true;$('finalDeterminationExisting').hidden=true;$('finalDeterminationForm').hidden=false;$('determinationMessage').textContent='';$('finalRevisionSection').hidden=true;$('followupSection').hidden=true;$('finalRevisionMessage').textContent='';$('followupMessage').textContent='';$('finalRevisionForm').hidden=true;$('followupForm').hidden=true;
+ try{
+  const [ev,ds,fl,fr,fu,pc,fd]=await Promise.all([
+   sb.from('meg_skills_dispute_evidence').select('id,submitted_by,statement,storage_path,created_at').eq('order_id',o.id).order('created_at',{ascending:true}).limit(150),
+   sb.from('meg_skills_dispute_decisions').select('id,decided_by,decision,reasoning,created_at').eq('order_id',o.id).order('created_at',{ascending:false}).limit(100),
+   sb.from('meg_skills_freelancers').select('user_id,display_name').eq('id',o.freelancer_id).maybeSingle(),
+   sb.from('meg_skills_final_revisions').select('order_id,authorized_by,decision_id,instructions,authorized_at').eq('order_id',o.id).maybeSingle(),
+   sb.from('meg_skills_final_revision_followups').select('order_id,customer_id,message,status,created_at,reviewed_at,admin_response').eq('order_id',o.id).maybeSingle(),
+   sb.from('meg_skills_order_changes').select('id').eq('order_id',o.id).eq('change_type','revision_requested').eq('pending',true).limit(1),
+   sb.from('meg_skills_final_determinations').select('finding,resolution,reasoning,refund_amount_mvr,refund_status,created_at').eq('order_id',o.id).maybeSingle()
+  ]);
+  if(version!==caseVersion)return;
+  const label=id=>id===o.customer_id?'Customer':id===fl.data?.user_id?'Freelancer':id;
+  $('evidenceList').replaceChildren();$('decisionsList').replaceChildren();
+  if(ev.error)$('evidenceList').append(text('p','Evidence unavailable: '+ev.error.message));
+  else {const list=ev.data||[];if(!list.length)$('evidenceList').append(text('p','No supporting evidence submitted yet.'));
+   for(const r of list){const card=makeRecord(label(r.submitted_by),r.statement,r.created_at);if(r.storage_path){const btn=text('button','🔒 Open private evidence');btn.type='button';btn.className='btn alt';btn.onclick=async()=>{btn.disabled=true;try{const {data,error}=await sb.storage.from('meg-skills-dispute-evidence').createSignedUrl(r.storage_path,120);if(error)throw error;const link=document.createElement('a');link.href=data.signedUrl;link.target='_blank';link.rel='noopener noreferrer';document.body.append(link);link.click();link.remove()}catch(e){alert('Evidence unavailable: '+e.message)}finally{btn.disabled=false}};card.append(btn)}$('evidenceList').append(card)}
+  }
+  $('finalRevisionSection').hidden=!(o.status==='disputed'||fr.data);
+  $('followupSection').hidden=!(fr.data||fu.data);
+  if(fr.error){$('finalRevisionSection').hidden=false;$('finalRevisionStatus').textContent='Unable to verify authorization: '+fr.error.message;}
+  else if(fr.data){selectedFinal=fr.data;$('finalRevisionStatus').textContent='✓ Final revision authorized on '+dt(fr.data.authorized_at)+' — '+fr.data.instructions;$('finalRevisionForm').hidden=true;}
+  else if(o.status==='disputed'){
+   const latest=ds.data?.[0];
+   if(ds.error||pc.error){$('finalRevisionStatus').textContent='Cannot verify all eligibility checks. '+(ds.error?.message||pc.error?.message);}
+   else if(latest?.decision!=='revision_recommended'){$('finalRevisionStatus').textContent='A latest Admin recommendation of revision_recommended is required before authorization.';}
+   else if((pc.data||[]).length){$('finalRevisionStatus').textContent='A previous revision is still pending. Authorization is blocked until that existing revision is resolved; no changes were made.';}
+   else {$('finalRevisionStatus').textContent='Latest Admin recommendation: revision. Confirm final instructions before authorization. Payment and other checks are enforced in Supabase.';$('finalRevisionForm').hidden=false;}
+  }
+  if(fu.error){$('followupSection').hidden=false;$('followupDetails').replaceChildren(text('p','Follow-up unavailable: '+fu.error.message));}
+  else if(fu.data){selectedFollowup=fu.data;$('followupSection').hidden=false;$('followupDetails').replaceChildren(makeRecord('Customer follow-up · '+fu.data.status,fu.data.message,fu.data.created_at));if(fu.data.status==='open'){$('followupForm').hidden=false;}else {$('followupDetails').append(makeRecord('Admin response',fu.data.admin_response,fu.data.reviewed_at));}}
+  else if(fr.data){$('followupDetails').replaceChildren(text('p','No customer follow-up recorded yet.'));}
+  if(fd.error){$('finalDeterminationSection').hidden=false;$('finalDeterminationExisting').hidden=false;$('finalDeterminationForm').hidden=true;$('finalDeterminationExisting').textContent='Unable to check final determination: '+fd.error.message;}
+  else if(fd.data){$('finalDeterminationSection').hidden=false;$('finalDeterminationExisting').hidden=false;$('finalDeterminationForm').hidden=true;$('finalDeterminationExisting').replaceChildren(makeRecord('FINAL · '+fd.data.finding.replaceAll('_',' ')+' · '+fd.data.resolution.replaceAll('_',' '),fd.data.reasoning+'\nRecommended refund: '+(fd.data.refund_amount_mvr==null?'None specified':cash(fd.data.refund_amount_mvr))+'; refund NOT VERIFIED.',fd.data.created_at));}
+  else if((o.status==='submitted'||o.status==='disputed')&&ds.data?.length&&fu.data?.status!=='open'&&!pc.data?.length){$('finalDeterminationSection').hidden=false;}
+  if(ds.error)$('decisionsList').append(text('p','Decisions unavailable: '+ds.error.message));
+  else {const list=ds.data||[];selectedDecisions=list;if(!list.length)$('decisionsList').append(text('p','No decision recorded yet.'));for(const [i,d] of list.entries()){const record=makeRecord((i===0?'LATEST · ':'')+d.decision.replaceAll('_',' '),d.reasoning,d.created_at);if(i===0){record.style.border='2px solid #0c9d81';record.style.background='#ecfaf4'}$('decisionsList').append(record)}}
+ }catch(e){if(version===caseVersion)$('decisionMessage').textContent='Case loading error: '+e.message}
+}
+function configureDetermination(){
+ const finding=$('determinationFinding').value, options=finding==='fulfilled'?[['completion_recommended','Recommend completion']]:finding==='partially_fulfilled'?[['partial_refund_recommended','Recommend partial refund']]:finding==='not_fulfilled'?[['refund_recommended','Recommend refund'],['cancellation_recommended','Recommend cancellation (refund separate)']]:[];
+ const select=$('determinationResolution');select.replaceChildren(new Option('Choose an outcome',''));for(const [id,label] of options)select.add(new Option(label,id));$('determinationRefundBox').hidden=finding!=='partially_fulfilled'&&finding!=='not_fulfilled';$('determinationRefund').required=finding==='partially_fulfilled';
+}
+$('determinationFinding').onchange=configureDetermination;
+$('recordDetermination').onclick=async()=>{
+ if(!selected)return;const finding=$('determinationFinding').value,resolution=$('determinationResolution').value,reason=$('determinationReason').value.trim(),raw=$('determinationRefund').value.trim(),amount=raw===''?null:Number(raw);
+ if(!finding||!resolution)return $('determinationMessage').textContent='Choose the finding and matching outcome.';
+ if(reason.length<30||reason.length>5000)return $('determinationMessage').textContent='Provide 30–5000 characters of evidence-based reasoning.';
+ if((finding==='partially_fulfilled'&&!(amount>0))||(amount!==null&&(!Number.isFinite(amount)||amount<=0||amount>Number(selected.agreed_price_mvr))))return $('determinationMessage').textContent='Enter a valid recommended refund no greater than the agreed fee.';
+ if(!$('determinationAck').checked)return $('determinationMessage').textContent='Please acknowledge the final-determination safeguards.';
+ if(!confirm('Record ONE FINAL determination for this order? It cannot be repeated or overwritten through this page. No money or order status will change.'))return;
+ const b=$('recordDetermination'),orderId=selected.id;b.disabled=true;$('determinationMessage').textContent='Saving final determination…';
+ try{const {error}=await sb.rpc('meg_skills_record_final_determination',{p_order_id:orderId,p_finding:finding,p_resolution:resolution,p_reasoning:reason,p_refund_amount_mvr:amount});if(error)throw error;await loadOrders(orderId);$('determinationMessage').textContent='✓ Final determination recorded. Order and payments unchanged.';}
+ catch(e){$('determinationMessage').textContent='Not recorded: '+e.message;}finally{b.disabled=false;}
+};
+$('authorizeFinal').onclick=async()=>{
+ if(!selected||selected.status!=='disputed'||selectedFinal)return;
+ const instructions=$('finalInstructions').value.trim(),orderId=selected.id,button=$('authorizeFinal');
+ if(instructions.length<20||instructions.length>3000)return $('finalRevisionMessage').textContent='Instructions must be 20–3000 characters.';
+ if(!$('finalAck').checked)return $('finalRevisionMessage').textContent='Confirm the final authorization first.';
+ if(!confirm('Authorize the ONE final revision for this service order? This reopens the existing order for correction, blocks a new dispute, and keeps the customer follow-up route.'))return;
+ button.disabled=true;$('finalRevisionMessage').textContent='Requesting secure authorization…';
+ try{const {error}=await sb.rpc('meg_skills_authorize_final_revision',{p_order_id:orderId,p_instructions:instructions});if(error)throw error;await loadOrders(orderId);$('finalRevisionMessage').textContent='✓ Final revision authorized. Ask the freelancer to submit corrected work; the customer retains Admin follow-up rights.';}
+ catch(e){$('finalRevisionMessage').textContent='Authorization not applied: '+e.message;}finally{button.disabled=false;}
+};
+$('reviewFollowup').onclick=async()=>{
+ if(!selected||selectedFollowup?.status!=='open')return;
+ const response=$('followupResponse').value.trim(),orderId=selected.id,button=$('reviewFollowup');
+ if(response.length<20||response.length>3000)return $('followupMessage').textContent='Admin response must be 20–3000 characters.';
+ if(!confirm('Record review of this customer follow-up? This does not issue a refund, cancel or complete the order.'))return;
+ button.disabled=true;$('followupMessage').textContent='Recording review…';
+ try{const {error}=await sb.rpc('meg_skills_review_final_revision_followup',{p_order_id:orderId,p_response:response});if(error)throw error;await loadOrders(orderId);$('followupMessage').textContent='✓ Follow-up reviewed. Order status and money were not changed.';}
+ catch(e){$('followupMessage').textContent='Review could not be recorded: '+e.message;}finally{button.disabled=false;}
+};
+$('search').oninput=renderList;$('statusFilter').onchange=renderList;$('refresh').onclick=()=>loadOrders();
+$('saveDecision').onclick=async()=>{
+ if(!selected||selected.status!=='disputed')return;
+ const choice=$('decisionChoice').value,reason=$('reasoning').value.trim();
+ if(!['refund_recommended','revision_recommended','cancel_recommended','no_action'].includes(choice))return $('decisionMessage').textContent='Choose a decision.';
+ if(reason.length<20||reason.length>5000)return $('decisionMessage').textContent='Please provide 20–5000 characters of reasoning.';
+ if(!$('ack').checked)return $('decisionMessage').textContent='Please confirm the decision is an audit recommendation only.';
+ if(selectedDecisions.length && !confirm('This case already has '+selectedDecisions.length+' recorded decision(s). A new recommendation will be added to the audit history, not replace the earlier ones. Continue?'))return;
+ if(!confirm('Record this admin decision? It does not change the order or move money.'))return;
+ const orderId=selected.id,button=$('saveDecision');button.disabled=true;$('decisionMessage').textContent='Recording decision…';
+ try{const {error}=await sb.rpc('meg_skills_record_dispute_decision',{p_order_id:orderId,p_decision:choice,p_reasoning:reason});if(error)throw error;$('reasoning').value='';$('decisionChoice').value='';$('ack').checked=false;await loadOrders(orderId);$('decisionMessage').textContent='✓ Decision recorded. No order or payment status was changed.'}
+ catch(e){$('decisionMessage').textContent='Could not record decision: '+e.message}finally{button.disabled=false}
+};
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ // Match the existing ad-skills.html Super Admin session configuration.
+ sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+ const {data:auth,error:authError}=await sb.auth.getUser();if(authError||!auth?.user)throw new Error('Sign in through the existing Super Admin login first.');
+ const {data:ok,error:adminError}=await sb.rpc('meg_skills_is_admin');if(adminError||ok!==true)throw new Error('Super Admin permission required.');
+ $('gate').hidden=true;$('app').hidden=false;await loadOrders();
+}catch(e){$('gateText').textContent=e?.message||'Unable to verify Super Admin access.'}
+</script></body></html>
