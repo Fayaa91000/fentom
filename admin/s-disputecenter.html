@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081c30"><title>MEG Skills | Admin Dispute Center</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#17304a;background:#eef4f8}*{box-sizing:border-box}body{margin:0}button,select,input,textarea{font:inherit}a{text-decoration:none;color:inherit}header{background:#071e37;color:white;padding:16px 20px}.head{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.brand{font-weight:900;font-size:20px}.head a{color:#c8f5f1;font-size:14px}.wrap{max-width:1180px;margin:24px auto 70px;padding:0 15px}.hero{border-radius:22px;padding:29px;background:linear-gradient(120deg,#092540,#0d7881);color:#fff}.hero small{letter-spacing:.14em;text-transform:uppercase;color:#b7f5ef;font-weight:800}.hero h1{font-size:clamp(27px,4vw,40px);margin:9px 0}.hero p{max-width:770px;color:#d5f2f1;line-height:1.6}.panel{background:white;border:1px solid #d9e5ec;border-radius:18px;padding:21px;margin-top:17px;box-shadow:0 8px 25px #0a35520b}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:17px}.stat{background:#f5f9fc;border:1px solid #dce8ee;padding:16px;border-radius:14px}.stat b{display:block;font-size:27px;color:#0d536c}.stat span{font-size:12px;color:#5e7180}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar input,.toolbar select{padding:11px;border:1px solid #cadce7;border-radius:10px;background:white;min-height:43px}.toolbar input{min-width:210px;flex:1}.btn{border:0;border-radius:11px;background:#087a95;color:white;padding:11px 15px;font-weight:800;cursor:pointer;min-height:43px}.btn.alt{background:#e7f2f5;color:#12435a}.btn:disabled{opacity:.55;cursor:wait}.layout{display:grid;grid-template-columns:minmax(265px,.82fr) minmax(0,1.5fr);gap:16px;align-items:start}.orderlist{display:grid;gap:9px;max-height:70vh;overflow:auto}.order{width:100%;text-align:left;background:#f7fbfd;border:1px solid #dae7ed;border-radius:13px;padding:14px;cursor:pointer;color:#223f54}.order.selected{border:2px solid #008b83;background:#eafaf7}.order strong{display:block;font-size:15px;overflow-wrap:anywhere}.order small{display:block;color:#667f8c;line-height:1.5}.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#ffead5;color:#80501b;font-size:11px;font-weight:900;margin:6px 0}.badge.closed{background:#e6edf1;color:#455a68}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cell{background:#f6f9fb;padding:12px;border-radius:11px;overflow-wrap:anywhere}.cell small{display:block;color:#607587}.cell strong{font-size:14px}.section{margin:20px 0 0;border-top:1px solid #e2eaef;padding-top:17px}.section h3{margin:0 0 9px;font-size:18px}.record{background:#f6fafc;border:1px solid #d8e6eb;border-radius:13px;margin:10px 0;padding:14px;overflow-wrap:anywhere}.record p{white-space:pre-wrap;line-height:1.6}.record small{color:#5a7182}.note{background:#fff8e9;border:1px solid #f0dfa9;border-radius:12px;padding:12px;color:#77551e;font-size:13px}.success{background:#eaf8f0;border:1px solid #b6e7c8;color:#195d3a;border-radius:12px;padding:12px}.message{margin:12px 0;color:#335773;overflow-wrap:anywhere}label{display:block;font-weight:750;font-size:14px;margin:12px 0 6px}textarea,select.wide{width:100%;padding:12px;border:1px solid #c6d8e3;border-radius:12px;color:#16344a;background:white}textarea{min-height:125px;resize:vertical}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.auth{max-width:620px;margin:55px auto;background:white;border:1px solid #dbe5eb;border-radius:20px;text-align:center;padding:30px}.muted{color:#637987;font-size:13px}.hidden,[hidden]{display:none!important}@media(max-width:780px){.layout{grid-template-columns:1fr}.orderlist{max-height:280px}.panel{padding:16px}.grid{grid-template-columns:1fr}}@media(max-width:440px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stat{padding:10px}.stat b{font-size:23px}.hero{padding:22px}}
+</style></head><body>
+<header><div class="head"><span class="brand">✦ MEG Skills · Dispute Center</span><nav><a href="ad-skills.html">← Skills Administration</a> &nbsp; <a href="ad-admin.html">Admin Home</a></nav></div></header>
+<div class="auth" id="gate" role="status"><h2>🔒 Verifying Super Admin</h2><p id="gateText">Checking your existing admin session…</p><a href="ad-admin.html">Return to Admin Login</a></div>
+<main class="wrap" id="app" hidden><section class="hero"><small>Restricted · Super Admin only</small><h1>⚖️ Skills Dispute Center</h1><p>Review disputed service orders, hear both parties, inspect private evidence and record an auditable recommendation. A decision here does not move money, cancel an order or mark it completed.</p><div class="stats"><div class="stat"><b id="countDisputed">0</b><span>Open disputes</span></div><div class="stat"><b id="countEvidence">0</b><span>Evidence records (loaded)</span></div><div class="stat"><b id="countDecisions">0</b><span>Decisions (loaded)</span></div></div></section>
+<section class="panel"><div class="toolbar"><input id="search" type="search" placeholder="Search title or order ID" aria-label="Search dispute orders"><select id="statusFilter" aria-label="Filter orders"><option value="disputed">Disputed orders</option><option value="all">Include other order statuses</option></select><button type="button" class="btn" id="refresh">↻ Refresh</button></div><p class="muted">Up to 200 recent Skills orders are loaded. Older cases require pagination in a future update.</p><p id="topMessage" class="message" role="status"></p></section>
+<div class="layout"><section class="panel"><h2>📋 Service Cases</h2><div id="orders" class="orderlist"></div></section>
+<section class="panel" id="detail"><h2>🔎 Case Review</h2><p id="empty" class="muted">Select a case on the left to see details, evidence and decision history.</p><div id="case" hidden>
+<div class="grid" id="caseMeta"></div><section class="section"><h3>📝 Original complaint</h3><div class="record" id="complaint"></div></section>
+<section class="section"><h3>📁 Evidence from both sides</h3><p class="muted">Statements and private attachments are visible only to authorized order participants and Super Admin.</p><div id="evidenceList"></div></section>
+<section class="section"><h3>📜 Previous decisions</h3><div id="decisionsList"></div></section>
+<section class="section" id="decisionSection"><h3>🛡️ Record an Admin Decision</h3><div class="note">This records an administrative recommendation only. It does not settle payments, change order status, authorize refunds or apply commission.</div><label for="decisionChoice">Decision</label><select class="wide" id="decisionChoice"><option value="">Select a decision</option><option value="refund_recommended">Recommend refund</option><option value="revision_recommended">Recommend revision</option><option value="cancel_recommended">Recommend cancellation</option><option value="no_action">No action recommended</option></select><label for="reasoning">Admin reasoning (20–5000 characters)</label><textarea id="reasoning" minlength="20" maxlength="5000" placeholder="Summarize the evidence reviewed, both sides' positions and your reasoning."></textarea><label><input type="checkbox" id="ack"> I understand this creates an audit record only and does not execute a refund or cancellation.</label><div class="actions"><button class="btn" type="button" id="saveDecision">Record Decision</button></div><p id="decisionMessage" class="message" role="status"></p></section>
+</div></section></div></main>
+<script type="module">
+const SUPABASE_URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const SUPABASE_KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id);
+const text=(tag,value)=>{const x=document.createElement(tag);x.textContent=String(value??'');return x};
+const dt=value=>value?new Date(value).toLocaleString():'—';
+const cash=value=>'MVR '+Number(value||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+let sb,orders=[],selected=null,loading=false,caseVersion=0;
+function message(v){$('topMessage').textContent=v}
+function meta(key,value){const d=document.createElement('div');d.className='cell';d.append(text('small',key),text('strong',value));return d}
+function makeRecord(title,body,at){const d=document.createElement('div');d.className='record';d.append(text('strong',title),text('p',body),text('small',dt(at)));return d}
+function renderList(){
+ const term=$('search').value.trim().toLowerCase(),mode=$('statusFilter').value;
+ const rows=orders.filter(o=>(mode==='all'||o.status==='disputed')&&(!term||(o.service_title||'').toLowerCase().includes(term)||o.id.toLowerCase().includes(term)));
+ $('orders').replaceChildren();if(!rows.length){$('orders').append(text('p','No matching Skills orders.'));return}
+ for(const o of rows){const b=document.createElement('button');b.className='order'+(o.id===selected?.id?' selected':'');b.type='button';b.append(text('strong',o.service_title||'Service order'));const badge=text('span',o.status.toUpperCase());badge.className='badge'+(o.status!=='disputed'?' closed':'');b.append(badge,text('small','Order '+o.id.slice(0,8)+' · '+cash(o.agreed_price_mvr)),text('small','Created '+dt(o.created_at)));b.onclick=()=>selectCase(o);$('orders').append(b)}
+}
+async function loadOrders(preferred){if(loading)return;loading=true;$('refresh').disabled=true;message('Loading Skills cases…');
+ try{const {data,error}=await sb.from('meg_skills_orders').select('id,service_title,requirements,status,customer_id,freelancer_id,agreed_price_mvr,deadline,dispute_reason,created_at,delivery_note').order('created_at',{ascending:false}).limit(200);if(error)throw error;orders=data||[];$('countDisputed').textContent=orders.filter(x=>x.status==='disputed').length;renderList();const next=orders.find(o=>o.id===(preferred||selected?.id));if(next)await selectCase(next);else {selected=null;$('case').hidden=true;$('empty').hidden=false;}message('Loaded '+orders.length+' Skills orders.');}
+ catch(e){message('Could not load Skills orders: '+e.message)}finally{loading=false;$('refresh').disabled=false}
+}
+async function selectCase(o){const version=++caseVersion;selected=o;renderList();$('empty').hidden=true;$('case').hidden=false;
+ $('caseMeta').replaceChildren(meta('Order ID',o.id),meta('Status',o.status.toUpperCase()),meta('Service',o.service_title),meta('Agreed fee',cash(o.agreed_price_mvr)),meta('Deadline',o.deadline||'—'),meta('Created',dt(o.created_at)));
+ $('complaint').replaceChildren(text('p',o.dispute_reason||'No dispute statement recorded on the order.'));
+ $('evidenceList').replaceChildren(text('p','Loading statements…'));$('decisionsList').replaceChildren(text('p','Loading decisions…'));
+ $('decisionSection').hidden=o.status!=='disputed';$('decisionMessage').textContent='';$('ack').checked=false;
+ try{
+  const [ev,ds,fl]=await Promise.all([
+   sb.from('meg_skills_dispute_evidence').select('id,submitted_by,statement,storage_path,created_at').eq('order_id',o.id).order('created_at',{ascending:true}).limit(150),
+   sb.from('meg_skills_dispute_decisions').select('id,decided_by,decision,reasoning,created_at').eq('order_id',o.id).order('created_at',{ascending:false}).limit(100),
+   sb.from('meg_skills_freelancers').select('user_id,display_name').eq('id',o.freelancer_id).maybeSingle()
+  ]);
+  if(version!==caseVersion)return;
+  const label=id=>id===o.customer_id?'Customer':id===fl.data?.user_id?'Freelancer':id;
+  $('evidenceList').replaceChildren();$('decisionsList').replaceChildren();
+  if(ev.error)$('evidenceList').append(text('p','Evidence unavailable: '+ev.error.message));
+  else {const list=ev.data||[];$('countEvidence').textContent=list.length;if(!list.length)$('evidenceList').append(text('p','No supporting evidence submitted yet.'));
+   for(const r of list){const card=makeRecord(label(r.submitted_by),r.statement,r.created_at);if(r.storage_path){const btn=text('button','🔒 Open private evidence');btn.type='button';btn.className='btn alt';btn.onclick=async()=>{btn.disabled=true;try{const {data,error}=await sb.storage.from('meg-skills-dispute-evidence').createSignedUrl(r.storage_path,120);if(error)throw error;const link=document.createElement('a');link.href=data.signedUrl;link.target='_blank';link.rel='noopener noreferrer';document.body.append(link);link.click();link.remove()}catch(e){alert('Evidence unavailable: '+e.message)}finally{btn.disabled=false}};card.append(btn)}$('evidenceList').append(card)}
+  }
+  if(ds.error)$('decisionsList').append(text('p','Decisions unavailable: '+ds.error.message));
+  else {const list=ds.data||[];$('countDecisions').textContent=list.length;if(!list.length)$('decisionsList').append(text('p','No decision recorded yet.'));for(const d of list){$('decisionsList').append(makeRecord(d.decision.replaceAll('_',' '),d.reasoning,d.created_at))}}
+ }catch(e){if(version===caseVersion)$('decisionMessage').textContent='Case loading error: '+e.message}
+}
+$('search').oninput=renderList;$('statusFilter').onchange=renderList;$('refresh').onclick=()=>loadOrders();
+$('saveDecision').onclick=async()=>{
+ if(!selected||selected.status!=='disputed')return;
+ const choice=$('decisionChoice').value,reason=$('reasoning').value.trim();
+ if(!['refund_recommended','revision_recommended','cancel_recommended','no_action'].includes(choice))return $('decisionMessage').textContent='Choose a decision.';
+ if(reason.length<20||reason.length>5000)return $('decisionMessage').textContent='Please provide 20–5000 characters of reasoning.';
+ if(!$('ack').checked)return $('decisionMessage').textContent='Please confirm the decision is an audit recommendation only.';
+ if(!confirm('Record this admin decision? It does not change the order or move money.'))return;
+ const orderId=selected.id,button=$('saveDecision');button.disabled=true;$('decisionMessage').textContent='Recording decision…';
+ try{const {error}=await sb.rpc('meg_skills_record_dispute_decision',{p_order_id:orderId,p_decision:choice,p_reasoning:reason});if(error)throw error;$('reasoning').value='';$('decisionChoice').value='';$('ack').checked=false;await loadOrders(orderId);$('decisionMessage').textContent='✓ Decision recorded. No order or payment status was changed.'}
+ catch(e){$('decisionMessage').textContent='Could not record decision: '+e.message}finally{button.disabled=false}
+};
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ // Match the existing ad-skills.html Super Admin session configuration.
+ sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+ const {data:auth,error:authError}=await sb.auth.getUser();if(authError||!auth?.user)throw new Error('Sign in through the existing Super Admin login first.');
+ const {data:ok,error:adminError}=await sb.rpc('meg_skills_is_admin');if(adminError||ok!==true)throw new Error('Super Admin permission required.');
+ $('gate').hidden=true;$('app').hidden=false;await loadOrders();
+}catch(e){$('gateText').textContent=e?.message||'Unable to verify Super Admin access.'}
+</script></body></html>
