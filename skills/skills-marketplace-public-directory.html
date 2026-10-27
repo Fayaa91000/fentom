@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071b31"><title>MEG Skills | Creative Professionals & Portfolios</title>
+<style>
+:root{--navy:#081c31;--deep:#0c2e49;--teal:#17baaa;--ink:#142b41;--muted:#65788a;--line:#dce7ef;--bg:#f0f5fb}
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg)}
+a{text-decoration:none;color:inherit}button,input,select{font:inherit}button{cursor:pointer}
+.wrap{max-width:1200px;margin:auto;padding:0 22px}
+header{background:#07182c;color:white}.bar{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:80px}
+.brand{font-size:24px;font-weight:850;letter-spacing:-.7px}.brand em{font-style:normal;color:#63e3d2}
+nav{display:flex;gap:20px;align-items:center;flex-wrap:wrap;font-size:14px;color:#d1e1ee}
+.hero{background:radial-gradient(ellipse at 85% 30%,#11998e65,transparent 40%),linear-gradient(130deg,#07182c,#0b3d5b 65%,#0b676b);color:white;padding:64px 0 80px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:410px;height:410px;border:2px solid #ffffff13;border-radius:50%;right:-145px;bottom:-260px;box-shadow:0 0 0 50px #ffffff08,0 0 0 110px #ffffff05;pointer-events:none}
+.hero h1{font-size:clamp(38px,6vw,62px);line-height:1.08;letter-spacing:-2px;margin:12px 0 18px;max-width:730px}
+.hero p{color:#d2e9ee;max-width:650px;font-size:17px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.17em;color:#85efe0;font-weight:800}
+.pill{display:inline-block;border:1px solid #ffffff75;border-radius:80px;padding:7px 13px;font-size:12px;background:#ffffff17;font-weight:750}
+.main{margin-top:-35px;position:relative;padding-bottom:65px}.panel{background:white;border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 45px #0c375017}
+.controls{padding:20px;display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:12px;align-items:end}.field label{display:block;margin-bottom:7px;font-size:12px;font-weight:800;color:#526b80}
+input,select{display:block;width:100%;border:1px solid #ccdae5;border-radius:12px;background:#f9fcfe;padding:13px 12px;color:#172b41;outline:none;min-height:48px}input:focus,select:focus{border-color:#10aa9c;box-shadow:0 0 0 3px #10aa9c26}
+.btn{border:0;border-radius:12px;padding:12px 17px;min-height:48px;background:#0b7899;color:white;font-weight:800;display:inline-grid;place-items:center;box-shadow:0 5px 13px #09527224}.btn:hover{background:#075b76}.btn.alt{background:#e7f3f6;color:#16425a;box-shadow:none}.btn[disabled]{opacity:.5;cursor:not-allowed}
+.notice{padding:14px 17px;margin-top:22px;background:#fff7e7;color:#6a4c1e;border:1px solid #ebd6a8;border-radius:15px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:38px 0 17px}.sectionhead h2{font-size:29px;letter-spacing:-.8px;margin:0}.sectionhead p{margin:5px 0 0;color:var(--muted)}
+#count{color:var(--muted);font-size:13px;font-weight:800}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.card{overflow:hidden;border-radius:22px;background:white;border:1px solid var(--line);box-shadow:0 14px 40px #113b5612;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-4px);box-shadow:0 25px 45px #113b5624}
+.cover{height:175px;position:relative;background:radial-gradient(circle at 75% 25%,#1edbc97a,transparent 50%),linear-gradient(130deg,#102a45,#0a8385);overflow:hidden}
+.cover img{height:100%;width:100%;object-fit:cover}.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0d203c35,transparent 65%);pointer-events:none}
+.owner{padding:0 20px 20px}.av{height:85px;width:85px;margin-top:-45px;border:5px solid white;border-radius:21px;background:linear-gradient(145deg,#073850,#17adad);display:grid;place-items:center;font-weight:900;color:white;position:relative;z-index:1;font-size:26px;box-shadow:0 10px 20px #0002;overflow:hidden}.av img{width:100%;height:100%;object-fit:cover}
+.name{font-size:23px;line-height:1.25;margin:14px 0 7px;overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:7px}.chip{border-radius:50px;background:#e8f9f6;color:#0c6863;padding:5px 10px;font-size:11px;font-weight:800}.chip.ok{background:#e3f7e8;color:#186638}
+.desc{margin:12px 0 16px;color:#50687c;min-height:46px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.line{border-top:1px solid #e5ecf2;padding-top:15px;margin-top:12px;display:flex;justify-content:space-between;gap:10px;align-items:center}.price{font-size:23px;color:#103e5a;font-weight:900}.sub{display:block;font-size:11px;color:#72879b;font-weight:750}
+.card .btn{font-size:13px;padding:9px 12px}
+.empty{grid-column:1/-1;border:1px dashed #b8cfdd;border-radius:18px;padding:32px;background:#ffffffad;text-align:center;color:#52687d}
+.login{padding:18px 20px;margin-top:18px}.login h3{margin:0 0 7px}.login p{margin:4px 0 12px;color:var(--muted)}.loginfields{display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px}.status{margin:10px 0 0;color:#526b81;font-size:13px}
+.bottom{margin-top:36px;padding:22px;background:#e6eff6;border-radius:20px;color:#425d75}.bottom strong{color:#203d54}
+footer{padding:24px;text-align:center;background:#07182c;color:#a9c1d1;font-size:13px}
+@media(max-width:950px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr 1fr}.loginfields{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.wrap{padding:0 15px}.bar{align-items:start;flex-direction:column;padding-top:16px;padding-bottom:16px;gap:8px}nav{gap:12px;font-size:12px}.hero{padding:43px 0 72px}.hero h1{letter-spacing:-1.3px}.controls{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.loginfields{grid-template-columns:1fr}.sectionhead h2{font-size:24px}}
+
+/* Public read-only portfolio preview; no private media access */
+.preview-backdrop{position:fixed;inset:0;background:#06192ddd;z-index:50;display:grid;place-items:center;padding:14px;overflow:auto}
+.preview-dialog{background:white;border-radius:23px;width:min(880px,100%);max-height:94vh;overflow:auto;box-shadow:0 24px 80px #0006}
+.preview-top{display:flex;align-items:center;justify-content:space-between;padding:18px 23px;border-bottom:1px solid var(--line);gap:10px;position:sticky;top:0;background:#fff;z-index:2}
+.preview-top h2{font-size:20px;margin:0}.preview-body{padding:22px}.preview-summary{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.preview-summary .av{margin:0;flex-shrink:0;height:76px;width:76px;border:0}.preview-summary h3{margin:0;font-size:26px}.preview-summary p{margin:4px 0;color:var(--muted)}
+.preview-cover{height:210px;border-radius:15px;object-fit:cover;width:100%;margin:15px 0}.preview-info{background:#f2f8fb;padding:15px;border-radius:13px;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:15px}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.portfolio-item{margin:0;border:1px solid var(--line);padding:9px;border-radius:14px;overflow:hidden}.portfolio-item img,.portfolio-item video{display:block;width:100%;height:185px;object-fit:contain;background:#f2f6fa;border-radius:9px}.portfolio-item figcaption{font-size:13px;color:#50677d;padding:7px 2px;overflow-wrap:anywhere}.preview-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.preview-actions a{flex:1;text-align:center;min-width:180px}.preview-muted{color:var(--muted);font-size:13px}
+.card .btn{cursor:pointer}.card .cover{cursor:pointer}.card:focus-within{outline:2px solid #17baaa;outline-offset:3px}
+@media(max-width:580px){.preview-body{padding:15px}.portfolio-grid{grid-template-columns:1fr}.preview-top{padding:13px 15px}.preview-cover{height:145px}}
+
+/* MEG premium discovery design — isolated from all existing order workflows */
+:root{--bg:#f4f7fb;--teal:#0dbfad;--navy:#07172b} html{scroll-behavior:smooth}body{background:var(--bg)}
+header{background:#071729}.brand{letter-spacing:-.7px}.bar{min-height:77px}
+.hero{padding:78px 0 112px;background:radial-gradient(circle at 60% 12%,#178f9666,transparent 34%),linear-gradient(125deg,#07172a,#0c344c 58%,#076b70)}
+.hero:after{display:none}.hero-composition{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(270px,.88fr);gap:35px;align-items:center}
+.hero h1{font-size:clamp(44px,6.1vw,76px);letter-spacing:-2.4px;line-height:1.06;margin:18px 0 24px}.hero-accent{color:#6ce3c9}.hero p{line-height:1.8;font-size:17px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0}.hero-primary{background:#6ce3c9;color:#06323b;min-height:52px}.hero-outline{border:1px solid #9ad8d8;border-radius:12px;color:#fff;padding:12px 20px;font-weight:800;display:inline-flex;align-items:center;text-decoration:none}.hero .pill{border-color:#8dc2c880;background:#ffffff0b}
+.hero-art{min-height:352px;position:relative;display:grid;place-items:center}.art-glow{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:#34d4c150;filter:blur(50px)}.art-window{position:relative;width:88%;background:#fff;border:1px solid #d9f6ee;border-radius:22px;padding:11px;transform:rotate(4deg);box-shadow:0 35px 85px #001a2c80}.art-top{display:flex;gap:5px;align-items:center;padding:7px 7px 14px}.art-top i{width:7px;height:7px;border-radius:50%;background:#d1dde3}.art-top i:first-child{background:#ffb6a7}.art-top b{margin-left:auto;color:#69838e;font-size:9px;letter-spacing:1.3px}.art-visual{height:245px;border-radius:14px;position:relative;overflow:hidden;background:linear-gradient(125deg,#13415f 10%,#188d8a 65%,#7ed5a7)}.art-shape{position:absolute;border-radius:50%}.art-shape.one{height:190px;width:190px;background:#95eacc;right:-30px;top:-70px}.art-shape.two{height:180px;width:180px;background:#195277;left:-45px;bottom:-80px}.art-shape.three{height:110px;width:110px;background:#d6f4a9;right:65px;bottom:-65px}.art-text{position:absolute;top:58px;left:25px;font-size:49px;line-height:1;font-weight:950;color:#fff;letter-spacing:-2px}.art-text em{font-style:normal;color:#bbffce}.art-footer{display:flex;justify-content:space-between;color:#4d6d77;font-size:10px;font-weight:900;letter-spacing:1px;padding:14px 6px 4px}.float-chip{position:absolute;background:#f7fffc;color:#145866;border-radius:40px;padding:10px 17px;font-weight:900;box-shadow:0 15px 40px #00253550;z-index:1}.float-one{top:24px;left:0;transform:rotate(-8deg)}.float-two{bottom:27px;right:0;transform:rotate(8deg)}
+.main{margin-top:-55px}.category-showcase{position:relative;z-index:2;background:white;padding:27px 30px 30px;border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 45px #102c4c18;margin-bottom:28px}.category-showcase h2{font-size:29px;line-height:1.2;letter-spacing:-.8px;margin:9px 0}.category-showcase p{margin:0 0 23px;color:#667d8d}.eyeline{font-size:11px;font-weight:950;letter-spacing:2px;color:#068c82}.category-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px}.category-grid button{background:#f2f8f9;border:1px solid #e0eeee;border-radius:16px;padding:16px 8px;text-align:center;color:#153c4d;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;min-height:126px;transition:.2s}.category-grid button:hover{transform:translateY(-3px);background:#dff7f2;border-color:#8bdad0}.category-grid button span{font-size:29px;color:#087d7e}.category-grid button strong{font-size:13px}.category-grid button small{font-size:10px;color:#63828f}
+.controls{box-shadow:0 14px 36px #0c375014}.cards{gap:22px}.card{border-radius:22px}.cover{height:205px}.card .owner{padding-bottom:23px}.card .btn{min-height:43px}.cover-symbol{font-size:78px;font-weight:900;color:#b6fff1;position:absolute;left:22px;top:26px;z-index:1;text-shadow:0 8px 20px #092a4566}.cover-kind{position:absolute;bottom:18px;right:19px;z-index:1;color:#fff;font-size:12px;font-weight:900;letter-spacing:.07em;text-transform:uppercase}.preview-backdrop[hidden]{display:none!important}.preview-dialog{outline:none}.status{margin:20px 0}.bottom{border:1px solid #d5e6ed;background:#eaf4f6}.notice{background:#fff8ec}
+@media(max-width:900px){.category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-composition{grid-template-columns:1fr 0.7fr;gap:8px}.hero-art{min-height:280px}.art-visual{height:205px}.art-text{font-size:36px}}
+@media(max-width:670px){.hero-composition{grid-template-columns:1fr}.hero{padding:48px 0 90px}.hero-art{display:none}.hero h1{font-size:clamp(40px,10vw,57px)}.category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.category-showcase{padding:20px 15px}.category-showcase h2{font-size:25px}.category-grid button{min-height:103px}.category-grid button small{display:none}.controls{padding:16px}}
+@media(max-width:360px){.category-grid{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body><header><div class="wrap bar"><a href="../index.html" class="brand">✦ MEG <em>SKILLS</em></a><nav><a href="../index.html">Homepage</a><a href="s-register.html">Become a Freelancer</a><a href="skills.html">About Skills</a></nav></div></header>
+<section class="hero"><div class="wrap hero-composition"><div class="hero-copy"><span class="eyebrow">✦ MALDIVES ENTREPRENEURS GATEWAY · SKILLS</span><h1>Big ideas deserve <span class="hero-accent">brilliant talent.</span></h1><p>Explore creative professionals, discover inspiring portfolio work, and find the right skill for your next project.</p><div class="hero-actions"><a href="#discover" class="btn hero-primary">Explore the marketplace ↗</a><a href="s-register.html" class="hero-outline">Showcase your skills</a></div><span class="pill">Development preview · No real orders or payments</span></div><div class="hero-art" aria-hidden="true"><div class="art-glow"></div><div class="art-window"><div class="art-top"><i></i><i></i><i></i><b>CREATIVE WORKSPACE</b></div><div class="art-visual"><span class="art-shape one"></span><span class="art-shape two"></span><span class="art-shape three"></span><div class="art-text">CREATE<br><em>MORE.</em></div></div><div class="art-footer"><span>PORTFOLIO / 2026</span><span>✳ MEG SKILLS</span></div></div><div class="float-chip float-one">✦ Design</div><div class="float-chip float-two">◉ Digital</div></div></div></section>
+<main class="wrap main" id="discover"><section class="category-showcase" aria-label="Explore professional categories"><div class="eyeline">EXPLORE WHAT'S POSSIBLE</div><h2>Find a skill for every idea.</h2><p>Choose a category to discover available professional portfolios.</p><div class="category-grid"><button data-explore="Website" type="button"><span>⌘</span><strong>Web & Tech</strong><small>Sites & digital work</small></button><button data-explore="Design" type="button"><span>✳</span><strong>Design & Brand</strong><small>Visual identities</small></button><button data-explore="Video" type="button"><span>▶</span><strong>Video & Motion</strong><small>Stories that move</small></button><button data-explore="Writing" type="button"><span>✎</span><strong>Writing</strong><small>Words with impact</small></button><button data-explore="Photography" type="button"><span>◎</span><strong>Photography</strong><small>Captured moments</small></button><button data-explore="" type="button"><span>＋</span><strong>All Skills</strong><small>Explore everything</small></button></div></section>
+ <div class="panel controls">
+ <div class="field"><label for="search">Search services or studios</label><input id="search" placeholder="Web design, Creative Studio…" autocomplete="off"></div>
+ <div class="field"><label for="category">Category</label><select id="category"><option value="">All categories</option></select></div>
+ <div class="field"><label for="sort">Sort listings</label><select id="sort"><option value="new">Newest first</option><option value="low">Lowest starting price</option><option value="high">Highest starting price</option><option value="az">Name A–Z</option></select></div>
+ <button class="btn alt" id="clear" type="button">Clear</button>
+ </div>
+ 
+ <div class="notice" id="browseNotice"><strong>Public browsing preview.</strong> No login is required to explore approved professional listings. Work-sample media remains private until a dedicated approved public-media service is enabled. No real commercial transactions are available.</div>
+ <p id="status" class="status" role="status" aria-live="polite">Loading approved public profiles…</p>
+ <div class="sectionhead"><div><div class="eyeline">MEET THE CREATORS</div><h2>Discover professionals</h2><p>Explore approved portfolios and their work, no sign-in required for browsing.</p></div><div id="count">Loading…</div></div>
+ <div class="cards" id="cards"><div class="empty">Loading approved portfolios…</div></div>
+ <div class="bottom"><strong>For skilled professionals:</strong> Free freelancer registration is under testing. MEG's proposed fee is 12% of successfully completed service orders after commercial launch, subject to final terms. This page is a test discovery preview; no live commerce is enabled here.</div>
+</main><div class="preview-backdrop" id="previewOverlay" hidden><section class="preview-dialog" id="previewDialog" role="dialog" aria-modal="true" aria-labelledby="previewTitle" tabindex="-1"><div class="preview-top"><h2 id="previewTitle">Professional portfolio</h2><button type="button" class="btn alt" id="closePreview" aria-label="Close portfolio">✕ Close</button></div><div class="preview-body" id="previewContent"></div></section></div><footer>MEG Skills · Maldives Entrepreneurs Gateway · Test preview 2026</footer>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id), status=t=>$('status').textContent=t;
+let sb,profiles=[],images=new Map(),previewTicket=0,lastFocus=null,listingError='';
+function el(tag,cls,content){const node=document.createElement(tag);if(cls)node.className=cls;if(content!==undefined)node.textContent=String(content);return node}
+function nicePrice(num){const n=Number(num);return Number.isFinite(n)?'MVR '+n.toLocaleString('en-US',{maximumFractionDigits:2}):'Ask price'}
+function filter(){
+ const term=$('search').value.trim().toLowerCase(),cat=$('category').value,sort=$('sort').value;
+ let arr=profiles.filter(p=>(!cat||p.category===cat)&&(!term||[p.display_name,p.service_title,p.service_description,p.category,p.island,p.public_tagline].some(v=>String(v||'').toLowerCase().includes(term))));
+ arr.sort((a,b)=>sort==='low'?Number(a.starting_price_mvr)-Number(b.starting_price_mvr):sort==='high'?Number(b.starting_price_mvr)-Number(a.starting_price_mvr):sort==='az'?a.display_name.localeCompare(b.display_name):new Date(b.created_at)-new Date(a.created_at));
+ $('cards').replaceChildren();$('count').textContent=arr.length+' profile'+(arr.length===1?'':'s');
+ if(!arr.length){$('cards').append(el('div','empty',listingError||'No publicly visible approved profiles yet. Try a different search or category.'));return}
+ for(const p of arr){
+ const card=el('article','card'),cover=el('div','cover');
+ const media=images.get(p.id)||{};
+ if(media.cover_image){const img=el('img');img.src=media.cover_image;img.alt='';img.loading='lazy';cover.append(img)}
+ const owner=el('div','owner'),av=el('div','av',p.display_name.slice(0,1).toUpperCase());
+ if(media.profile_image){av.replaceChildren();const im=el('img');im.src=media.profile_image;im.loading='lazy';im.alt='Profile of '+p.display_name;av.append(im)}
+ const name=el('h3','name',p.display_name);const tags=el('div','tags');
+ [p.category,p.island].filter(Boolean).forEach(v=>tags.append(el('span','chip',v)));
+ tags.append(el('span','chip ok','✓ Approved test'));
+ const desc=el('p','desc',p.service_title||p.public_tagline||'Professional services');
+ const line=el('div','line'),pr=el('div'),small=el('span','sub','Starting at'),price=el('div','price',nicePrice(p.starting_price_mvr)),link=el('a','btn','View portfolio');
+ // Open the read-only portfolio preview without requiring a login.
+ link.href='#portfolio-'+encodeURIComponent(p.id);link.addEventListener('click',e=>{e.preventDefault();showPortfolio(p)});
+ pr.append(small,price);line.append(pr,link);
+ owner.append(av,name,tags,desc,line);card.append(cover,owner);$('cards').append(card)
+ }
+}
+
+function closePortfolio(){previewTicket++;$('previewOverlay').hidden=true;document.body.style.overflow='';lastFocus?.focus?.();}
+$('closePreview').onclick=closePortfolio;
+$('previewOverlay').addEventListener('click',e=>{if(e.target===$('previewOverlay'))closePortfolio()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('previewOverlay').hidden)closePortfolio()});
+function paragraph(textValue,cls='preview-muted'){return el('p',cls,textValue||'Not provided')}
+async function showPortfolio(p){
+ 
+ const ticket=++previewTicket;lastFocus=document.activeElement;$('previewOverlay').hidden=false;document.body.style.overflow='hidden';$('previewDialog').focus();
+ const body=$('previewContent');body.replaceChildren();$('previewTitle').textContent='Professional portfolio';
+ const summary=el('div','preview-summary'),avatar=el('div','av',(p.display_name||'?').slice(0,1).toUpperCase()),intro=el('div');
+ const photo=images.get(p.id)?.profile_image;
+ if(photo){avatar.replaceChildren();const im=el('img');im.src=photo;im.alt='';avatar.append(im)}
+ intro.append(el('h3','',p.display_name),paragraph([p.category,p.island].filter(Boolean).join(' • ')));
+ summary.append(avatar,intro);body.append(summary);
+ const cover=images.get(p.id)?.cover_image;if(cover){const img=el('img','preview-cover');img.src=cover;img.alt='Approved cover image';body.append(img)}
+ body.append(el('h3','',p.service_title||'Professional services'));
+ const bio=el('div','preview-info',p.service_description||p.public_tagline||'Professional services available. Confirm exact scope and terms before ordering.');body.append(bio);
+ const price=el('p','', 'Starting price: '+nicePrice(p.starting_price_mvr));price.style.fontWeight='800';body.append(price);
+ body.append(el('h3','','Approved work samples'));
+ const gallery=el('div','portfolio-grid'),loading=paragraph('Loading approved portfolio files…');body.append(loading,gallery);
+ const actions=el('div','preview-actions'),order=el('a','btn','Request this service');order.href='s-serviceorder.html?id='+encodeURIComponent(p.id);
+ const note=paragraph('Test orders only. You will confirm requirements, price and revisions in the existing Service Order Home.');
+ actions.append(order);body.append(actions,note);
+
+}
+async function load(){
+ $('cards').replaceChildren(el('div','empty','Loading public profiles…'));
+ status('Checking public freelancer listings…');listingError='';
+  // Anonymous read is restricted to the server-curated, approved public directory.
+  // Do not query meg_skills_freelancers or meg_skills_media from this public page.
+  const {data,error}=await sb.rpc('meg_skills_public_directory');
+  if(error){profiles=[];images.clear();listingError='Public directory unavailable: '+error.message;status(listingError);filter();return}
+  profiles=(data||[]).filter(p=>p&&p.id&&p.display_name);images.clear();
+  const categories=[...new Set(profiles.map(p=>p.category).filter(Boolean))].sort(),selected=$('category').value;
+  $('category').replaceChildren(new Option('All categories',''),...categories.map(c=>new Option(c,c)));
+  $('category').value=categories.includes(selected)?selected:'';
+ status(profiles.length+' publicly accessible approved professional profile(s).');filter();
+}
+document.querySelectorAll('[data-explore]').forEach(button=>button.addEventListener('click',()=>{$('search').value=button.dataset.explore;$('category').value='';filter();document.querySelector('.sectionhead').scrollIntoView({behavior:'smooth',block:'start'});}));
+for(const id of ['search','category','sort'])$(id).addEventListener(id==='search'?'input':'change',filter);
+$('clear').onclick=()=>{$('search').value='';$('category').value='';$('sort').value='new';filter()};
+try{
+ const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+ sb=createClient(URL,KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+ await load();
+}catch(e){status('Marketplace could not load: '+e.message);$('cards').replaceChildren(el('div','empty','Public marketplace temporarily unavailable.'))}
+</script></body></html>
