@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>MEG My Orders | Maldives Business Gateway</title>
+<style>
+:root{--navy:#062b55;--blue:#0874a6;--teal:#139e9e;--bg:#f3f8fa;--line:#d7e6ed;--text:#17324a;--muted:#61788b;--green:#147445;--red:#ab3829;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);min-height:100vh}a{color:var(--blue)}
+header{background:linear-gradient(125deg,#061f3d,#075d8b,#087c85);color:#fff;padding:24px 0}.wrap{width:min(100% - 30px,980px);margin:auto}
+.brand{font-size:21px;font-weight:850}.subtitle{font-size:13px;margin-top:4px;opacity:.84}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}nav a{color:#fff;text-decoration:none;border:1px solid #ffffff50;border-radius:99px;padding:9px 12px;font-size:13px;font-weight:700;background:#ffffff14}
+main{padding:24px 0 55px}h1,h2,h3{color:var(--navy);margin-top:0}h1{font-size:clamp(25px,5vw,34px)}h2{font-size:20px}h3{font-size:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,24px);box-shadow:0 9px 26px #062b550b;margin:16px 0}
+.muted{color:var(--muted);font-size:13px;line-height:1.55}.small{font-size:12px}.notice{background:#edf7fc;padding:12px 14px;border:1px solid #cde3f0;border-radius:12px;margin-top:12px;line-height:1.55;overflow-wrap:anywhere}.notice.ok{background:#e7f8ed;border-color:#badfc7;color:#165f39}.notice.error{background:#fff0ed;border-color:#ebc2b7;color:#8d261b}.notice.warn{background:#fff8e9;border-color:#f0dcaf;color:#71500c}
+input,select,textarea{width:100%;font:inherit;color:var(--text);padding:12px;border:1px solid #bfcfd9;border-radius:11px;background:#fff;min-height:45px}textarea{resize:vertical;min-height:96px}label{display:block;font-weight:700;font-size:13px;margin:12px 0 7px}
+button,.button{border:0;border-radius:11px;padding:12px 17px;min-height:44px;font:inherit;font-size:14px;font-weight:780;color:#fff;background:var(--blue);cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button:hover:not(:disabled),.button:hover{filter:brightness(.96)}button:disabled{opacity:.6;cursor:wait}.button.secondary,button.secondary{background:#e7f3f8;color:var(--navy);border:1px solid #cbdee6}.button.success,button.success{background:var(--green)}.button.danger,button.danger{background:#a7422a}
+:focus-visible{outline:3px solid #26c2d2;outline-offset:3px}.actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:14px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.grow{flex:1;min-width:0}.order{border:1px solid #d8e7ed;border-left:5px solid var(--teal);border-radius:13px;padding:15px;margin:11px 0;background:#fff}.order h3{margin:0 0 5px}.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;font-size:13px;color:#385b75}.pill{display:inline-flex;align-items:center;border:1px solid #d1e5ef;background:#e9f6fb;color:#135975;border-radius:999px;padding:6px 10px;font-weight:800;font-size:11px;letter-spacing:.3px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.detail{background:#f4f8fa;border-radius:12px;padding:12px;min-width:0}.detail small{display:block;color:var(--muted);margin-bottom:5px}.detail strong{overflow-wrap:anywhere}
+.timeline{border-left:3px solid #dce9ec;margin:17px 0;padding-left:20px}.step{position:relative;margin-bottom:16px}.step:before{content:"";position:absolute;left:-27px;top:4px;width:11px;height:11px;border-radius:50%;background:#a8bbc5}.step.done:before{background:var(--green)}
+.shipping{border:1px solid #abdcda;background:#f1fffe;border-radius:14px;padding:15px;margin:15px 0}.shipping .detail{background:#fff}.lines{border:1px solid var(--line);padding:12px;border-radius:12px}.line-item{border-bottom:1px solid var(--line);padding:10px 0}.line-item:last-child{border-bottom:0}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}form{margin:0}.secret-note{font-size:12px;color:#576f80;line-height:1.6}.soft{background:#f7fbfd;border:1px solid var(--line);padding:13px;border-radius:12px;margin:14px 0}
+[hidden]{display:none!important}@media(max-width:570px){.grid{grid-template-columns:1fr}.row .actions{width:100%}.actions button,.actions .button{flex:1 1 150px}nav a{font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="brand">📦 MEG · My Orders</div><div class="subtitle">Maldives Business Gateway · Secure customer order history</div>
+<nav aria-label="Customer navigation">
+<a href="../index.html">🏠 Home</a><a href="../stores/stores.html">🛍️ Marketplace</a><a href="customer-login.html">👤 My Profile</a><a href="wishlist.html">❤️ My Favorites</a><a href="../trackorder.html">🔎 Guest Tracking</a>
+</nav></div></header>
+<main class="wrap">
+<h1>My Orders</h1><p class="muted">Keep track of purchases you have securely linked to your customer account. Every order retains its own Order Reference and Private Access Code.</p>
+<div id="authStatus" class="notice" role="status" aria-live="polite">Checking your customer login…</div>
+<section id="signedOut" class="card" hidden>
+<h2>Customer session required</h2><p>Your existing Google customer session could not be found on this website. Open this page through your usual customer portal. If your session has expired, sign in to resume your linked orders.</p>
+<div class="actions"><a class="button" href="customer-login.html">Continue to Customer Login</a></div>
+</section>
+<div id="signedIn" hidden>
+<section class="card" aria-label="Saved orders">
+<div class="row"><div><h2>📦 Your Linked Orders</h2><p id="identityText" class="muted">Signed in</p></div><button id="refreshOrders" class="secondary" type="button">↻ Refresh</button></div>
+<div id="ordersStatus" class="notice" role="status" aria-live="polite">Loading your linked orders…</div>
+<div id="orderList"></div>
+</section>
+<section id="orderDetails" class="card" hidden aria-label="Selected order details">
+<div class="row"><div class="grow"><h2 id="detailTitle">Order details</h2><div id="detailSeller" class="muted"></div></div><span id="detailStatus" class="pill"></span></div>
+<div id="detailReference" class="code"></div>
+<div class="grid"><div class="detail"><small>Quantity</small><strong id="detailQty">—</strong></div><div class="detail"><small>Order Total</small><strong id="detailTotal">—</strong></div><div class="detail"><small>Payment Method</small><strong id="detailPayment">—</strong></div><div class="detail"><small>Order Date</small><strong id="detailCreated">—</strong></div></div>
+<div id="orderLines" class="lines" hidden></div>
+<h3>Order Progress</h3><div id="timeline" class="timeline"></div>
+<div id="shipping" class="shipping" hidden><h3>🚚 Shipping Details</h3><div id="shippingFields" class="grid"></div><div id="shippingNote" class="soft" hidden></div></div>
+<div id="reviewNotice" class="notice warn" hidden>⚠️ MBG's 15-day dispute resolution process is active for this order.</div>
+<hr>
+<h3>Delivery Confirmation & Disputes</h3>
+<p class="secret-note">This order was linked after your original Private Access Code was verified. As its signed-in owner, you can now confirm receipt or open a dispute without entering the code again. Supabase verifies ownership and the order status for every action.</p>
+<div id="buyerActions" class="actions" hidden></div>
+<section id="disputePanel" class="soft" hidden><h3>⚠️ Open a Dispute</h3><p class="muted">Submitting a dispute is a request for MBG to investigate. It does not automatically approve a refund.</p><form id="disputeForm"><label for="disputeReason">Reason</label><select id="disputeReason" required><option value="">Choose a reason</option><option>Item not received</option><option>Wrong item received</option><option>Item significantly different from listing</option><option>Refund not received</option><option>Other problem</option></select><label for="disputeStatement">Explain the problem</label><textarea id="disputeStatement" minlength="10" maxlength="2500" placeholder="Explain what happened (at least 10 characters)" required></textarea><div class="actions"><button id="submitDispute" class="danger" type="submit">Submit Dispute</button><button id="cancelDispute" class="secondary" type="button">Cancel</button></div></form></section>
+<section id="linkedEvidence" class="soft" hidden aria-label="Private dispute evidence">
+<h3>📁 Your Dispute Evidence</h3>
+<p class="muted">Evidence requests and private attachments for your selected order. Your existing Google session is used automatically; no new login or Private Access Code is required.</p>
+<div id="linkedEvidenceRequests" class="notice">Loading evidence…</div>
+<form id="linkedEvidenceForm">
+<label for="linkedEvidenceNote">Explanation (10–3000 characters)</label>
+<textarea id="linkedEvidenceNote" minlength="10" maxlength="3000" required placeholder="Describe your supporting evidence"></textarea>
+<label for="linkedEvidenceFile">Optional supporting photo or PDF (max 10 MB)</label>
+<input id="linkedEvidenceFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
+<div class="actions"><button id="linkedEvidenceSubmit" type="submit">📎 Submit Evidence</button><button type="button" id="linkedEvidenceRefresh" class="secondary">↻ Refresh Evidence</button></div>
+</form><div id="linkedEvidenceStatus" class="notice" hidden role="status"></div>
+</section>
+<section id="linkedRefund" class="soft" hidden aria-label="Refund protection status">
+<h3>💳 Refund Protection</h3>
+<div id="linkedRefundMessage" class="notice warn">If Admin requires a refund, the approved amount and secure destination submission will appear here when linked-customer refund authorization is enabled. Your bank details must not be sent in dispute messages.</div>
+</section>
+<div id="actionStatus" class="notice" hidden role="status" aria-live="polite"></div>
+</section>
+<section class="card" aria-label="Link previous guest order"><h2>➕ Add a Previous Guest Order</h2>
+<p class="muted">Have an earlier guest purchase? Enter its Order Reference and Private Access Code to link it securely. Repeat for each order. This does not change the order or its original code.</p>
+<form id="claimForm"><label for="claimOrder">Order Reference</label><input id="claimOrder" type="text" required autocomplete="off" spellcheck="false" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"><label for="claimCode">Private Access Code</label><input id="claimCode" type="password" required autocomplete="off" placeholder="MBG-XXXX-XXXX-XXXX"><button id="claimBtn" type="submit" style="margin-top:13px">Securely Link This Order</button></form>
+<div id="claimStatus" class="notice" hidden role="status" aria-live="polite"></div>
+<p class="secret-note">MEG Customer ID, phone number, email or name alone cannot claim an order. The original private code is required only to link an unlinked guest order. Once linked, your signed-in account can manage it. If you lose a code before linking, use the existing order recovery process.</p>
+</section>
+</div>
+</main>
+<script type="module">
+const SUPABASE_URL='https://ehavxdqegpoggrkoxypm.supabase.co';
+const SUPABASE_KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const $=id=>document.getElementById(id);
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const labels={payment_pending:'PAYMENT PENDING',payment_verified:'PAYMENT VERIFIED',order_accepted:'ORDER ACCEPTED',shipped:'SHIPPED',delivered:'DELIVERED',completed:'COMPLETED',cancelled:'CANCELLED',disputed:'DISPUTED',under_review:'UNDER REVIEW',refund_required:'REFUND REQUIRED',refund_submitted:'REFUND SUBMITTED',refunded:'REFUNDED',resolved:'RESOLVED',refund_overdue:'REFUND OVERDUE',seller_suspended:'SELLER SUSPENDED'};
+const fmt=date=>{if(!date)return 'Waiting';const d=new Date(date);return Number.isNaN(d.valueOf())?'—':d.toLocaleString()};
+const money=value=>'MVR '+(Number(value)||0).toFixed(2);
+const label=status=>labels[status]||String(status||'UNKNOWN').replaceAll('_',' ').toUpperCase();
+let sb,user=null,orders=[],selectedId=null,authVersion=0,actionBusy=false;
+const status=(id,message,kind='')=>{const el=$(id);el.textContent=message;el.className='notice'+(kind?' '+kind:'');el.hidden=false};
+const hideStatus=id=>{$(id).hidden=true};
+function resetSensitive(){ $('linkedEvidence').hidden=true; $('linkedEvidenceForm').reset(); hideStatus('linkedEvidenceStatus'); $('buyerActions').hidden=true; $('disputePanel').hidden=true; hideStatus('actionStatus'); }
+function showAuth(next){user=next;authVersion++;selectedId=null;orders=[];resetSensitive();$('orderDetails').hidden=true;$('signedOut').hidden=!!next;$('signedIn').hidden=!next;if(!next){status('authStatus','You are not signed in. Guest browsing and order tracking remain available.');return}status('authStatus','✓ Customer signed in. Your linked orders are private to this account.','ok');$('identityText').textContent=next.email||'Signed-in customer';void loadOrders(authVersion)}
+function orderTitle(o){const items=Array.isArray(o.items)?o.items:[];if(items.length>1)return `${items.length} products in this order`;return items[0]?.product_title||o.product_title||'Customer Order'}
+async function loadOrders(version=authVersion){if(!user)return;status('ordersStatus','Loading your linked orders…');$('refreshOrders').disabled=true;try{const{data,error}=await sb.rpc('meg_customer_list_orders');if(error)throw error;if(version!==authVersion)return;orders=Array.isArray(data)?data:[];renderOrders();status('ordersStatus',orders.length?`✓ ${orders.length} linked order${orders.length===1?'':'s'} loaded securely.`:'You have no linked orders yet. Add an earlier guest order below.',orders.length?'ok':'');if(selectedId){const found=orders.find(o=>o.order_id===selectedId);if(found)openDetails(selectedId,false);else{$('orderDetails').hidden=true;selectedId=null;resetSensitive()}}}catch(error){if(version!==authVersion)return;status('ordersStatus','Could not load orders: '+(error?.message||String(error))+'. Run the MEG My Orders SQL and refresh.','error')}finally{if(version===authVersion)$('refreshOrders').disabled=false}}
+function renderOrders(){$('orderList').innerHTML=orders.map(o=>`<article class="order"><div class="row"><div class="grow"><h3>${esc(orderTitle(o))}</h3><div class="muted">Seller: ${esc(o.business_name||'Business')} · ${esc(fmt(o.created_at))}</div></div><span class="pill">${esc(label(o.order_status))}</span></div><p class="code">Order Reference: ${esc(o.order_id)}</p><div class="row"><strong>${esc(money(o.total_price))}</strong><button type="button" data-view-order="${esc(o.order_id)}">View Order &amp; Tracking</button></div></article>`).join('');$('orderList').querySelectorAll('[data-view-order]').forEach(btn=>{btn.onclick=()=>openDetails(btn.dataset.viewOrder)})}
+function detail(id,val){$(id).textContent=val??'—'}
+function timelineHTML(o){return [['Order placed',o.created_at],['Payment verified by seller',o.payment_verified_at],['Shipped',o.shipped_at],['Marked delivered',o.delivered_at],['Buyer confirmed received',o.buyer_confirmed_delivery_at]].map(([name,date])=>`<div class="step ${date?'done':''}"><b>${esc(name)}</b><div class="muted">${date?esc(fmt(date)):'Waiting'}</div></div>`).join('')}
+function openDetails(id,scroll=true){const o=orders.find(x=>x.order_id===id);if(!o)return;if(id!==selectedId){resetSensitive();selectedId=id}detail('detailTitle',orderTitle(o));detail('detailSeller','Seller: '+(o.business_name||'Business'));detail('detailStatus',label(o.order_status));detail('detailReference','Order Reference: '+o.order_id);detail('detailQty',o.quantity);detail('detailTotal',money(o.total_price));detail('detailPayment',String(o.payment_method||'—').replaceAll('_',' '));detail('detailCreated',fmt(o.created_at));$('timeline').innerHTML=timelineHTML(o);
+const items=Array.isArray(o.items)?o.items:[];$('orderLines').hidden=items.length===0;$('orderLines').innerHTML=items.length?'<h3>Products in this order</h3>'+items.map(x=>`<div class="line-item"><strong>${esc(x.product_title||'Product')}</strong><div class="muted">${esc(x.quantity||'—')} × ${esc(money(x.unit_price))} · Line total ${esc(money(x.line_total))}</div></div>`).join(''):'';
+const hasShipping=!!o.shipped_at&&!!(o.shipping_method||o.shipping_provider_name||o.shipping_contact||o.shipping_reference||o.shipping_note);$('shipping').hidden=!hasShipping;if(hasShipping){const pairs=[['Method',o.shipping_method],['Courier / Boat / Person',o.shipping_provider_name],['Contact',o.shipping_contact],['Tracking Reference',o.shipping_reference]];$('shippingFields').innerHTML=pairs.map(([name,val])=>`<div class="detail"><small>${esc(name)}</small><strong>${esc(val||'Not provided')}</strong></div>`).join('');$('shippingNote').hidden=!o.shipping_note;$('shippingNote').textContent=o.shipping_note?'Seller note: '+o.shipping_note:''}
+$('linkedRefund').hidden=!['refund_required','refund_submitted','refund_overdue','refunded'].includes(o.order_status);$('reviewNotice').hidden=o.order_status!=='under_review';$('orderDetails').hidden=false;if(scroll)$('orderDetails').scrollIntoView({behavior:'smooth',block:'start'});renderBuyerActions(o);void loadLinkedEvidence(o.order_id)}
+function renderBuyerActions(o){let html='';if(o.order_status==='under_review')html+='<button type="button" class="success" data-buyer-action="confirm_dispute_received">✅ I Have Received My Item</button>';else if(o.order_status==='delivered')html+='<button type="button" class="success" data-buyer-action="confirm_received">✅ Confirm Item Received</button>';if(!['cancelled','resolved','refunded','seller_suspended','disputed','under_review','refund_required','refund_submitted','refund_overdue'].includes(o.order_status))html+='<button type="button" class="danger" data-buyer-action="dispute">⚠️ Open Dispute</button>';if(!html)html='<p class="muted">There are no available buyer actions for this order status.</p>';$('buyerActions').innerHTML=html;$('buyerActions').hidden=false;$('buyerActions').querySelectorAll('button[data-buyer-action]').forEach(btn=>btn.onclick=()=>runBuyerAction(btn.dataset.buyerAction))}
+async function runBuyerAction(action){
+  if(actionBusy || !user)return;
+  const o=orders.find(x=>x.order_id===selectedId);
+  if(!o){status('actionStatus','Select an order first.','warn');return}
+  if(action==='dispute'){
+    $('disputePanel').hidden=false;
+    $('disputePanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+    return;
+  }
+  const prompts={confirm_received:'Have you actually received this item? Confirm only if it was delivered.',confirm_dispute_received:'Has the item arrived? Confirming will automatically resolve the active dispute.'};
+  if(!['confirm_received','confirm_dispute_received'].includes(action))return;
+  if(!window.confirm(prompts[action]))return;
+  const id=selectedId,version=authVersion;
+  const name=action==='confirm_received'?'meg_customer_confirm_received':'meg_customer_confirm_dispute_received';
+  actionBusy=true;
+  $('buyerActions').querySelectorAll('button').forEach(x=>x.disabled=true);
+  status('actionStatus','Securely submitting your confirmation…');
+  try{
+    const {error}=await sb.rpc(name,{target_order:id});
+    if(error)throw error;
+    if(version!==authVersion)return;
+    if(selectedId===id)status('actionStatus','✓ Order updated successfully.','ok');
+    await loadOrders(version);
+  }catch(error){
+    if(version===authVersion)status('actionStatus','Could not update order: '+(error?.message||String(error)),'error');
+  }finally{
+    actionBusy=false;
+    $('buyerActions').querySelectorAll('button').forEach(x=>x.disabled=false);
+  }
+}
+async function submitDispute(event){
+  event.preventDefault();
+  if(actionBusy || !user)return;
+  const id=selectedId,version=authVersion,
+    reason=$('disputeReason').value.trim(),statement=$('disputeStatement').value.trim();
+  if(!id){status('actionStatus','Select an order first.','warn');return}
+  if(reason.length<3||statement.length<10){status('actionStatus','Choose a reason and explain the problem in at least 10 characters.','warn');return}
+  if(!window.confirm('Submit this dispute to MBG for investigation?'))return;
+  const btn=$('submitDispute');btn.disabled=true;actionBusy=true;
+  status('actionStatus','Securely submitting your dispute…');
+  try{
+    const {data,error}=await sb.rpc('meg_customer_open_dispute',{
+      target_order:id,dispute_reason:reason,dispute_statement:statement
+    });
+    if(error)throw error;
+    if(version!==authVersion)return;
+    $('disputePanel').hidden=true;
+    $('disputeForm').reset();
+    if(selectedId===id)status('actionStatus','✓ Dispute submitted. Reference: '+String(data||'—'),'ok');
+    await loadOrders(version);
+  }catch(error){
+    if(version===authVersion)status('actionStatus','Could not submit dispute: '+(error?.message||String(error)),'error');
+  }finally{
+    actionBusy=false;btn.disabled=false;
+  }
+}
+async function claimOrder(event){event.preventDefault();if(!user)return;const id=$('claimOrder').value.trim(),code=$('claimCode').value.trim().toUpperCase();const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;if(!uuid.test(id)){status('claimStatus','Enter a valid Order Reference.','warn');return}if(!code){status('claimStatus','Enter the original Private Access Code.','warn');return}const btn=$('claimBtn');btn.disabled=true;btn.textContent='Verifying…';status('claimStatus','Securely verifying your Order Reference and Private Access Code…');try{const{data,error}=await sb.rpc('meg_customer_claim_order',{target_order:id,access_code:code});if(error)throw error;if(String(data).toLowerCase()!==id.toLowerCase())throw Error('Unexpected verification response.');$('claimForm').reset();status('claimStatus','✓ This order is now securely linked to your customer account.','ok');await loadOrders()}catch(error){status('claimStatus','Could not link order: '+(error?.message||String(error)),'error')}finally{btn.disabled=false;btn.textContent='Securely Link This Order';$('claimCode').value=''}}
+
+// Signed-in buyer evidence: server RPC and Edge Function each independently check
+// meg_customer_order_links(order_id, user_id) using the verified access token.
+let evidenceLoading=false;
+async function loadLinkedEvidence(orderId){
+ const panel=$('linkedEvidence');panel.hidden=true;
+ if(!user || orderId!==selectedId)return;
+ const version=authVersion;
+ const {data,error}=await sb.rpc('mbg_evidence_linked_customer_list',{p_order:orderId});
+ if(version!==authVersion||orderId!==selectedId)return;
+ if(error){panel.hidden=false;$('linkedEvidenceForm').hidden=true;$('linkedEvidenceRequests').textContent='Evidence uploads for linked customer accounts are awaiting server authorization. Your login and existing order actions remain unchanged. No new login or access code is required.';return;}
+ const hasDispute=!!data?.dispute_id;
+ panel.hidden=!hasDispute;
+ if(!hasDispute)return;
+ const reqs=Array.isArray(data.requests)?data.requests:[];
+ const own=Array.isArray(data.evidence)?data.evidence:[];
+ const active=!['resolved','rejected'].includes(data.dispute_status);
+ $('linkedEvidenceForm').hidden=!active;
+ $('linkedEvidenceRequests').textContent=(reqs.length?reqs.map(r=>'Admin ('+fmt(r.created_at)+'): '+r.instructions).join('\n\n'):'No extra evidence requested. You may submit supporting information while the dispute is active.')+'\n\nYour submissions: '+own.length;
+}
+$('linkedEvidenceRefresh').onclick=()=>selectedId&&loadLinkedEvidence(selectedId);
+$('linkedEvidenceForm').addEventListener('submit',async event=>{
+ event.preventDefault();if(evidenceLoading||!user||!selectedId)return;
+ const orderId=selectedId,version=authVersion;
+ const note=$('linkedEvidenceNote').value.trim();const file=$('linkedEvidenceFile').files?.[0];
+ if(note.length<10||note.length>3000)return status('linkedEvidenceStatus','Please write 10–3000 characters.','warn');
+ if(file&&(file.size>10*1024*1024||!['image/jpeg','image/png','image/webp','application/pdf'].includes(file.type)))return status('linkedEvidenceStatus','Choose JPG, PNG, WebP or PDF up to 10 MB.','warn');
+ if(!window.confirm('Submit evidence privately to MBG Admin?'))return;
+ evidenceLoading=true;$('linkedEvidenceSubmit').disabled=true;status('linkedEvidenceStatus','Submitting evidence…');
+ try{
+   if(file){
+     const {data:{session},error:se}=await sb.auth.getSession();
+     if(se||!session?.access_token)throw Error('Your existing customer session is unavailable. Please refresh My Orders.');
+     const fd=new FormData();fd.set('action','upload');fd.set('mode','customer');fd.set('order_id',orderId);fd.set('statement',note);fd.set('file',file);
+     const res=await fetch(SUPABASE_URL+'/functions/v1/mbg-dispute-evidence-upload',{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:SUPABASE_KEY},body:fd});
+     const response=await res.json().catch(()=>({}));if(!res.ok||!response.ok)throw Error(response.error||'Upload failed ('+res.status+')');
+   } else {
+     const {error}=await sb.rpc('mbg_evidence_linked_customer_submit',{p_order:orderId,p_statement:note});if(error)throw error;
+   }
+   if(version!==authVersion||orderId!==selectedId)return;
+   $('linkedEvidenceForm').reset();await loadLinkedEvidence(orderId);
+   status('linkedEvidenceStatus','✓ Your evidence was submitted privately to MBG Admin.','ok');
+ }catch(e){if(version===authVersion&&orderId===selectedId)status('linkedEvidenceStatus','Evidence submission failed: '+(e.message||String(e)),'error')}
+ finally{evidenceLoading=false;$('linkedEvidenceSubmit').disabled=false;}
+});
+
+$('claimForm').addEventListener('submit',claimOrder);
+$('disputeForm').addEventListener('submit',submitDispute);
+$('cancelDispute').onclick=()=>{$('disputePanel').hidden=true};
+$('refreshOrders').onclick=()=>loadOrders();
+try{const{createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+// Preserve exactly the same session-storage key as the working MEG customer login.
+sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:'mbg-customer-login-test-v1',persistSession:true,detectSessionInUrl:true,autoRefreshToken:true,flowType:'pkce'}});
+const{data,error}=await sb.auth.getSession();if(error)throw error;showAuth(data.session?.user||null);sb.auth.onAuthStateChange((event,session)=>{if(['SIGNED_IN','SIGNED_OUT','INITIAL_SESSION'].includes(event)){setTimeout(()=>{if((session?.user?.id||null)!==(user?.id||null))showAuth(session?.user||null)},0)}})
+}catch(error){status('authStatus','Could not initialize My Orders: '+(error?.message||String(error)),'error');$('signedOut').hidden=false}
+</script>
+</body>
+</html>
