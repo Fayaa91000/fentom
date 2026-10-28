@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MBG Seller Dispute & Refund Center</title><style>
+:root{--navy:#092d50;--teal:#008b8e;--bg:#f2f7fb;--ink:#16354b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,Arial}header{background:linear-gradient(130deg,#082845,#027f85);padding:24px;color:white}.wrap{max-width:990px;padding:0 16px;margin:auto}.card{background:white;border-radius:18px;border:1px solid #d7e6ee;padding:20px;margin:18px 0;box-shadow:0 6px 20px #0034550d}.muted{color:#5c788b;font-size:13px}.msg{background:#eaf5f6;padding:12px;border-radius:12px;margin:12px 0;white-space:pre-wrap}button,a.btn{background:#0a7696;border:0;color:white;border-radius:11px;padding:12px 16px;cursor:pointer;font-weight:700;text-decoration:none;display:inline-block;margin:5px 6px 5px 0}button:disabled{opacity:.5}.secondary{background:#e8f1f7!important;color:#123b55!important}input,textarea{width:100%;border:1px solid #c4d7e1;border-radius:10px;padding:12px;margin:7px 0 13px;font:inherit}textarea{min-height:88px}label{font-weight:700;display:block}.case{border:1px solid #d5e3eb;padding:15px;border-radius:14px;margin:16px 0}.case h3{margin:0 0 8px}pre{white-space:pre-wrap;overflow-wrap:anywhere}.hidden,[hidden]{display:none!important}</style></head><body><header><div class="wrap"><h1>🛡️ MBG Seller Dispute & Refund Center</h1><p>Private testing · Retail and Wholesale · Your own business disputes only</p></div></header><main class="wrap"><div class="card" id="gate"><h2>Seller login</h2><label>Email</label><input id="email" type="email" autocomplete="username"><label>Password</label><input id="password" type="password" autocomplete="current-password"><button id="login">Sign in</button><div id="authMsg" class="msg">Sign in using your existing MBG seller account.</div></div><section id="app" hidden><div class="card"><h2>Refund and evidence cases</h2><p class="muted">Refund destinations submitted by buyers are locked. Only send funds to the recorded destination after checking all payment details. A receipt is not proof that money reached the customer.</p><button id="refresh">Refresh cases</button><button id="logout" class="secondary">Sign out</button><div id="msg" class="msg">Loading…</div><div id="cases"></div></div></section></main>
+<script type="module">
+const URL='https://ehavxdqegpoggrkoxypm.supabase.co',KEY='sb_publishable_D6SZ5U43h7B5FgyFfgGgIg_6tL-5Jis';
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');const sb=createClient(URL,KEY),$=id=>document.getElementById(id);let user=null;
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e}
+function field(parent,title,text){if(text===null||text===undefined||text==='')return;parent.append(el('div','msg',title+': '+text))}
+async function enter(session){user=session?.user||null;$('gate').hidden=!!user;$('app').hidden=!user;if(user)await load()}
+async function load(){if(!user)return;$('msg').textContent='Loading your disputes…';$('cases').replaceChildren();
+ const {data:businesses,error:be}=await sb.from('businesses').select('id,name').eq('owner_id',user.id);
+ if(be){$('msg').textContent='Business access failed: '+be.message;return}const ids=(businesses||[]).map(b=>b.id);
+ if(!ids.length){$('msg').textContent='No businesses found for this account.';return}
+ const {data:cases,error}=await sb.from('order_disputes').select('id,order_id,business_id,status,reason,refund_amount,refund_deadline,opened_at').in('business_id',ids).order('opened_at',{ascending:false}).limit(100);
+ if(error){$('msg').textContent='Disputes could not load: '+error.message;return}
+ $('msg').textContent=(cases||[]).length+' dispute(s) found.';
+ for(const d of cases||[]){const box=el('article','case');box.append(el('h3','',(businesses.find(b=>b.id===d.business_id)?.name||'Business')+' · '+d.status));field(box,'Order',d.order_id);field(box,'Reason',d.reason);if(d.refund_amount!=null)field(box,'Refund amount','MVR '+Number(d.refund_amount).toFixed(2));
+ const btn=el('button','','Open evidence and refund details');box.append(btn);const content=el('div');box.append(content);btn.onclick=()=>openCase(d,content);$('cases').append(box)}
+}
+async function openCase(d,host){host.replaceChildren(el('p','muted','Loading authorized case details…'));
+ const [ev,ref]=await Promise.all([sb.rpc('mbg_evidence_seller_list',{p_dispute:d.id}),sb.rpc('mbg_refund_seller_view',{p_dispute:d.id})]);host.replaceChildren();
+ const h=el('h3','','Dispute evidence');host.append(h);
+ if(ev.error)host.append(el('p','muted','Evidence unavailable: '+ev.error.message));else{
+ for(const r of ev.data?.requests||[])field(host,'Admin request',r.instructions);
+ for(const e of ev.data?.evidence||[])field(host,'Your previous statement',e.statement);
+ const t=el('textarea');t.placeholder='Additional supporting statement (10–3000 characters)';t.maxLength=3000;host.append(t);
+ const send=el('button','','Submit written evidence');send.onclick=async()=>{if(t.value.trim().length<10)return alert('Write at least 10 characters.');send.disabled=true;const {error}=await sb.rpc('mbg_evidence_seller_submit',{p_dispute:d.id,p_statement:t.value.trim()});send.disabled=false;if(error)alert(error.message);else await openCase(d,host)};host.append(send);
+ }
+ host.append(el('h3','','Refund transfer'));
+ if(ref.error){host.append(el('p','muted','No active refund tracking available: '+ref.error.message));return}
+ const r=ref.data;if(!r){host.append(el('p','muted','Refund not initialized.'));return}
+ field(host,'Refund stage',r.status);field(host,'Amount','MVR '+Number(r.amount_mvr).toFixed(2));field(host,'Method',r.refund_method);
+ if(r.status==='awaiting_destination'){host.append(el('p','muted','Waiting for customer to submit the refund destination.'));return}
+ field(host,'Bank',r.bank_name);field(host,'Account holder',r.account_name);field(host,'Account number',r.account_number);
+ if(r.payment_link){const link=el('a','btn','Open customer payment link');link.href=r.payment_link;link.target='_blank';link.rel='noopener noreferrer';host.append(link)}
+ field(host,'Your payment reference',r.transfer_reference);field(host,'Customer confirmation',r.customer_response);
+ if(r.status!=='awaiting_transfer')return;
+ host.append(el('p','muted','Transfer funds outside MBG first. Then upload your transaction receipt. Do not submit until you have completed the transfer.'));
+ const label=el('label','','Payment reference');const inp=el('input');inp.placeholder='Bank/payment gateway reference';const file=el('input');file.type='file';file.accept='image/jpeg,image/png,image/webp,application/pdf';host.append(label,inp,el('label','','Receipt (JPG, PNG, WebP or PDF)'),file);
+ const submit=el('button','','Upload payment proof');host.append(submit);
+ submit.onclick=async()=>{const f=file.files?.[0];const refText=inp.value.trim();if(!f||f.size>10*1024*1024||!['image/jpeg','image/png','image/webp','application/pdf'].includes(f.type))return alert('Choose JPG, PNG, WebP or PDF under 10 MB.');if(refText.length<3)return alert('Enter payment reference.');if(!confirm('Have you actually paid the customer at the locked refund destination?'))return;
+ submit.disabled=true;try{const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'}[f.type];const path=d.id+'/'+user.id+'/'+crypto.randomUUID()+'.'+ext;
+ const {error:up}=await sb.storage.from('mbg-customer-refund').upload(path,f,{contentType:f.type,upsert:false});if(up)throw up;
+ const {error:rec}=await sb.rpc('mbg_refund_submit_receipt',{p_dispute:d.id,p_path:path,p_reference:refText});if(rec)throw rec;
+ alert('Refund receipt recorded. Await customer confirmation.');await openCase(d,host)
+ }catch(e){alert('Could not record receipt: '+e.message)}finally{submit.disabled=false}};
+}
+$('login').onclick=async()=>{const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)$('authMsg').textContent=error.message};
+$('logout').onclick=()=>sb.auth.signOut();$('refresh').onclick=load;
+sb.auth.onAuthStateChange((_,session)=>setTimeout(()=>enter(session),0));const {data:{session}}=await sb.auth.getSession();await enter(session);
+</script></body></html>
